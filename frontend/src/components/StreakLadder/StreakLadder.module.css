@@ -1,0 +1,195 @@
+.ladderSection {
+  padding: 1.5rem 0 3rem;
+}
+
+.sectionHeader {
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.sectionSubtitle {
+  color: #94a3b8;
+  font-size: 0.95rem;
+}
+
+.ladderGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 992px) {
+  .ladderGrid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+.dayCard {
+  background: rgba(14, 20, 36, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dayHeader {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  margin-bottom: 0.85rem;
+}
+
+.iconWrapper {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.coinIconBg {
+  background: rgba(0, 229, 255, 0.1);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.giftIconBg {
+  background: rgba(255, 153, 0, 0.12);
+  color: #ff9900;
+  border: 1px solid rgba(255, 153, 0, 0.3);
+}
+
+.grandIconBg {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 153, 0, 0.3) 100%);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.rewardAmount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.35rem;
+}
+
+.rewardLabel {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+.statusPill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Card States */
+.cardClaimed {
+  background: rgba(14, 20, 36, 0.4);
+  border-color: rgba(0, 230, 118, 0.2);
+  opacity: 0.85;
+}
+
+.cardClaimed .statusPill {
+  background: rgba(0, 230, 118, 0.15);
+  color: #00e676;
+  border: 1px solid rgba(0, 230, 118, 0.3);
+}
+
+.cardAvailable {
+  background: rgba(18, 26, 47, 0.95);
+  border-color: #00e5ff;
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.35);
+  transform: translateY(-4px);
+}
+
+.cardAvailable .dayHeader {
+  color: #00e5ff;
+}
+
+.cardAvailable .statusPill {
+  background: linear-gradient(135deg, #00e5ff 0%, #2979ff 100%);
+  color: #000;
+  font-weight: 800;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+  cursor: pointer;
+}
+
+.cardToday {
+  background: rgba(0, 230, 118, 0.1);
+  border-color: rgba(0, 230, 118, 0.5);
+  box-shadow: 0 0 20px rgba(0, 230, 118, 0.2);
+}
+
+.cardToday .statusPill {
+  background: rgba(0, 230, 118, 0.2);
+  color: #00e676;
+  border: 1px solid rgba(0, 230, 118, 0.4);
+}
+
+.cardMissed {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.35);
+  opacity: 0.75;
+}
+
+.cardMissed .statusPill {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.cardLocked {
+  opacity: 0.55;
+}
+
+.cardLocked .statusPill {
+  background: rgba(255, 255, 255, 0.05);
+  color: #64748b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Day 7 Grand Highlight */
+.cardGrand {
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+.grandTag {
+  position: absolute;
+  top: -10px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
