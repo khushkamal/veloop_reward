@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
-import { Zap, Coins, Gift, Volume2, VolumeX, Terminal, LogOut, User as UserIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {
+  ChevronLeft,
+  Flame,
+  Zap,
+  Coins,
+  Gift,
+  Volume2,
+  VolumeX,
+  Terminal,
+  LogOut,
+  User as UserIcon
+} from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { toggleSound, isSoundEnabled, playClickSound } from '../../utils/audioEffects';
 import styles from './Navbar.module.css';
 
 export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen }) {
-  const { user, wallet, logout } = useAuth();
+  const { user, wallet, streakStatus, logout } = useAuth();
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
+  const navigate = useNavigate();
 
   const handleSoundToggle = () => {
     const next = toggleSound();
@@ -14,32 +27,71 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
     if (next) playClickSound();
   };
 
+  const handleBack = () => {
+    playClickSound();
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const currentStreak = streakStatus?.currentStreak || 0;
+
   return (
     <header className={styles.navbar}>
       <div className="container d-flex align-items-center justify-content-between">
-        {/* Brand Logo */}
-        <a href="#home" className={styles.brand} onClick={playClickSound}>
-          <div className={styles.logoIcon}>
-            <Zap size={22} strokeWidth={2.8} />
-          </div>
-          <span className={styles.brandText}>
-            VELoop <span className={styles.brandHighlight}>Rewards</span>
-          </span>
-        </a>
+        {/* Left Section: Back Button + Brand / Daily Streak Title */}
+        <div className="d-flex align-items-center gap-2 gap-sm-3">
+          {/* Back / Navigation Action */}
+          <button
+            className={styles.backBtn}
+            onClick={handleBack}
+            title="Go Back"
+            aria-label="Navigate Back"
+          >
+            <ChevronLeft size={18} strokeWidth={2.5} />
+            <span className="d-none d-md-inline">Back</span>
+          </button>
 
-        {/* Center / Right controls */}
-        <div className="d-flex align-items-center gap-3">
-          {/* Real-time Wallet Balances (when logged in) */}
+          {/* Brand Logo & Daily Streak Header Title */}
+          <a href="#home" className={styles.brand} onClick={playClickSound}>
+            <div className={styles.logoIcon}>
+              <Zap size={20} strokeWidth={2.8} />
+            </div>
+            <div className="d-flex flex-column">
+              <span className={styles.brandText}>
+                VELoop <span className={styles.brandHighlight}>Rewards</span>
+              </span>
+              <span className={styles.navSubTitle}>Daily Streak</span>
+            </div>
+          </a>
+
+          {/* Header Streak Indicator Badge (Backend Driven) */}
           {user && (
-            <div className={`${styles.walletGroup} d-none d-md-flex`}>
-              <div className={styles.balancePill} title="VELoop Points Balance">
-                <Coins size={18} className={styles.veIcon} />
+            <div
+              className={styles.navStreakBadge}
+              title={`Current active streak: ${currentStreak} consecutive days`}
+            >
+              <Flame size={16} strokeWidth={2.4} className={styles.flameIcon} />
+              <span>{currentStreak} {currentStreak === 1 ? 'Day' : 'Days'}</span>
+            </div>
+          )}
+        </div>
+
+        {/* Right Section: Balances, Evaluator, Audio, User Profile */}
+        <div className="d-flex align-items-center gap-2 gap-sm-3">
+          {/* Real-time Backend Wallet Balances */}
+          {user && (
+            <div className={`${styles.walletGroup} d-none d-lg-flex`}>
+              <div className={styles.balancePill} title="VELoop Points Balance (VEs)">
+                <Coins size={16} strokeWidth={2.4} className={styles.veIcon} />
                 <span>
                   <strong className={styles.veText}>{wallet?.veBalance ?? 0}</strong> VEs
                 </span>
               </div>
-              <div className={styles.balancePill} title="Total Amazon Gift Cards Won">
-                <Gift size={18} className={styles.amazonIcon} />
+              <div className={styles.balancePill} title="Amazon Gift Cards Total Won">
+                <Gift size={16} strokeWidth={2.4} className={styles.amazonIcon} />
                 <span>
                   <strong className={styles.amazonText}>₹{wallet?.totalAmazonGCAmount ?? 0}</strong> Amazon GC
                 </span>
@@ -47,7 +99,7 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             </div>
           )}
 
-          {/* Evaluator Simulator Toggle */}
+          {/* Evaluator Simulator Drawer Toggle */}
           <button
             className={`${styles.evaluatorToggleBtn} ${isEvaluatorOpen ? styles.evaluatorToggleBtnActive : ''}`}
             onClick={() => {
@@ -56,7 +108,7 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             }}
             title="Open Evaluator Testing & Time Simulator Panel"
           >
-            <Terminal size={15} />
+            <Terminal size={15} strokeWidth={2.4} />
             <span className="d-none d-sm-inline">Evaluator Mode</span>
           </button>
 
@@ -65,15 +117,20 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             className={styles.navActionBtn}
             onClick={handleSoundToggle}
             title={soundOn ? 'Mute Sounds' : 'Unmute Sounds'}
+            aria-label="Toggle Sound Effects"
           >
-            {soundOn ? <Volume2 size={18} /> : <VolumeX size={18} />}
+            {soundOn ? (
+              <Volume2 size={17} strokeWidth={2.4} />
+            ) : (
+              <VolumeX size={17} strokeWidth={2.4} />
+            )}
           </button>
 
           {/* User Auth Info / Login button */}
           {user ? (
             <div className={styles.userMenu}>
               <img src={user.avatar} alt={user.name} className={styles.avatar} />
-              <div className="d-none d-lg-block text-start">
+              <div className="d-none d-xl-block text-start">
                 <div className={styles.userName}>{user.name}</div>
               </div>
               <button
@@ -82,9 +139,10 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
                   playClickSound();
                   logout();
                 }}
-                title="Logout"
+                title="Sign Out"
+                aria-label="Sign Out"
               >
-                <LogOut size={16} />
+                <LogOut size={16} strokeWidth={2.4} />
               </button>
             </div>
           ) : (
@@ -100,7 +158,7 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
                 color: '#000'
               }}
             >
-              <UserIcon size={16} />
+              <UserIcon size={16} strokeWidth={2.4} />
               <span>Login / Demo</span>
             </button>
           )}
