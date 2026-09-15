@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import api from '../api/axiosClient';
+import streakApi from '../services/streakApi';
 import { playClaimSuccessSound, playGrandFanfareSound } from '../utils/audioEffects';
 
 const AuthContext = createContext(null);
@@ -14,9 +14,9 @@ export function AuthProvider({ children }) {
 
   const fetchStreakStatus = useCallback(async () => {
     try {
-      const res = await api.get('/streak/status');
-      if (res.data.success) {
-        setStreakStatus(res.data.data);
+      const res = await streakApi.getStreak();
+      if (res.success) {
+        setStreakStatus(res.data);
       }
     } catch (err) {
       console.error('Error fetching streak status:', err);
@@ -25,9 +25,9 @@ export function AuthProvider({ children }) {
 
   const fetchWalletSummary = useCallback(async () => {
     try {
-      const res = await api.get('/wallet/summary');
-      if (res.data.success) {
-        setWallet(res.data.data);
+      const res = await streakApi.getWallet();
+      if (res.success) {
+        setWallet(res.data);
       }
     } catch (err) {
       console.error('Error fetching wallet:', err);
@@ -46,10 +46,10 @@ export function AuthProvider({ children }) {
       return;
     }
     try {
-      const res = await api.get('/auth/me');
-      if (res.data.success) {
-        setUser(res.data.user);
-        setStreakStatus(res.data.streakStatus);
+      const res = await streakApi.getMe();
+      if (res.success) {
+        setUser(res.user);
+        setStreakStatus(res.streakStatus);
         await fetchWalletSummary();
       }
     } catch (err) {
@@ -70,10 +70,10 @@ export function AuthProvider({ children }) {
     setError(null);
     setActionLoading(true);
     try {
-      const res = await api.post('/auth/login', { email, password });
-      if (res.data.success) {
-        localStorage.setItem('veloop_auth_token', res.data.token);
-        setUser(res.data.user);
+      const res = await streakApi.login(email, password);
+      if (res.success) {
+        localStorage.setItem('veloop_auth_token', res.token);
+        setUser(res.user);
         await refreshAllData();
         return { success: true };
       }
@@ -90,10 +90,10 @@ export function AuthProvider({ children }) {
     setError(null);
     setActionLoading(true);
     try {
-      const res = await api.post('/auth/register', { name, email, password });
-      if (res.data.success) {
-        localStorage.setItem('veloop_auth_token', res.data.token);
-        setUser(res.data.user);
+      const res = await streakApi.register(name, email, password);
+      if (res.success) {
+        localStorage.setItem('veloop_auth_token', res.token);
+        setUser(res.user);
         await refreshAllData();
         return { success: true };
       }
@@ -110,10 +110,10 @@ export function AuthProvider({ children }) {
     setError(null);
     setActionLoading(true);
     try {
-      const res = await api.post('/auth/demo-login');
-      if (res.data.success) {
-        localStorage.setItem('veloop_auth_token', res.data.token);
-        setUser(res.data.user);
+      const res = await streakApi.demoLogin();
+      if (res.success) {
+        localStorage.setItem('veloop_auth_token', res.token);
+        setUser(res.user);
         await refreshAllData();
         return { success: true };
       }
@@ -138,11 +138,11 @@ export function AuthProvider({ children }) {
     setActionLoading(true);
     setError(null);
     try {
-      const res = await api.post('/streak/claim');
-      if (res.data.success) {
-        const claimData = res.data.data;
+      const res = await streakApi.claimStreak();
+      if (res.success) {
+        const claimData = res.data;
         setStreakStatus(claimData.streakStatus);
-        setWallet(prev => ({
+        setWallet((prev) => ({
           ...prev,
           veBalance: claimData.wallet.veBalance,
           totalAmazonGCAmount: claimData.wallet.totalAmazonGCAmount,
@@ -170,10 +170,10 @@ export function AuthProvider({ children }) {
   const advanceVirtualDay = async (days = 1) => {
     setActionLoading(true);
     try {
-      const res = await api.post('/dev/simulator/advance-day', { days });
-      if (res.data.success) {
-        setStreakStatus(res.data.streakStatus);
-        return { success: true, message: res.data.message };
+      const res = await streakApi.advanceVirtualDay(days);
+      if (res.success) {
+        setStreakStatus(res.streakStatus);
+        return { success: true, message: res.message };
       }
     } catch (err) {
       console.error('Simulator error:', err);
@@ -185,10 +185,10 @@ export function AuthProvider({ children }) {
   const simulateMissedDay = async () => {
     setActionLoading(true);
     try {
-      const res = await api.post('/dev/simulator/simulate-missed-day');
-      if (res.data.success) {
-        setStreakStatus(res.data.streakStatus);
-        return { success: true, message: res.data.message };
+      const res = await streakApi.simulateMissedDay();
+      if (res.success) {
+        setStreakStatus(res.streakStatus);
+        return { success: true, message: res.message };
       }
     } catch (err) {
       console.error('Simulator error:', err);
@@ -200,10 +200,10 @@ export function AuthProvider({ children }) {
   const resetUserStreak = async () => {
     setActionLoading(true);
     try {
-      const res = await api.post('/dev/simulator/reset-streak');
-      if (res.data.success) {
-        setStreakStatus(res.data.streakStatus);
-        return { success: true, message: res.data.message };
+      const res = await streakApi.resetUserStreak();
+      if (res.success) {
+        setStreakStatus(res.streakStatus);
+        return { success: true, message: res.message };
       }
     } catch (err) {
       console.error('Simulator error:', err);
@@ -215,10 +215,10 @@ export function AuthProvider({ children }) {
   const resetVirtualClock = async () => {
     setActionLoading(true);
     try {
-      const res = await api.post('/dev/simulator/reset-clock');
-      if (res.data.success) {
-        setStreakStatus(res.data.streakStatus);
-        return { success: true, message: res.data.message };
+      const res = await streakApi.resetVirtualClock();
+      if (res.success) {
+        setStreakStatus(res.streakStatus);
+        return { success: true, message: res.message };
       }
     } catch (err) {
       console.error('Simulator error:', err);
