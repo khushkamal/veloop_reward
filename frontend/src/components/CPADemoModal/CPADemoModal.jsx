@@ -1,36 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Eye, Sparkles, X, CheckCircle } from 'lucide-react';
+import { ShieldCheck, Eye, Sparkles, X, CheckCircle, Loader2 } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import styles from './CPADemoModal.module.css';
 
 export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextReward, dayIndex }) {
   const [progress, setProgress] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [stage, setStage] = useState('PREPARING'); // 'PREPARING' | 'VERIFYING' | 'READY'
 
   useEffect(() => {
     if (!isOpen) {
       setProgress(0);
       setCompleted(false);
+      setStage('PREPARING');
       return;
     }
 
-    // 3-second simulated sponsor verification progress
-    const duration = 3000;
-    const intervalTime = 50;
-    const increment = (intervalTime / duration) * 100;
+    // Step 1: Preparing your reward (500ms)
+    setStage('PREPARING');
+    const prepTimer = setTimeout(() => {
+      setStage('VERIFYING');
 
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev + increment >= 100) {
-          clearInterval(timer);
-          setCompleted(true);
-          return 100;
-        }
-        return prev + increment;
-      });
-    }, intervalTime);
+      // Step 2: Advertisement / Reward Verification (3s progress)
+      const duration = 2800;
+      const intervalTime = 50;
+      const increment = (intervalTime / duration) * 100;
 
-    return () => clearInterval(timer);
+      const progressTimer = setInterval(() => {
+        setProgress((prev) => {
+          if (prev + increment >= 100) {
+            clearInterval(progressTimer);
+            setCompleted(true);
+            setStage('READY');
+            return 100;
+          }
+          return prev + increment;
+        });
+      }, intervalTime);
+
+      return () => clearInterval(progressTimer);
+    }, 600);
+
+    return () => clearTimeout(prepTimer);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -46,12 +57,18 @@ export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextRe
         {/* Header Badge */}
         <div className={styles.cpaBadge}>
           <ShieldCheck size={14} />
-          <span>CPA Advertisement Demo State</span>
+          <span>
+            {stage === 'PREPARING'
+              ? 'Preparing your reward...'
+              : stage === 'VERIFYING'
+              ? 'Advertisement / Reward Verification'
+              : 'Verification Complete • Please wait...'}
+          </span>
         </div>
 
         <h3 className="fw-bold text-white mb-2">Claim Verification</h3>
         <p className="text-muted small mb-0">
-          Viewing sponsor engagement to authorize Day {dayIndex} Reward: <strong>{nextReward?.displayName}</strong>
+          Viewing sponsor engagement to authorize Day {dayIndex} Reward: <strong>{nextReward?.displayName || nextReward?.title}</strong>
         </p>
 
         {/* Sponsor Preview Box */}
@@ -74,7 +91,13 @@ export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextRe
             <div className={styles.progressBarFill} style={{ width: `${progress}%` }} />
           </div>
           <div className={styles.progressText}>
-            <span>{completed ? 'Verification Complete!' : 'Verifying sponsor interaction...'}</span>
+            <span>
+              {stage === 'PREPARING'
+                ? 'Preparing reward stream...'
+                : stage === 'VERIFYING'
+                ? 'Verifying sponsor interaction...'
+                : 'Sponsor verification verified!'}
+            </span>
             <span>{Math.round(progress)}%</span>
           </div>
         </div>
@@ -99,12 +122,17 @@ export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextRe
           {completed ? (
             <>
               <Sparkles size={18} />
-              <span>Confirm & Claim {nextReward?.displayName}</span>
+              <span>Confirm & Claim {nextReward?.displayName || nextReward?.title}</span>
+            </>
+          ) : stage === 'PREPARING' ? (
+            <>
+              <Loader2 size={18} className="spinner-border spinner-border-sm" />
+              <span>Preparing your reward...</span>
             </>
           ) : (
             <>
               <CheckCircle size={18} />
-              <span>Verifying ({Math.ceil((100 - progress) / 33)}s remaining)...</span>
+              <span>Please wait ({Math.ceil((100 - progress) / 33)}s)...</span>
             </>
           )}
         </button>

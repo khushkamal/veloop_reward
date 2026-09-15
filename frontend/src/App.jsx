@@ -8,6 +8,8 @@ import ClaimSuccessModal from './components/ClaimSuccessModal/ClaimSuccessModal'
 import WalletLedger from './components/WalletLedger/WalletLedger';
 import EvaluatorPanel from './components/EvaluatorPanel/EvaluatorPanel';
 import AuthModal from './components/AuthModal/AuthModal';
+import VELoopLoader from './components/UI/VELoopLoader';
+import VELoopSkeleton from './components/UI/VELoopSkeleton';
 import { Sparkles, Shield, Flame, AlertCircle } from 'lucide-react';
 import { playClickSound } from './utils/audioEffects';
 
@@ -39,14 +41,7 @@ export default function App() {
   };
 
   if (loading) {
-    return (
-      <div className="d-flex flex-column align-items-center justify-content-center vh-100 bg-dark text-white">
-        <div className="spinner-border text-info mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
-          <span className="visually-hidden">Loading...</span>
-        </div>
-        <div className="font-heading fw-bold text-gradient-cyan h5">VELoop Rewards Engine Loading...</div>
-      </div>
-    );
+    return <VELoopLoader />;
   }
 
   return (
@@ -61,9 +56,9 @@ export default function App() {
       {/* Global Error Banner if any */}
       {error && (
         <div className="container mt-3">
-          <div className="alert alert-danger d-flex align-items-center justify-content-between py-2 rounded-4">
+          <div className="alert alert-danger d-flex align-items-center justify-content-between py-2 rounded-4 shadow-sm border border-danger border-opacity-40">
             <div className="d-flex align-items-center gap-2">
-              <AlertCircle size={18} />
+              <AlertCircle size={18} className="text-danger flex-shrink-0" />
               <span>{error}</span>
             </div>
           </div>
@@ -73,24 +68,28 @@ export default function App() {
       {/* Main Content Area */}
       <main className="flex-grow-1">
         {user ? (
-          <>
-            {/* Streak Hero Banner with Live Countdown & Status */}
-            <StreakHero
-              streakStatus={streakStatus}
-              actionLoading={actionLoading}
-              onTriggerClaimFlow={handleTriggerClaimFlow}
-              onCountdownComplete={fetchStreakStatus}
-            />
+          streakStatus ? (
+            <>
+              {/* Streak Hero Banner with Live Countdown & Status */}
+              <StreakHero
+                streakStatus={streakStatus}
+                actionLoading={actionLoading}
+                onTriggerClaimFlow={handleTriggerClaimFlow}
+                onCountdownComplete={fetchStreakStatus}
+              />
 
-            {/* 7-Day Exact Ladder Grid */}
-            <StreakLadder
-              streakLadder={streakStatus?.streakLadder}
-              onTriggerClaimFlow={handleTriggerClaimFlow}
-            />
+              {/* 7-Day Exact Ladder Grid */}
+              <StreakLadder
+                streakLadder={streakStatus?.streakLadder}
+                onTriggerClaimFlow={handleTriggerClaimFlow}
+              />
 
-            {/* Wallet & Ledger Transactions View */}
-            <WalletLedger wallet={wallet} />
-          </>
+              {/* Wallet & Ledger Transactions View */}
+              <WalletLedger wallet={wallet} />
+            </>
+          ) : (
+            <VELoopSkeleton />
+          )
         ) : (
           /* Guest / First Time Welcome Screen */
           <div className="container py-5 text-center">
