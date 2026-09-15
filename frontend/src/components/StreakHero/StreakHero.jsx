@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Trophy, RotateCcw, Sparkles } from 'lucide-react';
+import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Trophy, RotateCcw, Sparkles, Crown } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import styles from './StreakHero.module.css';
 

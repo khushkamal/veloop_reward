@@ -8,6 +8,7 @@ import ClaimSuccessModal from './components/ClaimSuccessModal/ClaimSuccessModal'
 import WalletLedger from './components/WalletLedger/WalletLedger';
 import EvaluatorPanel from './components/EvaluatorPanel/EvaluatorPanel';
 import AuthModal from './components/AuthModal/AuthModal';
+import TrustStrip from './components/TrustStrip/TrustStrip';
 import VELoopLoader from './components/UI/VELoopLoader';
 import VELoopSkeleton from './components/UI/VELoopSkeleton';
 import { Sparkles, Shield, Flame, AlertCircle } from 'lucide-react';
@@ -143,6 +144,9 @@ export default function App() {
             </div>
           </div>
         )}
+
+        {/* Supporting Benefits & Trust Strip */}
+        <TrustStrip />
       </main>
 
       {/* Footer */}
