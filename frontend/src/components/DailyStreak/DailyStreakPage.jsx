@@ -12,6 +12,7 @@ import StreakSkeleton from './StreakSkeleton';
 import WalletLedger from '../WalletLedger/WalletLedger';
 import EvaluatorPanel from '../EvaluatorPanel/EvaluatorPanel';
 import AuthModal from '../AuthModal/AuthModal';
+import StreakCalendarModal from './StreakCalendarModal';
 import { Sparkles, Shield, Flame, AlertCircle } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 
@@ -31,6 +32,7 @@ export default function DailyStreakPage() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isCPAOpen, setIsCPAOpen] = useState(false);
   const [isEvaluatorOpen, setIsEvaluatorOpen] = useState(false);
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [claimSuccessData, setClaimSuccessData] = useState(null);
 
   // Trigger claim workflow (opens polished CPA ad demo modal first)
@@ -109,6 +111,7 @@ export default function DailyStreakPage() {
                 actionLoading={actionLoading}
                 onTriggerClaimFlow={handleTriggerClaimFlow}
                 onCountdownComplete={fetchStreakStatus}
+                onToggleCalendar={() => setIsCalendarOpen(true)}
               />
 
               {/* 7-Day Exact Ladder Grid */}
@@ -206,6 +209,13 @@ export default function DailyStreakPage() {
 
       {/* Auth Modal */}
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
+
+      {/* Streak Calendar Modal */}
+      <StreakCalendarModal
+        isOpen={isCalendarOpen}
+        onClose={() => setIsCalendarOpen(false)}
+        streakStatus={streakStatus}
+      />
 
       {/* Floating Evaluator Testing Simulator Panel */}
       <EvaluatorPanel
