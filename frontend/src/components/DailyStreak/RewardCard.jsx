@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coins, Gift, Crown, Check, Lock, Sparkles } from 'lucide-react';
+import { Lock, Check, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import styles from './DailyStreak.module.css';
 
@@ -9,33 +9,83 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
   const isClaimed = cardState === 'CLAIMED';
   const isAvailable = cardState === 'AVAILABLE' || cardState === 'AVAILABLE_TODAY';
   const isMissed = cardState === 'MISSED';
-  const isGrand = item.day === 7;
+  const isDay7 = item.day === 7;
 
-  let cardStateClass = styles.cardLocked;
-  if (isToday) cardStateClass = styles.cardToday;
-  else if (isClaimed) cardStateClass = styles.cardClaimed;
-  else if (isAvailable) cardStateClass = `${styles.cardAvailable} animate-pulse-glow`;
-  else if (isMissed) cardStateClass = styles.cardMissed;
-
-  const getIcon = () => {
-    if (item.badgeType === 'grand_gift_card' || item.day === 7) {
-      return <Crown size={26} strokeWidth={2.4} />;
+  // Determine top badge
+  const renderBadge = () => {
+    if (isClaimed && item.day === 1) {
+      return (
+        <div className={styles.claimedCheckBadge}>
+          <Check size={11} strokeWidth={3.5} />
+        </div>
+      );
     }
-    if (item.rewardType === 'AMAZON_GC') {
-      return <Gift size={24} strokeWidth={2.4} />;
+    if (isToday || isAvailable) {
+      return <div className={styles.todayBadge}>Today</div>;
     }
-    return <Coins size={24} strokeWidth={2.4} />;
+    if (item.day === 5) {
+      return <div className={styles.tagBadge}>Gift Card</div>;
+    }
+    if (item.day === 6) {
+      return <div className={styles.tagBadge}>Coin</div>;
+    }
+    if (isDay7) {
+      return <div className={styles.vipBadge}>VIP</div>;
+    }
+    return null;
   };
 
-  const getIconClass = () => {
-    if (item.badgeType === 'grand_gift_card' || item.day === 7) return styles.grandIconBg;
-    if (item.rewardType === 'AMAZON_GC') return styles.giftIconBg;
-    return styles.coinIconBg;
+  // Render 3D artwork icon matching the reference
+  const renderArtwork = () => {
+    if (isDay7) {
+      return (
+        <div className={`${styles.crownArtwork} animate-soft-shine animate-float`}>
+          <div className={styles.crownMini}>
+            <div className={styles.crownMiniBase}></div>
+            <div className={styles.crownMiniJewel}></div>
+          </div>
+        </div>
+      );
+    }
+    if (item.day === 4) {
+      return (
+        <div className={`${styles.giftArtwork} animate-gentle-tilt animate-soft-shine`}>
+          <div className={styles.giftMiniBox}>
+            <div className={styles.giftMiniLid}></div>
+            <div className={styles.giftMiniRibbon}></div>
+          </div>
+        </div>
+      );
+    }
+    if (item.day === 5) {
+      return (
+        <div className={`${styles.amazonArtwork} animate-gentle-tilt`}>
+          <div className={styles.amazonCardMini}>
+            <span className={styles.amazonCardA}>a</span>
+            <div className={styles.amazonSmile}></div>
+          </div>
+        </div>
+      );
+    }
+    // Coins stack artwork for Days 1, 2, 3, 6
+    return (
+      <div className={styles.coinsStackArtwork}>
+        <div className={styles.coin1}></div>
+        <div className={styles.coin2}></div>
+        <div className={styles.coin3}></div>
+      </div>
+    );
   };
+
+  // Card background state class
+  let cardClass = styles.rewardCardLocked;
+  if (isClaimed) cardClass = styles.rewardCardClaimed;
+  else if (isToday || isAvailable) cardClass = `${styles.rewardCardAvailable} animate-pulse-glow`;
+  else if (isMissed) cardClass = styles.rewardCardMissed;
 
   return (
     <div
-      className={`${styles.dayCard} ${cardStateClass} ${isGrand ? styles.cardGrand : ''}`}
+      className={`${styles.rewardCardItem} ${cardClass} ${isDay7 ? styles.rewardCardDay7 : ''}`}
       onClick={() => {
         if (isAvailable) {
           playClickSound();
@@ -45,56 +95,72 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
       role={isAvailable ? 'button' : undefined}
       tabIndex={isAvailable ? 0 : undefined}
     >
-      {/* Grand Tag */}
-      {isGrand && <div className={styles.grandTag}>Grand Prize</div>}
+      {/* Top Badge (Today / VIP / Gift Card / Coin / Check) */}
+      {renderBadge()}
 
-      <div className={styles.dayHeader}>Day {item.day}</div>
+      {/* Day Number Header */}
+      <div className={styles.cardDayTitle}>Day {item.day}</div>
 
+      {/* 3D Reward Artwork Asset */}
+      <div className={styles.cardArtworkContainer}>
+        {renderArtwork()}
+      </div>
+
+      {/* Reward Title / Subtitle */}
+      <div className={styles.cardSubHeader}>
+        {isDay7 ? 'Ultimate Reward' : 'Daily Reward'}
+      </div>
+
+      {/* Amount Display */}
       <div
-        className={`${styles.iconWrapper} ${getIconClass()} ${
-          item.day === 7
-            ? 'animate-soft-shine animate-float'
+        className={`${styles.cardAmountValue} ${
+          isClaimed
+            ? styles.amountGreen
+            : isToday || isAvailable
+            ? styles.amountGold
+            : item.day === 3
+            ? styles.amountPurple
             : item.day === 4
-            ? 'animate-gentle-tilt animate-soft-shine'
-            : item.rewardType === 'AMAZON_GC'
-            ? 'animate-gentle-tilt'
-            : ''
+            ? styles.amountViolet
+            : styles.amountGold
         }`}
       >
-        {getIcon()}
+        {item.rewardType === 'AMAZON_GC' ? `₹${item.amount}` : `+${item.amount}`}
       </div>
 
-      <div className={styles.rewardAmount}>{item.displayName || item.title}</div>
-      <div className={styles.rewardLabel}>
-        {item.rewardType === 'AMAZON_GC' ? 'Amazon GC' : 'VELoop Points'}
+      {/* Currency / Reward Unit */}
+      <div className={styles.cardCurrencyLabel}>
+        {item.rewardType === 'AMAZON_GC' ? 'Amazon Gift Card' : `${item.amount} VEs`}
       </div>
 
-      {/* Status Pill */}
-      <div className={styles.statusPill}>
-        {isToday ? (
-          <>
-            <Check size={12} strokeWidth={3} />
-            <span>Today's Claim</span>
-          </>
-        ) : isClaimed ? (
-          <>
+      {/* Status Action Pill */}
+      <div className={styles.cardStatusContainer}>
+        {isClaimed ? (
+          <div className={styles.claimedPill}>
             <Check size={12} strokeWidth={3} />
             <span>Claimed</span>
-          </>
-        ) : isAvailable ? (
-          <>
-            <Sparkles size={12} />
-            <span>Claim Reward</span>
-          </>
+          </div>
+        ) : isToday || isAvailable ? (
+          <button
+            className={styles.claimNowBtn}
+            onClick={(e) => {
+              e.stopPropagation();
+              playClickSound();
+              onTriggerClaimFlow();
+            }}
+          >
+            <span>Claim Now</span>
+            <ChevronRight size={13} strokeWidth={3} />
+          </button>
         ) : isMissed ? (
-          <>
+          <div className={styles.missedPill}>
             <span>⚠️ Missed</span>
-          </>
+          </div>
         ) : (
-          <>
-            <Lock size={12} />
+          <div className={styles.lockedPill}>
+            <Lock size={12} strokeWidth={2.4} />
             <span>Locked</span>
-          </>
+          </div>
         )}
       </div>
     </div>

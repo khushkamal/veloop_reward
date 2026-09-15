@@ -1,198 +1,867 @@
-/* DailyStreak.module.css - Unified modular scoped styling */
+/* DailyStreak.module.css - Complete High-Fidelity Styling matching official design */
 
 .heroSection {
-  padding: 2rem 0 1.25rem;
+  padding: 1.5rem 0 1rem;
 }
 
-.heroCard {
-  background: linear-gradient(135deg, rgba(14, 20, 36, 0.92) 0%, rgba(22, 28, 56, 0.92) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.22);
+/* 1. Hero Main Banner */
+.heroMainBanner {
+  background: linear-gradient(135deg, rgba(22, 18, 48, 0.95) 0%, rgba(35, 24, 68, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.28);
   border-radius: 24px;
-  padding: 2.25rem;
+  padding: 2rem 2.25rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  margin-bottom: 1rem;
 }
 
-.heroCard::before {
+.heroMainBanner::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -20%;
-  width: 60%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 60%);
+  top: -40%;
+  left: 30%;
+  width: 40%;
+  height: 180%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
-.dailyCheckInBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.35rem 0.85rem;
-  border-radius: 50px;
-  color: #e2e8f0;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.heroHeading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
 }
 
-.streakFlameBadge {
+.heroGoldText {
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.heroSubText {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.mainClaimBtn {
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #0b0f19;
+  border: none;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 0.75rem 1.8rem;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 107, 0, 0.12);
-  border: 1px solid rgba(255, 107, 0, 0.35);
-  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.35);
+  transition: all 0.2s ease;
+}
+
+.mainClaimBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
+}
+
+/* 3D Illustrations in Hero */
+.artworkContainer {
+  width: 76px;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.calendar3D {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
+}
+
+.calendarBinder {
+  position: absolute;
+  top: -6px;
+  display: flex;
+  gap: 10px;
+}
+
+.calendarBinder span {
+  width: 6px;
+  height: 10px;
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.calendarPage {
+  width: 44px;
+  height: 38px;
+  background: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendarCheck {
+  color: #ffd700;
+  font-weight: 900;
+  font-size: 1.4rem;
+}
+
+.calendarCoin {
+  position: absolute;
+  bottom: -6px;
+  left: -6px;
+  font-size: 1.4rem;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+.giftBox3D {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.giftBoxLid {
+  position: absolute;
+  top: 6px;
+  width: 52px;
+  height: 12px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 215, 0, 0.6);
+  z-index: 2;
+}
+
+.giftBoxBody {
+  position: absolute;
+  bottom: 6px;
+  width: 46px;
+  height: 38px;
+  background: linear-gradient(135deg, #7c3aed 0%, #581c87 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
+}
+
+.giftRibbonH {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: #ffd700;
+}
+
+.giftRibbonV {
+  position: absolute;
+  top: 0;
+  left: 19px;
+  width: 8px;
+  height: 100%;
+  background: #ffd700;
+}
+
+.sparkleParticle {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  color: #ffd700;
+  font-size: 1.1rem;
+}
+
+/* 2. Streak Indicator & Calendar Action Bar */
+.streakActionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.streakIndicatorPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 107, 0, 0.15);
+  border: 1px solid rgba(255, 107, 0, 0.4);
+  padding: 0.45rem 1rem;
   border-radius: 50px;
   color: #ff9900;
   font-weight: 700;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
 }
 
 .flameIcon {
   color: #ff3d00;
-  filter: drop-shadow(0 0 8px rgba(255, 61, 0, 0.6));
+  filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.6));
 }
 
-.keepGoingText {
-  color: #a78bfa;
-  font-size: 0.92rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.title {
-  font-size: 2.35rem;
-  font-weight: 800;
-  margin-bottom: 0.75rem;
-  line-height: 1.15;
-}
-
-.subtitle {
-  color: #94a3b8;
-  font-size: 0.98rem;
-  max-width: 560px;
-  margin-bottom: 1.4rem;
-  line-height: 1.5;
-}
-
-.countdownBox {
-  background: rgba(8, 12, 22, 0.75);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-.countdownLabel {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #a78bfa;
+.calendarActionBtn {
+  background: rgba(30, 27, 60, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+  font-size: 0.82rem;
   font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.timerDigits {
-  font-family: 'Outfit', monospace;
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #00e5ff;
-  letter-spacing: 0.05em;
-  text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-}
-
-.ctaBtnClaim {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 1.05rem;
-  font-weight: 700;
-  padding: 0.85rem 2rem;
-  border-radius: 16px;
+  padding: 0.45rem 0.95rem;
+  border-radius: 50px;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
+  gap: 0.4rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 10px 25px rgba(121, 40, 202, 0.35);
+  transition: all 0.2s ease;
 }
 
-.ctaBtnClaim:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 35px rgba(121, 40, 202, 0.5), 0 0 20px rgba(139, 92, 246, 0.4);
+.calendarActionBtn:hover {
+  background: rgba(139, 92, 246, 0.25);
   color: #ffffff;
 }
 
-.ctaBtnClaim:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* 3. Statistics 3-Card Row */
+.statsCardRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1rem;
 }
 
-.ctaBtnLocked {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #94a3b8;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 0.85rem 1.75rem;
+.statBox {
+  background: rgba(18, 16, 38, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(139, 92, 246, 0.18);
   border-radius: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  cursor: not-allowed;
-}
-
-.statsGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.statItem {
+  padding: 0.85rem 1rem;
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
-.statIcon {
+.statIconBadge {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #a78bfa;
+  flex-shrink: 0;
 }
 
-.statValue {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #f8fafc;
-  line-height: 1.1;
+.statPurpleBg {
+  background: rgba(139, 92, 246, 0.2);
+  color: #c084fc;
+  border: 1px solid rgba(139, 92, 246, 0.35);
 }
 
-.statLabel {
+.statGreenBg {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.statGoldBg {
+  background: rgba(255, 215, 0, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(255, 215, 0, 0.35);
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabelText {
   font-size: 0.72rem;
-  color: #64748b;
+  color: #94a3b8;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.statNumberText {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.statHighlightText {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #ffd700;
+  line-height: 1.2;
+}
+
+/* 4. Ultimate Reward Banner */
+.ultimateRewardBanner {
+  background: linear-gradient(135deg, rgba(28, 20, 56, 0.9) 0%, rgba(45, 25, 80, 0.9) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+  border-radius: 18px;
+  padding: 1.15rem 1.4rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 215, 0, 0.08);
+}
+
+.crownIconContainer {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crown3D {
+  width: 46px;
+  height: 40px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  clip-path: polygon(0% 100%, 100% 100%, 85% 30%, 50% 70%, 15% 30%);
+  border-radius: 4px;
+  position: relative;
+  filter: drop-shadow(0 4px 10px rgba(255, 215, 0, 0.5));
+}
+
+.crownBase {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: #eab308;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.crownJewelCenter, .crownJewelLeft, .crownJewelRight {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+.crownStars {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  color: #ffd700;
+  font-size: 0.9rem;
+}
+
+.ultimateInfoText {
+  display: flex;
+  flex-direction: column;
+}
+
+.ultimateTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c084fc;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
+}
+
+.ultimateValRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+
+.ultimateRupeeVal {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffd700;
+}
+
+.amazonCardBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.amazonA {
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  color: #ffffff;
+  background: #ff9900;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.amazonText {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.ultimateLockStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(14, 11, 28, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.85rem;
+  border-radius: 50px;
+}
+
+.lockIconBox {
+  color: #94a3b8;
+}
+
+.unlockDayLabel {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+/* 5. Decorative Separator */
+.decorativeSeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  color: #a78bfa;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin: 1rem 0 1.25rem;
+}
+
+.sparkleIcon {
+  color: #c084fc;
+  font-size: 0.9rem;
+}
+
+/* 6. 7-Day Reward Cards Grid */
+.rewardGridSection {
+  padding: 0 0 1.5rem;
+}
+
+.rewardGridTop {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+
+.rewardGridBottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.rewardCardItem {
+  background: rgba(18, 14, 38, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  border-radius: 18px;
+  padding: 1.15rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  transition: all 0.25s ease;
+  min-width: 0;
+}
+
+.rewardCardLocked {
+  opacity: 0.75;
+}
+
+.rewardCardAvailable {
+  background: rgba(28, 18, 58, 0.95);
+  border-color: #ffd700;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.rewardCardClaimed {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(12, 22, 32, 0.8);
+}
+
+.rewardCardDay7 {
+  border-color: rgba(255, 215, 0, 0.35);
+}
+
+/* Top Badges on Cards */
+.claimedCheckBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #10b981;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todayBadge {
+  position: absolute;
+  top: -8px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.15rem 0.65rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+.tagBadge {
+  position: absolute;
+  top: -8px;
+  background: rgba(139, 92, 246, 0.9);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 50px;
+}
+
+.vipBadge {
+  position: absolute;
+  top: -8px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #000;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.15rem 0.55rem;
+  border-radius: 50px;
+}
+
+.cardDayTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin-bottom: 0.65rem;
+}
+
+.cardArtworkContainer {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Coins Stack Artwork */
+.coinsStackArtwork {
+  position: relative;
+  width: 44px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin1, .coin2, .coin3 {
+  position: absolute;
+  width: 32px;
+  height: 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #d97706 100%);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.coin1 { top: 6px; }
+.coin2 { top: 14px; }
+.coin3 { top: 22px; }
+
+/* Mini Gift Box Artwork */
+.giftArtwork {
+  width: 38px;
+  height: 38px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.giftMiniBox {
+  width: 32px;
+  height: 28px;
+  background: linear-gradient(135deg, #9333ea 0%, #581c87 100%);
+  border-radius: 5px;
+  position: relative;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+.giftMiniLid {
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  width: 36px;
+  height: 8px;
+  background: #c084fc;
+  border-radius: 3px;
+}
+
+.giftMiniRibbon {
+  position: absolute;
+  top: 0;
+  left: 13px;
+  width: 6px;
+  height: 100%;
+  background: #ffd700;
+}
+
+/* Mini Amazon Card Artwork */
+.amazonArtwork {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.amazonCardMini {
+  width: 34px;
+  height: 26px;
+  background: #ffffff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.amazonCardA {
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #000;
+  line-height: 1;
+}
+
+.amazonSmile {
+  width: 14px;
+  height: 3px;
+  background: #ff9900;
+  border-radius: 2px;
+  margin-top: 1px;
+}
+
+/* Mini Crown Artwork */
+.crownArtwork {
+  width: 40px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crownMini {
+  width: 34px;
+  height: 26px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  clip-path: polygon(0% 100%, 100% 100%, 85% 20%, 50% 65%, 15% 20%);
+  border-radius: 3px;
+  filter: drop-shadow(0 3px 6px rgba(255, 215, 0, 0.5));
+}
+
+.cardSubHeader {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-bottom: 0.15rem;
+}
+
+.cardAmountValue {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.1rem;
+}
+
+.amountGreen { color: #34d399; }
+.amountGold { color: #ffd700; }
+.amountPurple { color: #818cf8; }
+.amountViolet { color: #c084fc; }
+
+.cardCurrencyLabel {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-bottom: 0.65rem;
+  white-space: nowrap;
+}
+
+.cardStatusContainer {
+  width: 100%;
+}
+
+.claimedPill {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.28rem 0.6rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.claimNowBtn {
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #0b0f19;
+  border: none;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.32rem 0.65rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+}
+
+.lockedPill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.28rem 0.6rem;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.missedPill {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.28rem 0.6rem;
+  border-radius: 50px;
+}
+
+/* 7. Why Maintain Your Streak Section */
+.whyStreakSection {
+  padding: 1rem 0 2rem;
+}
+
+.whyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.whyTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.whyCard {
+  background: rgba(18, 14, 38, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  padding: 1.15rem 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.whyIconContainer {
+  margin-bottom: 0.5rem;
+}
+
+.whyCardTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.whyCardDesc {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.35;
+}
+
+.officialTrustStrip {
+  background: linear-gradient(135deg, rgba(20, 16, 42, 0.9) 0%, rgba(32, 22, 60, 0.9) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vrBadge {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #ffd700;
+  font-weight: 900;
+  font-size: 0.78rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trustTitle {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.trustSubtitle {
+  font-size: 0.72rem;
+  color: #94a3b8;
 }
 
 .brokenNotice {
@@ -202,356 +871,73 @@
   padding: 0.75rem 1.25rem;
   border-radius: 12px;
   font-size: 0.88rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
-/* Ultimate Reward Section */
-.ultimateRewardCard {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(255, 153, 0, 0.16) 100%);
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  border-radius: 18px;
-  padding: 1.25rem 1.5rem;
-  margin-top: 1.25rem;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.12);
-}
-
-.ultimateIcon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.35);
-  flex-shrink: 0;
-}
-
-.ultimateBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  background: rgba(255, 215, 0, 0.2);
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  color: #ffd700;
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 0.15rem 0.55rem;
-  border-radius: 50px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.25rem;
-}
-
-.ultimateMainValue {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.ultimateAmount {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.45rem;
-  font-weight: 800;
-  color: #ffd700;
-}
-
-.ultimateGiftText {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #ffffff;
-}
-
-.ultimateSubtitle {
-  font-size: 0.78rem;
-  color: #94a3b8;
-  font-weight: 600;
-}
-
-/* Ladder Grid & Card Styles */
-.ladderSection {
-  padding: 1rem 0 2.5rem;
-}
-
-.sectionHeader {
-  margin-bottom: 1.75rem;
-}
-
-.sectionTitle {
-  font-size: 1.65rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.sectionSubtitle {
-  color: #94a3b8;
-  font-size: 0.92rem;
-  max-width: 650px;
-}
-
-.ladderGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
-}
-
-.dayCard {
-  background: rgba(14, 20, 36, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 1.35rem 0.85rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  min-width: 0;
-}
-
-.dayHeader {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #64748b;
-  margin-bottom: 0.75rem;
-}
-
-.iconWrapper {
-  width: 50px;
-  height: 50px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.85rem;
-  position: relative;
-}
-
-.coinIconBg {
-  background: rgba(139, 92, 246, 0.12);
-  color: #a78bfa;
-  border: 1px solid rgba(139, 92, 246, 0.25);
-}
-
-.giftIconBg {
-  background: rgba(255, 153, 0, 0.12);
-  color: #ff9900;
-  border: 1px solid rgba(255, 153, 0, 0.3);
-}
-
-.grandIconBg {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.18) 0%, rgba(255, 153, 0, 0.28) 100%);
-  color: #ffd700;
-  border: 1px solid rgba(255, 215, 0, 0.45);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
-}
-
-.rewardAmount {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 0.25rem;
-  white-space: nowrap;
-}
-
-.rewardLabel {
-  font-size: 0.72rem;
-  color: #94a3b8;
-  margin-bottom: 0.85rem;
-  white-space: nowrap;
-}
-
-.statusPill {
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding: 0.32rem 0.65rem;
-  border-radius: 50px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  width: 100%;
-  white-space: nowrap;
-}
-
-/* Card States */
-.cardClaimed {
-  background: rgba(14, 20, 36, 0.45);
-  border-color: rgba(16, 185, 129, 0.2);
-  opacity: 0.9;
-}
-
-.cardClaimed .statusPill {
-  background: rgba(16, 185, 129, 0.15);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.cardAvailable {
-  background: rgba(22, 28, 56, 0.95);
-  border-color: #8b5cf6;
-  box-shadow: 0 0 25px rgba(139, 92, 246, 0.35);
-  transform: translateY(-4px);
-  cursor: pointer;
-}
-
-.cardAvailable .dayHeader {
-  color: #a78bfa;
-}
-
-.cardAvailable .statusPill {
-  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
-  color: #ffffff;
-  font-weight: 800;
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-}
-
-.cardToday {
-  background: rgba(16, 185, 129, 0.08);
-  border-color: rgba(16, 185, 129, 0.4);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.18);
-}
-
-.cardToday .statusPill {
-  background: rgba(16, 185, 129, 0.18);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-}
-
-.cardMissed {
-  background: rgba(239, 68, 68, 0.08);
-  border-color: rgba(239, 68, 68, 0.3);
-  opacity: 0.75;
-}
-
-.cardMissed .statusPill {
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-.cardLocked {
-  opacity: 0.55;
-}
-
-.cardLocked .statusPill {
-  background: rgba(255, 255, 255, 0.04);
-  color: #64748b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.cardGrand {
-  border-color: rgba(255, 215, 0, 0.35);
-}
-
-.grandTag {
-  position: absolute;
-  top: -10px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  color: #000;
-  font-size: 0.62rem;
-  font-weight: 800;
-  padding: 0.18rem 0.55rem;
-  border-radius: 50px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
 /* Responsive Rules */
-@media (max-width: 1024px) {
-  .ladderGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 834px) {
-  .ladderGrid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.85rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .ladderGrid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-  }
-  .heroSection {
-    padding: 1.25rem 0 1rem;
-  }
-  .title {
+@media (max-width: 991.98px) {
+  .heroHeading {
     font-size: 1.65rem;
   }
-  .heroCard {
-    padding: 1.25rem;
+  .statsCardRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .whyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .heroMainBanner {
+    padding: 1.25rem 1rem;
     border-radius: 18px;
   }
-  .subtitle {
-    font-size: 0.9rem;
-    margin-bottom: 1.25rem;
+  .heroHeading {
+    font-size: 1.35rem;
   }
-  .ctaBtnClaim, .ctaBtnLocked {
-    width: 100%;
-    font-size: 0.95rem;
-    padding: 0.85rem 1.25rem;
+  .heroSubText {
+    font-size: 0.82rem;
   }
-  .statsGrid {
-    gap: 0.85rem;
-    justify-content: space-between;
-  }
-  .statItem {
-    flex: 1 1 calc(50% - 0.85rem);
-  }
-  .timerDigits {
-    font-size: 1.45rem;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .ladderGrid {
+  .rewardGridTop {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  .dayCard {
-    padding: 1.15rem 0.75rem;
-  }
-
-  .iconWrapper {
-    width: 44px;
-    height: 44px;
-  }
-
-  .rewardAmount {
-    font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 360px) {
-  .ladderGrid {
-    grid-template-columns: 1fr;
     gap: 0.65rem;
   }
-  .title {
-    font-size: 1.45rem;
+  .rewardGridBottom {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.65rem;
   }
-  .statItem {
-    flex: 1 1 100%;
+  .statsCardRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .statBox {
+    padding: 0.65rem 0.5rem;
+    gap: 0.4rem;
+  }
+  .statIconBadge {
+    width: 28px;
+    height: 28px;
+  }
+  .statNumberText {
+    font-size: 0.95rem;
+  }
+  .statHighlightText {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rewardGridBottom {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .rewardCardItem {
+    padding: 1rem 0.4rem;
+  }
+  .whyGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
   }
 }

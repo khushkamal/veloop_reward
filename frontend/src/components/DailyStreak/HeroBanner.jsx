@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Zap } from 'lucide-react';
+import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Calendar, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import StreakStats from './StreakStats';
 import UltimateReward from './UltimateReward';
 import styles from './DailyStreak.module.css';
 
-export default function HeroBanner({ streakStatus, actionLoading, onTriggerClaimFlow, onCountdownComplete }) {
+export default function HeroBanner({
+  streakStatus,
+  actionLoading,
+  onTriggerClaimFlow,
+  onCountdownComplete,
+  onToggleCalendar
+}) {
   const [secondsLeft, setSecondsLeft] = useState(streakStatus?.countdownSeconds || 0);
 
   // Synchronize and countdown based strictly on backend serverTime and nextClaimAt
@@ -44,11 +50,11 @@ export default function HeroBanner({ streakStatus, actionLoading, onTriggerClaim
 
   // Format seconds into HH:MM:SS
   const formatTime = (totalSec) => {
-    if (totalSec <= 0) return '00 : 00 : 00';
+    if (totalSec <= 0) return '00:00:00';
     const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
     const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
     const secs = String(totalSec % 60).padStart(2, '0');
-    return `${hrs}h : ${mins}m : ${secs}s`;
+    return `${hrs}:${mins}:${secs}`;
   };
 
   const currentStreak = streakStatus?.currentStreak || 0;
@@ -60,118 +66,126 @@ export default function HeroBanner({ streakStatus, actionLoading, onTriggerClaim
   return (
     <section className={styles.heroSection}>
       <div className="container">
-        <div className={styles.heroCard}>
-          <div className="row align-items-center g-4">
-            {/* Left Column: Header Tag, Flame Badge, Title, CTA, Stats */}
-            <div className="col-lg-7">
-              {/* Daily Check-In Subheader Badge */}
-              <div className="d-flex align-items-center gap-2 mb-2">
-                <span className={styles.dailyCheckInBadge}>
-                  <Zap size={14} className="text-warning" />
-                  <span>Daily Check-In</span>
-                </span>
-
-                {/* Flame Badge */}
-                <div className={styles.streakFlameBadge}>
-                  <Flame size={16} strokeWidth={2.4} className={styles.flameIcon} />
-                  <span>
-                    {currentStreak > 0
-                      ? `${currentStreak} Day Streak 🔥`
-                      : '0 Day Streak'}
-                  </span>
+        {/* Top Hero Banner with 3D Artwork Illustration */}
+        <div className={styles.heroMainBanner}>
+          <div className="row align-items-center justify-content-between g-3">
+            {/* Left 3D Calendar Artwork */}
+            <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
+              <div className={`${styles.artworkContainer} animate-float`}>
+                <div className={styles.calendar3D}>
+                  <div className={styles.calendarBinder}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div className={styles.calendarPage}>
+                    <div className={styles.calendarCheck}>✓</div>
+                  </div>
+                  <div className={styles.calendarCoin}>🪙</div>
                 </div>
               </div>
+            </div>
 
-              {/* Motivation Tagline */}
-              <div className={styles.keepGoingText}>
-                {alreadyClaimed
-                  ? "You're all checked in for today! Keep it going tomorrow!"
-                  : currentStreak > 0
-                  ? 'Keep it going! Claim today to protect your streak!'
-                  : 'Start your winning streak today for bonus VEs & Amazon Gift Cards!'}
-              </div>
-
-              {/* Broken Streak Warning */}
-              {isStreakBroken && (
-                <div className={styles.brokenNotice}>
-                  <AlertTriangle size={18} />
-                  <span>
-                    You missed yesterday! Your streak was reset to Day 1. Claim now to rebuild!
-                  </span>
-                </div>
-              )}
-
-              {/* Main Heading */}
-              <h1 className={styles.title}>
-                Claim Daily <span className="text-gradient-purple">Rewards</span> &{' '}
-                <span className="text-gradient-gold">Amazon Vouchers</span>
+            {/* Middle Content: Title, Subtitle, CTA */}
+            <div className="col text-center px-lg-4">
+              <h1 className={styles.heroHeading}>
+                Login Daily & Earn <span className={styles.heroGoldText}>Bigger Rewards!</span>
               </h1>
-
-              <p className={styles.subtitle}>
-                Check in consecutive days to earn bonus VEs and milestone Amazon Gift Cards. Strict
-                server validation ensures reliable rewards progression.
+              <p className={styles.heroSubText}>
+                Maintain your streak and unlock exciting rewards every day.
               </p>
 
-              {/* CTA Action Area */}
-              <div className="d-flex flex-wrap align-items-center gap-3">
-                {canClaim ? (
+              {/* Action Claim Button */}
+              {canClaim && (
+                <div className="mt-3">
                   <button
-                    className={`${styles.ctaBtnClaim} animate-pulse-glow`}
+                    className={`${styles.mainClaimBtn} animate-pulse-glow`}
                     onClick={() => {
                       playClickSound();
                       onTriggerClaimFlow();
                     }}
                     disabled={actionLoading}
                   >
-                    <Sparkles size={20} />
+                    <Sparkles size={18} />
                     <span>
                       {actionLoading
                         ? 'Validating Claim...'
-                        : `Claim Day ${streakStatus?.nextDayIndex} Reward (${nextReward?.displayName || 'Claim'})`}
+                        : `Claim Day ${streakStatus?.nextDayIndex} Reward (${nextReward?.displayName || 'Claim Now'})`}
                     </span>
                   </button>
-                ) : alreadyClaimed ? (
-                  <button className={styles.ctaBtnLocked} disabled>
-                    <CheckCircle2 size={20} className="text-success" />
-                    <span>Today's Reward Claimed</span>
-                  </button>
-                ) : (
-                  <button className={styles.ctaBtnLocked} disabled>
-                    <Lock size={20} />
-                    <span>Reward Locked</span>
-                  </button>
-                )}
-              </div>
-
-              {/* Backend-Driven Stats */}
-              <StreakStats streakStatus={streakStatus} />
+                </div>
+              )}
             </div>
 
-            {/* Right Column: Countdown Box & Ultimate Reward Snapshot */}
-            <div className="col-lg-5">
-              <div className={styles.countdownBox} style={{ width: '100%' }}>
-                <div className={styles.countdownLabel}>
-                  <Clock size={16} strokeWidth={2.4} />
-                  <span>
-                    {alreadyClaimed ? 'Next Claim Window Unlocks In' : 'Claim Window Status'}
-                  </span>
-                </div>
-
-                <div className={styles.timerDigits}>
-                  {alreadyClaimed ? formatTime(secondsLeft) : 'READY TO CLAIM!'}
-                </div>
-
-                <div className="text-muted small mt-1">
-                  {alreadyClaimed
-                    ? 'Resets automatically at server midnight (IST)'
-                    : `Next in line: ${nextReward?.displayName || '+5 VEs'}`}
+            {/* Right 3D Gift Box Artwork */}
+            <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
+              <div className={`${styles.artworkContainer} animate-float`} style={{ animationDelay: '1.5s' }}>
+                <div className={styles.giftBox3D}>
+                  <div className={styles.giftBoxLid}></div>
+                  <div className={styles.giftBoxBody}>
+                    <div className={styles.giftRibbonH}></div>
+                    <div className={styles.giftRibbonV}></div>
+                  </div>
+                  <div className={styles.sparkleParticle}>✦</div>
                 </div>
               </div>
-
-              {/* Large Backend-Driven Ultimate Reward */}
-              <UltimateReward ultimateReward={streakStatus?.ultimateReward} />
             </div>
           </div>
+        </div>
+
+        {/* Broken Streak Warning if any */}
+        {isStreakBroken && (
+          <div className={styles.brokenNotice}>
+            <AlertTriangle size={18} />
+            <span>
+              You missed yesterday! Your streak was reset to Day 1. Claim now to rebuild your rewards!
+            </span>
+          </div>
+        )}
+
+        {/* Streak Indicator & Calendar Action Bar */}
+        <div className={styles.streakActionBar}>
+          <div className={styles.streakIndicatorPill}>
+            <Flame size={18} strokeWidth={2.4} className={styles.flameIcon} />
+            <span>
+              {currentStreak > 0
+                ? `${currentStreak} Day Streak`
+                : '1 Day Streak'}
+            </span>
+          </div>
+
+          <button
+            className={styles.calendarActionBtn}
+            onClick={() => {
+              playClickSound();
+              if (onToggleCalendar) onToggleCalendar();
+            }}
+          >
+            <Calendar size={15} />
+            <span>Streak Calendar</span>
+            <ChevronRight size={14} />
+          </button>
+        </div>
+
+        {/* Statistics 3-Card Row */}
+        <StreakStats streakStatus={streakStatus} />
+
+        {/* Ultimate Reward Banner */}
+        <UltimateReward
+          ultimateReward={streakStatus?.ultimateReward}
+          alreadyClaimed={alreadyClaimed}
+          countdownText={formatTime(secondsLeft)}
+        />
+
+        {/* Decorative Separator */}
+        <div className={styles.decorativeSeparator}>
+          <span className={styles.sparkleIcon}>✦</span>
+          <span>
+            {alreadyClaimed
+              ? `Next claim unlocks in ${formatTime(secondsLeft)} • Come back tomorrow for more rewards!`
+              : 'Come back tomorrow for more rewards!'}
+          </span>
+          <span className={styles.sparkleIcon}>✦</span>
         </div>
       </div>
     </section>
