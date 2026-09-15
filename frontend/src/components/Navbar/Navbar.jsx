@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-  ChevronLeft,
   Flame,
   Zap,
   Coins,
@@ -19,7 +17,6 @@ import styles from './Navbar.module.css';
 export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen }) {
   const { user, wallet, streakStatus, logout } = useAuth();
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
-  const navigate = useNavigate();
 
   const handleSoundToggle = () => {
     const next = toggleSound();
@@ -27,33 +24,13 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
     if (next) playClickSound();
   };
 
-  const handleBack = () => {
-    playClickSound();
-    if (window.history.length > 1) {
-      navigate(-1);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   const currentStreak = streakStatus?.currentStreak || 0;
 
   return (
     <header className={styles.navbar}>
       <div className="container d-flex align-items-center justify-content-between">
-        {/* Left Section: Back Button + Brand / Daily Streak Title */}
+        {/* Left Section: Brand / Daily Streak Title */}
         <div className="d-flex align-items-center gap-2 gap-sm-3">
-          {/* Back / Navigation Action */}
-          <button
-            className={styles.backBtn}
-            onClick={handleBack}
-            title="Go Back"
-            aria-label="Navigate Back"
-          >
-            <ChevronLeft size={18} strokeWidth={2.5} />
-            <span className="d-none d-md-inline">Back</span>
-          </button>
-
           {/* Brand Logo & Daily Streak Header Title */}
           <a href="#home" className={styles.brand} onClick={playClickSound}>
             <div className={styles.logoIcon}>
