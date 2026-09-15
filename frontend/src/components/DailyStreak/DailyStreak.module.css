@@ -476,8 +476,8 @@
   background: rgba(18, 14, 38, 0.85);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(139, 92, 246, 0.18);
-  border-radius: 18px;
-  padding: 1.15rem 0.75rem;
+  border-radius: 20px;
+  padding: 1.15rem 0.85rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -488,7 +488,7 @@
 }
 
 .rewardCardLocked {
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 .rewardCardAvailable {
@@ -501,20 +501,88 @@
 
 .rewardCardClaimed {
   border-color: rgba(16, 185, 129, 0.35);
-  background: rgba(12, 22, 32, 0.8);
+  background: rgba(12, 22, 32, 0.85);
 }
 
 .rewardCardDay7 {
-  border-color: rgba(255, 215, 0, 0.35);
+  border: 1.6px solid #fbbf24 !important;
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.4), inset 0 0 14px rgba(251, 191, 36, 0.12) !important;
+  background: linear-gradient(180deg, rgba(28, 18, 52, 0.95) 0%, rgba(18, 13, 36, 0.95) 100%) !important;
+}
+
+/* Dual Header Pills: [Day X] [Tag] */
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.headerPillDay {
+  background: rgba(88, 28, 135, 0.5);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.22rem 0.75rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.headerPillDay7 {
+  background: rgba(120, 53, 15, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fef08a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.22rem 0.75rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.headerPillTag {
+  background: rgba(88, 28, 135, 0.5);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.22rem 0.75rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.headerPillVip {
+  background: rgba(120, 53, 15, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fef08a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.22rem 0.75rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.todayFloatingBadge {
+  position: absolute;
+  top: -9px;
+  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  color: #000;
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 0.15rem 0.75rem;
+  border-radius: 50px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.05em;
+  z-index: 2;
 }
 
 /* Top Badges on Cards */
 .claimedCheckBadge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: #10b981;
   color: #000;
@@ -523,53 +591,12 @@
   justify-content: center;
 }
 
-.todayBadge {
-  position: absolute;
-  top: -8px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  color: #000;
-  font-size: 0.65rem;
-  font-weight: 800;
-  padding: 0.15rem 0.65rem;
-  border-radius: 50px;
-  text-transform: uppercase;
-}
-
-.tagBadge {
-  position: absolute;
-  top: -8px;
-  background: rgba(139, 92, 246, 0.9);
-  color: #fff;
-  font-size: 0.62rem;
-  font-weight: 700;
-  padding: 0.15rem 0.55rem;
-  border-radius: 50px;
-}
-
-.vipBadge {
-  position: absolute;
-  top: -8px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  color: #000;
-  font-size: 0.62rem;
-  font-weight: 800;
-  padding: 0.15rem 0.55rem;
-  border-radius: 50px;
-}
-
-.cardDayTitle {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #cbd5e1;
-  margin-bottom: 0.65rem;
-}
-
 .cardArtworkContainer {
-  height: 48px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 /* Coins Stack Artwork */
@@ -690,9 +717,12 @@
 }
 
 .cardSubHeader {
-  font-size: 0.68rem;
-  color: #94a3b8;
-  margin-bottom: 0.15rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.35rem;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
 }
 
 .cardAmountValue {

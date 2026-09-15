@@ -5,73 +5,161 @@ import React from 'react';
  * Provides pixel-perfect visual fidelity for Coins, Amazon Gift Cards, Gift Boxes, Crowns & Calendar.
  */
 
-// 1. Stacked 3D Golden Coins (Used in Days 1, 2, 3, 6 & Stats)
+// 1. Stacked 3D Golden Coins with VR Stamped Emblem (Used in Days 1, 2, 3, 6 & Stats)
 export function CoinsStackArtwork({ size = 56, className = '' }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 80 80"
+      viewBox="0 0 90 90"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ filter: 'drop-shadow(0 6px 12px rgba(234, 179, 8, 0.35))' }}
+      style={{ filter: 'drop-shadow(0 6px 14px rgba(234, 179, 8, 0.4))' }}
     >
       <defs>
         {/* Gold Gradients */}
-        <linearGradient id="coinGoldTop" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFF7D6" />
-          <stop offset="25%" stopColor="#FCD34D" />
-          <stop offset="60%" stopColor="#F59E0B" />
+        <linearGradient id="coinFaceGold" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFF9DB" />
+          <stop offset="30%" stopColor="#FCD34D" />
+          <stop offset="70%" stopColor="#F59E0B" />
           <stop offset="100%" stopColor="#D97706" />
         </linearGradient>
-        <linearGradient id="coinGoldSide" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#B45309" />
-          <stop offset="50%" stopColor="#92400E" />
-          <stop offset="100%" stopColor="#78350F" />
+
+        <linearGradient id="coinSideGold" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#D97706" />
+          <stop offset="40%" stopColor="#B45309" />
+          <stop offset="80%" stopColor="#78350F" />
+          <stop offset="100%" stopColor="#451A03" />
         </linearGradient>
-        <linearGradient id="coinRimShine" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#FDE68A" />
-          <stop offset="50%" stopColor="#FEF3C7" />
-          <stop offset="100%" stopColor="#D97706" />
+
+        <linearGradient id="coinRimGlint" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#FFFDEB" />
+          <stop offset="50%" stopColor="#FEF08A" />
+          <stop offset="100%" stopColor="#B45309" />
+        </linearGradient>
+
+        <linearGradient id="coinEmbossGold" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="100%" stopColor="#92400E" />
         </linearGradient>
       </defs>
 
-      {/* Bottom Coin (Coin 3) */}
-      <g transform="translate(0, 18)">
-        <ellipse cx="40" cy="46" rx="28" ry="11" fill="url(#coinGoldSide)" />
-        <ellipse cx="40" cy="43" rx="28" ry="11" fill="url(#coinGoldTop)" />
-        <ellipse cx="40" cy="43" rx="24" ry="9" stroke="url(#coinRimShine)" strokeWidth="1.5" fill="none" opacity="0.7" />
+      {/* Back Stack Coin 3 (Bottom Right) */}
+      <g transform="translate(18, 14)">
+        {/* Side Cylinder */}
+        <path d="M22 36 L22 43 C22 49, 58 49, 58 43 L58 36 Z" fill="url(#coinSideGold)" />
+        {/* Top Face */}
+        <ellipse cx="40" cy="36" rx="18" ry="7.5" fill="url(#coinFaceGold)" stroke="#B45309" strokeWidth="0.8" />
+        <ellipse cx="40" cy="36" rx="15" ry="6" stroke="url(#coinRimGlint)" strokeWidth="0.8" fill="none" opacity="0.8" />
       </g>
 
-      {/* Middle Coin (Coin 2) */}
-      <g transform="translate(0, 9)">
-        <ellipse cx="40" cy="38" rx="29" ry="11.5" fill="url(#coinGoldSide)" />
-        <ellipse cx="40" cy="35" rx="29" ry="11.5" fill="url(#coinGoldTop)" />
-        <ellipse cx="40" cy="35" rx="25" ry="9.5" stroke="url(#coinRimShine)" strokeWidth="1.5" fill="none" opacity="0.8" />
+      {/* Back Stack Coin 2 (Middle Right) */}
+      <g transform="translate(18, 4)">
+        {/* Side Cylinder */}
+        <path d="M22 36 L22 43 C22 49, 58 49, 58 43 L58 36 Z" fill="url(#coinSideGold)" />
+        {/* Top Face */}
+        <ellipse cx="40" cy="36" rx="18" ry="7.5" fill="url(#coinFaceGold)" stroke="#B45309" strokeWidth="0.8" />
+        <ellipse cx="40" cy="36" rx="15" ry="6" stroke="url(#coinRimGlint)" strokeWidth="0.8" fill="none" opacity="0.8" />
       </g>
 
-      {/* Top Front Coin (Coin 1) */}
-      <g>
-        <ellipse cx="40" cy="28" rx="30" ry="12" fill="url(#coinGoldSide)" />
-        <ellipse cx="40" cy="25" rx="30" ry="12" fill="url(#coinGoldTop)" />
-        <ellipse cx="40" cy="25" rx="26" ry="10" stroke="url(#coinRimShine)" strokeWidth="2" fill="none" />
-        
-        {/* Inner Embossed VE Star / Diamond Emblem */}
-        <polygon
-          points="40,18 43,23 48,25 43,27 40,32 37,27 32,25 37,23"
-          fill="#FFFBEB"
-          opacity="0.9"
-          style={{ filter: 'drop-shadow(0 1px 2px rgba(180, 83, 9, 0.6))' }}
-        />
-        
-        {/* Specular Highlight Streak */}
+      {/* Back Stack Coin 1 (Top Right) */}
+      <g transform="translate(18, -6)">
+        {/* Side Cylinder */}
+        <path d="M22 36 L22 43 C22 49, 58 49, 58 43 L58 36 Z" fill="url(#coinSideGold)" />
+        {/* Top Face */}
+        <ellipse cx="40" cy="36" rx="18" ry="7.5" fill="url(#coinFaceGold)" stroke="#B45309" strokeWidth="0.8" />
+        <ellipse cx="40" cy="36" rx="15" ry="6" stroke="url(#coinRimGlint)" strokeWidth="0.8" fill="none" opacity="0.8" />
+        {/* Embossed Symbol */}
+        <text
+          x="40"
+          y="39"
+          fill="url(#coinEmbossGold)"
+          fontSize="9"
+          fontWeight="900"
+          fontFamily="system-ui, -apple-system, sans-serif"
+          textAnchor="middle"
+          style={{ letterSpacing: '0.5px' }}
+        >
+          VR
+        </text>
+      </g>
+
+      {/* Front Hero Coin (Prominent, foreground, left) */}
+      <g transform="translate(-2, 12)">
+        {/* Drop shadow underneath */}
+        <ellipse cx="36" cy="62" rx="24" ry="7" fill="#090514" opacity="0.4" />
+
+        {/* 3D Side Thickness */}
         <path
-          d="M22 23 C28 17, 44 16, 56 22"
+          d="M12 44 L12 53 C12 62, 60 62, 60 53 L60 44 Z"
+          fill="url(#coinSideGold)"
+          stroke="#78350F"
+          strokeWidth="0.8"
+        />
+
+        {/* Coin Edge Ridge Texture Lines */}
+        <path d="M14 47 L14 54 M20 50 L20 57 M28 52 L28 59 M36 53 L36 60 M44 52 L44 59 M52 50 L52 57 M58 47 L58 54" stroke="#D97706" strokeWidth="0.8" opacity="0.6" />
+
+        {/* Top Face Ellipse */}
+        <ellipse
+          cx="36"
+          cy="44"
+          rx="24"
+          ry="10.5"
+          fill="url(#coinFaceGold)"
+          stroke="#92400E"
+          strokeWidth="1"
+        />
+
+        {/* Inner Concentric Rim */}
+        <ellipse
+          cx="36"
+          cy="44"
+          rx="20"
+          ry="8.5"
+          stroke="url(#coinRimGlint)"
+          strokeWidth="1.2"
+          fill="none"
+        />
+
+        {/* Embossed VR Emblem on Front Face */}
+        <g transform="translate(36, 44)">
+          {/* Subtle 3D stamp shadow */}
+          <text
+            x="0"
+            y="3.5"
+            fill="#78350F"
+            fontSize="12"
+            fontWeight="900"
+            fontFamily="system-ui, -apple-system, sans-serif"
+            textAnchor="middle"
+            opacity="0.7"
+          >
+            VR
+          </text>
+          {/* Embossed Gold VR text */}
+          <text
+            x="0"
+            y="2.5"
+            fill="url(#coinEmbossGold)"
+            fontSize="12"
+            fontWeight="900"
+            fontFamily="system-ui, -apple-system, sans-serif"
+            textAnchor="middle"
+            style={{ letterSpacing: '0.5px' }}
+          >
+            VR
+          </text>
+        </g>
+
+        {/* Specular Highlight Arc on Rim */}
+        <path
+          d="M18 43 C24 38, 48 38, 54 43"
           stroke="#FFFFFF"
-          strokeWidth="2.5"
+          strokeWidth="1.8"
           strokeLinecap="round"
-          opacity="0.75"
+          opacity="0.8"
         />
       </g>
     </svg>
@@ -148,155 +236,235 @@ export function GiftBoxArtwork({ size = 56, className = '' }) {
 }
 
 // 3. Authentic Amazon Gift Card with Curved Orange Smile Arrow (Day 5 & Hero Banner)
-export function AmazonCardArtwork({ size = 56, className = '' }) {
+export function AmazonCardArtwork({ size = 58, className = '' }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 80 80"
+      viewBox="0 0 84 84"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ filter: 'drop-shadow(0 6px 14px rgba(255, 153, 0, 0.3))' }}
+      style={{ filter: 'drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5))' }}
     >
       <defs>
-        {/* Matte Black Card Gradient */}
-        <linearGradient id="amznCardBg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2D333B" />
-          <stop offset="60%" stopColor="#1C2128" />
-          <stop offset="100%" stopColor="#0D1117" />
+        {/* Dark Matte Card Gradient */}
+        <linearGradient id="amzCardMatte" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2A2E39" />
+          <stop offset="40%" stopColor="#1C1F26" />
+          <stop offset="100%" stopColor="#0F1115" />
         </linearGradient>
+
         {/* Orange Smile Gradient */}
-        <linearGradient id="amznSmileGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient id="amzOrangeSmile" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#FF9900" />
-          <stop offset="100%" stopColor="#FFB84D" />
+          <stop offset="100%" stopColor="#FFB347" />
+        </linearGradient>
+
+        <linearGradient id="cardBorderGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.3)" />
+          <stop offset="100%" stopColor="rgba(255, 255, 255, 0.05)" />
         </linearGradient>
       </defs>
 
-      {/* Card Base */}
+      {/* Card Base Container */}
       <rect
         x="10"
-        y="16"
-        width="60"
+        y="18"
+        width="64"
         height="48"
         rx="8"
-        fill="url(#amznCardBg)"
-        stroke="rgba(255, 255, 255, 0.15)"
-        strokeWidth="1.5"
+        fill="url(#amzCardMatte)"
+        stroke="url(#cardBorderGlow)"
+        strokeWidth="1.2"
       />
 
-      {/* Subtle Card Glow / Chip */}
-      <rect x="16" y="24" width="9" height="7" rx="2" fill="#F59E0B" opacity="0.35" />
+      {/* Subtle Top Sheen */}
+      <path
+        d="M11 26 C25 21, 55 20, 73 26"
+        stroke="rgba(255, 255, 255, 0.15)"
+        strokeWidth="1"
+        strokeLinecap="round"
+      />
 
-      {/* White Classic 'a' Logo */}
+      {/* Amazon 'a' Letter Logo */}
       <text
-        x="33"
+        x="42"
         y="45"
         fill="#FFFFFF"
         fontFamily="Arial, Helvetica, sans-serif"
-        fontSize="26"
+        fontSize="24"
         fontWeight="bold"
         textAnchor="middle"
       >
         a
       </text>
 
-      {/* Iconic Amazon Curved Smile Arrow */}
-      <g transform="translate(18, 43)">
+      {/* Iconic Amazon Orange Smile Arrow */}
+      <g transform="translate(25, 43)">
+        {/* Smile Arc */}
         <path
-          d="M5 6 C13 14, 25 14, 34 5"
-          stroke="url(#amznSmileGrad)"
-          strokeWidth="3.2"
+          d="M5 7 C14 15, 23 15, 31 7"
+          stroke="url(#amzOrangeSmile)"
+          strokeWidth="2.8"
           strokeLinecap="round"
           fill="none"
         />
-        {/* Arrowhead */}
+        {/* Smile Arrowhead */}
         <path
-          d="M31 1 L36 6 L31 9 Z"
+          d="M28 3.5 L34 7 L29 10 Z"
           fill="#FF9900"
-          transform="rotate(-15 34 5)"
+          transform="rotate(-10 32 7)"
         />
       </g>
     </svg>
   );
 }
 
-// 4. Majestic 3D Golden Crown with Gemstones & Velvet (Day 7 & Ultimate Reward)
-export function CrownArtwork({ size = 56, className = '' }) {
+// 4. Majestic 3D Golden Crown with Star & 5 Round Bead Tips (Day 7 & Ultimate Reward)
+export function CrownArtwork({ size = 68, className = '' }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 80 80"
+      viewBox="0 0 100 85"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ filter: 'drop-shadow(0 8px 20px rgba(234, 179, 8, 0.5))' }}
+      style={{ filter: 'drop-shadow(0 8px 18px rgba(234, 179, 8, 0.45))' }}
     >
       <defs>
-        {/* Rich Gold Gradient */}
-        <linearGradient id="crownGold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFFBEB" />
-          <stop offset="30%" stopColor="#FCD34D" />
-          <stop offset="70%" stopColor="#F59E0B" />
-          <stop offset="100%" stopColor="#B45309" />
+        {/* Main Gold Gradients */}
+        <linearGradient id="crownGoldBody" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#FFF2A3" />
+          <stop offset="20%" stopColor="#FFD23F" />
+          <stop offset="60%" stopColor="#F59E0B" />
+          <stop offset="90%" stopColor="#B45309" />
+          <stop offset="100%" stopColor="#78350F" />
         </linearGradient>
-        {/* Velvet Purple Cushion */}
-        <radialGradient id="crownVelvet" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#9333EA" />
-          <stop offset="70%" stopColor="#581C87" />
-          <stop offset="100%" stopColor="#2E1065" />
+
+        <linearGradient id="crownGoldBack" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#D97706" />
+          <stop offset="50%" stopColor="#92400E" />
+          <stop offset="100%" stopColor="#451A03" />
+        </linearGradient>
+
+        <linearGradient id="crownBaseRim" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#B45309" />
+          <stop offset="25%" stopColor="#FDE68A" />
+          <stop offset="50%" stopColor="#F59E0B" />
+          <stop offset="75%" stopColor="#FEF3C7" />
+          <stop offset="100%" stopColor="#92400E" />
+        </linearGradient>
+
+        <radialGradient id="sphereGoldLight" cx="35%" cy="35%" r="65%">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="35%" stopColor="#FFE066" />
+          <stop offset="75%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#92400E" />
+        </radialGradient>
+
+        <linearGradient id="starGoldFace" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="40%" stopColor="#FCD34D" />
+          <stop offset="100%" stopColor="#D97706" />
+        </linearGradient>
+
+        <linearGradient id="starGoldShade" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#F59E0B" />
+          <stop offset="100%" stopColor="#78350F" />
+        </linearGradient>
+
+        <radialGradient id="crownInnerGlow" cx="50%" cy="60%" r="50%">
+          <stop offset="0%" stopColor="#FFF3B0" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
         </radialGradient>
       </defs>
 
-      {/* Purple Velvet Royal Cushion */}
+      {/* Inside / Back Wall of Crown for 3D depth */}
       <path
-        d="M18 52 C18 36, 62 36, 62 52 Z"
-        fill="url(#crownVelvet)"
-        opacity="0.9"
+        d="M16 46 C24 38, 76 38, 84 46 L82 58 C72 52, 28 52, 18 58 Z"
+        fill="url(#crownGoldBack)"
       />
 
-      {/* 5-Peak Golden Imperial Crown Structure */}
+      {/* Main 5-Peak Crown Front Body */}
       <path
-        d="M12 52 L15 30 L28 42 L40 20 L52 42 L65 30 L68 52 Z"
-        fill="url(#crownGold)"
-        stroke="#78350F"
-        strokeWidth="1.2"
+        d="M14 34 L23 44 L32 22 L41 38 L50 14 L59 38 L68 22 L77 44 L86 34 L83 62 C62 67, 38 67, 17 62 Z"
+        fill="url(#crownGoldBody)"
+        stroke="#92400E"
+        strokeWidth="0.75"
         strokeLinejoin="round"
       />
 
-      {/* Bottom Golden Studded Band */}
-      <rect
-        x="12"
-        y="50"
-        width="56"
-        height="12"
-        rx="4"
-        fill="url(#crownGold)"
-        stroke="#78350F"
-        strokeWidth="1"
+      {/* Specular Highlight along Left Center Ridge */}
+      <path
+        d="M50 16 L49 37 L41 38 L33 24 L24 43"
+        stroke="#FFFDEB"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        opacity="0.85"
       />
 
-      {/* Gemstones on the 5 Peaks */}
-      <circle cx="15" cy="29" r="3.5" fill="#EF4444" stroke="#FFF" strokeWidth="0.8" />
-      <circle cx="28" cy="41" r="2.8" fill="#06B6D4" stroke="#FFF" strokeWidth="0.8" />
-      <circle cx="40" cy="19" r="4.5" fill="#EF4444" stroke="#FFFBEB" strokeWidth="1" />
-      <circle cx="52" cy="41" r="2.8" fill="#06B6D4" stroke="#FFF" strokeWidth="0.8" />
-      <circle cx="65" cy="29" r="3.5" fill="#EF4444" stroke="#FFF" strokeWidth="0.8" />
+      {/* Soft Center Surface Sheen */}
+      <ellipse cx="50" cy="48" rx="16" ry="10" fill="url(#crownInnerGlow)" opacity="0.6" />
 
-      {/* Diamond / Ruby Inlays on Base Band */}
-      <circle cx="22" cy="56" r="2" fill="#06B6D4" />
-      <circle cx="31" cy="56" r="2.5" fill="#EF4444" />
-      <circle cx="40" cy="56" r="3" fill="#10B981" stroke="#FFF" strokeWidth="0.5" />
-      <circle cx="49" cy="56" r="2.5" fill="#EF4444" />
-      <circle cx="58" cy="56" r="2" fill="#06B6D4" />
+      {/* 5 Golden Spherical Balls on Peak Tips */}
+      {/* Far Left Tip */}
+      <circle cx="14" cy="34" r="4.2" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
+      {/* Mid Left Tip */}
+      <circle cx="32" cy="22" r="5" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
+      {/* Center Peak Tip (Largest) */}
+      <circle cx="50" cy="13" r="6" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.6" />
+      {/* Mid Right Tip */}
+      <circle cx="68" cy="22" r="5" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
+      {/* Far Right Tip */}
+      <circle cx="86" cy="34" r="4.2" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
 
-      {/* Specular Light Glows */}
+      {/* 3D Embossed Golden 5-Pointed Star in Front Center */}
+      <g transform="translate(50, 48)">
+        {/* Star Drop Shadow */}
+        <polygon
+          points="0,-12 3.5,-3.5 12,-3.5 5,2 8,11 0,6 -8,11 -5,2 -12,-3.5 -3.5,-3.5"
+          fill="#451A03"
+          opacity="0.4"
+          transform="translate(0, 1.5)"
+        />
+        {/* Left-lit facets */}
+        <polygon points="0,0 0,-12 3.5,-3.5" fill="url(#starGoldFace)" />
+        <polygon points="0,0 3.5,-3.5 12,-3.5" fill="url(#starGoldShade)" />
+        <polygon points="0,0 12,-3.5 5,2" fill="url(#starGoldFace)" />
+        <polygon points="0,0 5,2 8,11" fill="url(#starGoldShade)" />
+        <polygon points="0,0 8,11 0,6" fill="url(#starGoldFace)" />
+        <polygon points="0,0 0,6 -8,11" fill="url(#starGoldShade)" />
+        <polygon points="0,0 -8,11 -5,2" fill="url(#starGoldFace)" />
+        <polygon points="0,0 -5,2 -12,-3.5" fill="url(#starGoldShade)" />
+        <polygon points="0,0 -12,-3.5 -3.5,-3.5" fill="url(#starGoldFace)" />
+        <polygon points="0,0 -3.5,-3.5 0,-12" fill="url(#starGoldShade)" />
+        {/* Center Star Specular Glint */}
+        <circle cx="0" cy="-1" r="1.5" fill="#FFFFFF" opacity="0.9" />
+      </g>
+
+      {/* Lower Curved Crown Base Ring / Headband */}
       <path
-        d="M38 23 L42 23"
-        stroke="#FFFFFF"
-        strokeWidth="2"
+        d="M15 61 C38 67, 62 67, 85 61 L85 69 C62 75, 38 75, 15 69 Z"
+        fill="url(#crownBaseRim)"
+        stroke="#78350F"
+        strokeWidth="0.8"
+      />
+
+      {/* Bottom Ring Lower Edge Trim */}
+      <path
+        d="M15 69 C38 75, 62 75, 85 69 L84 72 C62 77.5, 38 77.5, 16 72 Z"
+        fill="#78350F"
+      />
+
+      {/* Base Ring Specular Reflection */}
+      <path
+        d="M20 64.5 C38 69.5, 62 69.5, 80 64.5"
+        stroke="#FFFBEB"
+        strokeWidth="1.2"
         strokeLinecap="round"
+        opacity="0.8"
       />
     </svg>
   );

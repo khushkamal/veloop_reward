@@ -12,8 +12,8 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
   const isMissed = cardState === 'MISSED';
   const isDay7 = item.day === 7;
 
-  // Determine top badge
-  const renderBadge = () => {
+  // Determine tag pill badge (VIP, Gift Card, Coin, etc.)
+  const renderTagPill = () => {
     if (isClaimed && item.day === 1) {
       return (
         <div className={styles.claimedCheckBadge}>
@@ -21,19 +21,16 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
         </div>
       );
     }
-    if (isToday || isAvailable) {
-      return <div className={styles.todayBadge}>Today</div>;
+    if (isDay7) {
+      return <div className={styles.headerPillVip}>VIP</div>;
     }
     if (item.day === 5) {
-      return <div className={styles.tagBadge}>Gift Card</div>;
+      return <div className={styles.headerPillTag}>Gift Card</div>;
     }
-    if (item.day === 6) {
-      return <div className={styles.tagBadge}>Coin</div>;
+    if (item.day === 4) {
+      return <div className={styles.headerPillTag}>Gift Box</div>;
     }
-    if (isDay7) {
-      return <div className={styles.vipBadge}>VIP</div>;
-    }
-    return null;
+    return <div className={styles.headerPillTag}>Coin</div>;
   };
 
   // Render 3D artwork icon matching the reference
@@ -41,7 +38,7 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
     if (isDay7) {
       return (
         <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center">
-          <CrownArtwork size={62} />
+          <CrownArtwork size={68} />
         </div>
       );
     }
@@ -55,14 +52,14 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
     if (item.day === 5) {
       return (
         <div className="animate-gentle-tilt d-flex align-items-center justify-content-center">
-          <AmazonCardArtwork size={58} />
+          <AmazonCardArtwork size={60} />
         </div>
       );
     }
     // Coins stack artwork for Days 1, 2, 3, 6
     return (
       <div className="animate-float d-flex align-items-center justify-content-center">
-        <CoinsStackArtwork size={56} />
+        <CoinsStackArtwork size={58} />
       </div>
     );
   };
@@ -85,11 +82,18 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
       role={isAvailable ? 'button' : undefined}
       tabIndex={isAvailable ? 0 : undefined}
     >
-      {/* Top Badge (Today / VIP / Gift Card / Coin / Check) */}
-      {renderBadge()}
+      {/* Today floating badge if currently available/active today */}
+      {isToday || isAvailable ? (
+        <div className={styles.todayFloatingBadge}>Today</div>
+      ) : null}
 
-      {/* Day Number Header */}
-      <div className={styles.cardDayTitle}>Day {item.day}</div>
+      {/* Top Header Row with Dual Pill Badges: [Day X] [Type] */}
+      <div className={styles.cardHeaderRow}>
+        <div className={isDay7 ? styles.headerPillDay7 : styles.headerPillDay}>
+          Day {item.day}
+        </div>
+        {renderTagPill()}
+      </div>
 
       {/* 3D Reward Artwork Asset */}
       <div className={styles.cardArtworkContainer}>
