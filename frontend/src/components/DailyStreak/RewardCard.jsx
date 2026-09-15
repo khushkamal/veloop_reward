@@ -50,7 +50,11 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
 
       <div className={styles.dayHeader}>Day {item.day}</div>
 
-      <div className={`${styles.iconWrapper} ${getIconClass()}`}>
+      <div
+        className={`${styles.iconWrapper} ${getIconClass()} ${
+          item.day === 7 ? 'animate-soft-shine animate-float' : item.rewardType === 'AMAZON_GC' ? 'animate-gentle-tilt' : ''
+        }`}
+      >
         {getIcon()}
       </div>
 

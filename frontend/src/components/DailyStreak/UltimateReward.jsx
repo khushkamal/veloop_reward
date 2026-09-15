@@ -8,7 +8,7 @@ export default function UltimateReward({ ultimateReward }) {
   return (
     <div className={styles.ultimateRewardCard}>
       <div className="d-flex align-items-center gap-3">
-        <div className={styles.ultimateIcon}>
+        <div className={`${styles.ultimateIcon} animate-soft-shine animate-float`}>
           <Crown size={24} strokeWidth={2.4} />
         </div>
         <div>
