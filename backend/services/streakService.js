@@ -1,15 +1,72 @@
 const crypto = require('crypto');
 const Streak = require('../models/Streak');
-const Wallet = require('../models/Wallet');
-const LedgerTransaction = require('../models/LedgerTransaction');
 const StreakClaim = require('../models/StreakClaim');
 const StreakCycle = require('../models/StreakCycle');
 const TimeService = require('./timeService');
-const { REWARD_LADDER, getRewardForDay, TOTAL_DAYS_IN_CYCLE } = require('../config/rewards.config');
+const RewardService = require('./rewardService');
+const WalletService = require('./walletService');
+const TransactionService = require('./transactionService');
+const AuditService = require('./auditService');
+const { TOTAL_DAYS_IN_CYCLE } = require('../config/rewards.config');
 
 class StreakService {
   /**
-   * Fetch current user streak status and 7-day ladder visualization state.
+   * Helper: Calculate current active day & eligibility based on last claim date
+   */
+  static calculateCurrentDayAndEligibility(streak, now, todayStr) {
+    const lastClaimDate = streak.lastClaimDate;
+    const lastClaimStr = streak.lastClaimDateString;
+    const currentStreak = streak.currentStreak || 0;
+
+    let canClaim = false;
+    let alreadyClaimedToday = false;
+    let isStreakBroken = false;
+    let nextDayIndex = 1;
+
+    if (!lastClaimDate) {
+      // First-time user
+      canClaim = true;
+      alreadyClaimedToday = false;
+      isStreakBroken = false;
+      nextDayIndex = 1;
+    } else if (lastClaimStr === todayStr) {
+      // Already claimed today
+      canClaim = false;
+      alreadyClaimedToday = true;
+      isStreakBroken = false;
+      nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
+    } else {
+      const dayDiff = TimeService.getCalendarDayDiff(lastClaimDate, now);
+
+      if (dayDiff === 1) {
+        // Consecutive claim
+        canClaim = true;
+        alreadyClaimedToday = false;
+        isStreakBroken = false;
+        nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
+      } else if (dayDiff > 1) {
+        // Missed day(s) -> Streak Broken
+        canClaim = true;
+        alreadyClaimedToday = false;
+        isStreakBroken = true;
+        nextDayIndex = 1;
+      } else {
+        canClaim = false;
+        alreadyClaimedToday = true;
+        nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
+      }
+    }
+
+    return {
+      canClaim,
+      alreadyClaimedToday,
+      isStreakBroken,
+      nextDayIndex
+    };
+  }
+
+  /**
+   * Fetch complete user streak status and 7-day ladder visualization state.
    * Completely backend-authoritative.
    */
   static async getStreakStatus(userId) {
@@ -23,6 +80,8 @@ class StreakService {
         userId,
         currentStreak: 0,
         longestStreak: 0,
+        currentCycleId: 'CYC-1',
+        cycleNumber: 1,
         lastClaimDate: null,
         lastClaimDateString: null,
         totalClaimsCount: 0,
@@ -31,70 +90,20 @@ class StreakService {
       });
     }
 
-    let wallet = await Wallet.findOne({ userId });
-    if (!wallet) {
-      wallet = await Wallet.create({
-        userId,
-        veBalance: 0,
-        totalVeEarned: 0,
-        totalAmazonGCAmount: 0,
-        amazonVouchers: []
-      });
-    }
+    const wallet = await WalletService.getWallet(userId);
+    const { canClaim, alreadyClaimedToday, isStreakBroken, nextDayIndex } =
+      this.calculateCurrentDayAndEligibility(streak, now, todayStr);
 
-    const lastClaimDate = streak.lastClaimDate;
-    const lastClaimStr = streak.lastClaimDateString;
-    const currentStreak = streak.currentStreak;
-
-    let canClaim = false;
-    let alreadyClaimedToday = false;
-    let isStreakBroken = false;
-    let nextDayIndex = 1;
-
-    if (!lastClaimDate) {
-      // First-time user: eligible to claim Day 1
-      canClaim = true;
-      alreadyClaimedToday = false;
-      isStreakBroken = false;
-      nextDayIndex = 1;
-    } else if (lastClaimStr === todayStr) {
-      // Already claimed today: locked until next midnight
-      canClaim = false;
-      alreadyClaimedToday = true;
-      isStreakBroken = false;
-      nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
-    } else {
-      const dayDiff = TimeService.getCalendarDayDiff(lastClaimDate, now);
-
-      if (dayDiff === 1) {
-        // Consecutive day: eligible to claim next day in sequence
-        canClaim = true;
-        alreadyClaimedToday = false;
-        isStreakBroken = false;
-        nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
-      } else if (dayDiff > 1) {
-        // Missed day(s): streak broken, will reset to Day 1
-        canClaim = true;
-        alreadyClaimedToday = false;
-        isStreakBroken = true;
-        nextDayIndex = 1;
-      } else {
-        // Edge case / time offset anomaly
-        canClaim = false;
-        alreadyClaimedToday = true;
-        nextDayIndex = (currentStreak % TOTAL_DAYS_IN_CYCLE) + 1;
-      }
-    }
+    const currentStreak = streak.currentStreak || 0;
+    const rewardsConfig = RewardService.getRewardsConfig();
 
     // Build the 7-Day Ladder visualization payload
-    const streakLadder = REWARD_LADDER.map(item => {
-      let status = 'LOCKED'; // 'CLAIMED' | 'AVAILABLE_TODAY' | 'LOCKED'
-
+    const streakLadder = rewardsConfig.map((item) => {
       let state = 'LOCKED'; // 'LOCKED' | 'AVAILABLE' | 'TODAY' | 'CLAIMED' | 'MISSED'
 
       if (alreadyClaimedToday) {
         if (item.day === currentStreak) {
-          state = 'TODAY'; // Claimed today
+          state = 'TODAY';
         } else if (item.day < currentStreak) {
           state = 'CLAIMED';
         } else {
@@ -124,21 +133,26 @@ class StreakService {
         day: item.day,
         rewardType: item.rewardType,
         currency: item.currency,
-        rewardAmount: item.amount || item.rewardAmount,
-        displayName: item.title || item.displayName,
-        shortLabel: item.shortLabel || item.title,
+        rewardAmount: item.amount,
+        amount: item.amount,
+        displayName: item.title,
+        title: item.title,
+        shortLabel: item.title,
         description: item.description,
         subtitle: item.subtitle,
         asset: item.asset,
-        assetType: item.assetType || item.badgeType,
-        badgeType: item.badgeType || item.assetType,
-        state, // Official 5-state enum
-        status: state === 'AVAILABLE' ? 'AVAILABLE_TODAY' : state, // Backwards compatibility
+        assetType: item.assetType,
+        badgeType: item.assetType,
+        state,
+        status: state === 'AVAILABLE' ? 'AVAILABLE_TODAY' : state,
+        nextClaimAt: state === 'LOCKED' ? midnightInfo.nextMidnight.toISOString() : null,
         isNextTarget: item.day === nextDayIndex
       };
     });
 
-    const nextReward = getRewardForDay(nextDayIndex);
+    const nextReward = RewardService.getRewardForDay(nextDayIndex);
+    const ultimateReward = RewardService.getUltimateReward();
+    const checkedInCount = alreadyClaimedToday ? currentStreak : Math.max(0, currentStreak);
 
     return {
       userId,
@@ -146,23 +160,48 @@ class StreakService {
       longestStreak: streak.longestStreak,
       totalClaimsCount: streak.totalClaimsCount,
       cycleCount: streak.cycleCount,
-      lastClaimDate,
-      lastClaimDateString: lastClaimStr,
+      cycleId: streak.currentCycleId || 'CYC-1',
+      cycleNumber: streak.cycleNumber || 1,
+      lastClaimDate: streak.lastClaimDate,
+      lastClaimDateString: streak.lastClaimDateString,
       todayDateString: todayStr,
       canClaim,
       alreadyClaimedToday,
       isStreakBroken,
       nextDayIndex,
       nextReward,
+      ultimateReward,
       streakLadder,
+      rewards: streakLadder, // Recommended alias
       serverTime: now.toISOString(),
       nextClaimAt: midnightInfo.nextMidnight.toISOString(),
       nextClaimAvailableAt: midnightInfo.nextMidnight.toISOString(),
       countdownSeconds: alreadyClaimedToday ? midnightInfo.secondsRemaining : 0,
+      streak: {
+        currentStreak,
+        currentDay: nextDayIndex,
+        checkedIn: checkedInCount,
+        totalRewards: TOTAL_DAYS_IN_CYCLE,
+        status: isStreakBroken ? 'BROKEN' : alreadyClaimedToday ? 'CLAIMED_TODAY' : 'ACTIVE',
+        nextClaimAt: midnightInfo.nextMidnight.toISOString(),
+        cycleId: streak.currentCycleId || 'CYC-1',
+        cycleNumber: streak.cycleNumber || 1
+      },
+      stats: {
+        totalRewards: TOTAL_DAYS_IN_CYCLE,
+        checkedIn: checkedInCount,
+        nextReward: {
+          amount: nextReward.rewardAmount || nextReward.amount,
+          currency: nextReward.currency,
+          title: nextReward.displayName || nextReward.title
+        },
+        ultimateReward
+      },
       wallet: {
         veBalance: wallet.veBalance,
         totalAmazonGCAmount: wallet.totalAmazonGCAmount,
-        vouchersCount: wallet.amazonVouchers.length
+        vouchersCount: wallet.amazonVouchers.length,
+        amazonVouchers: wallet.amazonVouchers
       },
       devTimeInfo: TimeService.getVirtualOffsetInfo()
     };
@@ -170,12 +209,14 @@ class StreakService {
 
   /**
    * Server-authoritative Daily Streak Claim action.
-   * Enforces atomic double-claim prevention and concurrent request protection.
+   * Enforces atomic double-claim prevention, wallet mutation, ledger tracking, and audit logging.
    */
-  static async claimStreak(userId) {
+  static async claimStreak(userId, ipAddress = '127.0.0.1') {
     const now = TimeService.getNow();
     const todayStr = TimeService.getDateString(now);
     const midnightInfo = TimeService.getNextMidnightInfo(now);
+
+    await AuditService.logEvent('STREAK_CLAIM_REQUEST', userId, { time: now, todayStr }, ipAddress);
 
     // 1. Fetch current streak record
     let streak = await Streak.findOne({ userId });
@@ -184,6 +225,8 @@ class StreakService {
         userId,
         currentStreak: 0,
         longestStreak: 0,
+        currentCycleId: 'CYC-1',
+        cycleNumber: 1,
         lastClaimDate: null,
         lastClaimDateString: null,
         totalClaimsCount: 0,
@@ -194,6 +237,13 @@ class StreakService {
 
     // 2. Strict double-claim check
     if (streak.lastClaimDateString === todayStr) {
+      await AuditService.logEvent(
+        'DUPLICATE_CLAIM',
+        userId,
+        { lastClaimDateString: streak.lastClaimDateString, todayStr },
+        ipAddress
+      );
+
       const err = new Error('You have already claimed your daily reward today. Come back tomorrow!');
       err.statusCode = 400;
       err.code = 'ALREADY_CLAIMED_TODAY';
@@ -234,8 +284,16 @@ class StreakService {
         newStreak = 1;
         newCycleNumber = (streak.cycleNumber || 1) + 1;
         newCycleId = `CYC-${newCycleNumber}`;
+
+        await AuditService.logEvent(
+          'STREAK_RESET',
+          userId,
+          { previousStreak: streak.currentStreak, newStreak: 1, dayDiff, newCycleId },
+          ipAddress
+        );
       } else {
-        // Same day protection safeguard
+        await AuditService.logEvent('INVALID_CLAIM', userId, { reason: 'Same day anomaly' }, ipAddress);
+
         const err = new Error('Reward already claimed today.');
         err.statusCode = 400;
         err.code = 'ALREADY_CLAIMED_TODAY';
@@ -243,8 +301,8 @@ class StreakService {
       }
     }
 
-    // 4. Determine exact reward for newStreak
-    const reward = getRewardForDay(newStreak);
+    // 4. Determine exact reward for newStreak from RewardService
+    const reward = RewardService.getRewardForDay(newStreak);
     let voucherCode = null;
 
     if (reward.rewardType === 'AMAZON_GC') {
@@ -280,8 +338,8 @@ class StreakService {
             dateString: todayStr,
             dayIndex: newStreak,
             rewardType: reward.rewardType,
-            rewardAmount: reward.rewardAmount,
-            displayName: reward.displayName,
+            rewardAmount: reward.amount || reward.rewardAmount,
+            displayName: reward.title || reward.displayName,
             voucherCode
           }
         }
@@ -290,80 +348,43 @@ class StreakService {
     );
 
     if (!updatedStreak) {
-      // Concurrent race condition blocked: another request already claimed today
+      await AuditService.logEvent(
+        'STREAK_CLAIM_REJECTED',
+        userId,
+        { reason: 'Concurrent request collision' },
+        ipAddress
+      );
+
       const err = new Error('Reward claim was already processed.');
       err.statusCode = 409;
       err.code = 'CONCURRENT_CLAIM_PREVENTED';
       throw err;
     }
 
-    // 6. Update Wallet atomically (get previous balance first)
-    const existingWallet = (await Wallet.findOne({ userId })) || { veBalance: 0, totalAmazonGCAmount: 0 };
-    const balanceBefore = reward.rewardType === 'VE' ? existingWallet.veBalance : existingWallet.totalAmazonGCAmount;
-
-    let walletUpdate = {};
-    if (reward.rewardType === 'VE') {
-      walletUpdate = {
-        $inc: {
-          veBalance: reward.rewardAmount,
-          totalVeEarned: reward.rewardAmount
-        }
-      };
-    } else if (reward.rewardType === 'AMAZON_GC') {
-      walletUpdate = {
-        $inc: {
-          totalAmazonGCAmount: reward.rewardAmount
-        },
-        $push: {
-          amazonVouchers: {
-            voucherCode,
-            amount: reward.rewardAmount,
-            claimedAt: now,
-            dayIndex: newStreak,
-            status: 'ACTIVE'
-          }
-        }
-      };
-    }
-
-    const updatedWallet = await Wallet.findOneAndUpdate(
-      { userId },
-      walletUpdate,
-      { new: true, upsert: true }
+    // 6. Update Wallet atomically via WalletService
+    const { updatedWallet, balanceBefore, balanceAfter } = await WalletService.creditReward(
+      userId,
+      reward,
+      voucherCode,
+      now
     );
 
-    // 7. Record Traceable Wallet Transaction / Immutable Ledger Entry
-    const balanceAfter = reward.rewardType === 'VE' ? updatedWallet.veBalance : updatedWallet.totalAmazonGCAmount;
-    const txType = reward.rewardType === 'VE' ? 'DAILY_STREAK_VE' : 'DAILY_STREAK_AMAZON_GC';
-    const currency = reward.rewardType === 'VE' ? 'VES' : 'INR';
-    const randomHex = crypto.randomBytes(4).toString('hex').toUpperCase();
-    const transactionId = `TXN-STREAK-${randomHex}`;
-    const referenceId = `STREAK-${newCycleId}-DAY${newStreak}-${randomHex}`;
-
-    const ledgerTx = await LedgerTransaction.create({
-      transactionId,
+    // 7. Record Traceable Wallet Transaction / Immutable Ledger Entry via TransactionService
+    const ledgerTx = await TransactionService.recordStreakTransaction({
       userId,
-      currency,
-      type: 'CREDIT',
-      transactionType: txType,
-      amount: reward.rewardAmount,
-      source: 'DAILY_STREAK',
-      referenceId,
-      streakDay: newStreak,
-      dayNumber: newStreak,
       cycleId: newCycleId,
       cycleNumber: newCycleNumber,
-      rewardType: reward.rewardType,
+      dayNumber: newStreak,
+      reward,
+      voucherCode,
       balanceBefore,
       balanceAfter,
-      status: 'COMPLETED',
-      description: `Claimed Day ${newStreak} Streak Reward (${reward.displayName}) [${newCycleId}]`,
-      voucherCode,
-      dateString: todayStr
+      dateString: todayStr,
+      now
     });
 
     // 8. Record dedicated StreakClaim entry
-    const claimId = `CLM-${randomHex}`;
+    const claimId = `CLM-${crypto.randomBytes(4).toString('hex').toUpperCase()}`;
     await StreakClaim.create({
       claimId,
       userId,
@@ -372,14 +393,14 @@ class StreakService {
       day: newStreak,
       reward: {
         rewardType: reward.rewardType,
-        currency,
-        amount: reward.rewardAmount,
-        title: reward.displayName,
+        currency: reward.currency,
+        amount: reward.amount || reward.rewardAmount,
+        title: reward.title || reward.displayName,
         voucherCode
       },
       status: 'COMPLETED',
       claimedAt: now,
-      transactionId,
+      transactionId: ledgerTx.transactionId,
       dateString: todayStr
     });
 
@@ -393,8 +414,8 @@ class StreakService {
         },
         $addToSet: { completedDays: newStreak },
         $inc: {
-          totalVeEarned: reward.rewardType === 'VE' ? reward.rewardAmount : 0,
-          totalAmazonGCEarned: reward.rewardType === 'AMAZON_GC' ? reward.rewardAmount : 0
+          totalVeEarned: reward.rewardType === 'VE' ? reward.amount || reward.rewardAmount : 0,
+          totalAmazonGCEarned: reward.rewardType === 'AMAZON_GC' ? reward.amount || reward.rewardAmount : 0
         },
         $set: {
           status: newStreak === TOTAL_DAYS_IN_CYCLE ? 'COMPLETED' : 'IN_PROGRESS',
@@ -402,6 +423,20 @@ class StreakService {
         }
       },
       { upsert: true }
+    );
+
+    // Log success in audit trail
+    await AuditService.logEvent(
+      'STREAK_CLAIM_SUCCESS',
+      userId,
+      {
+        claimedDay: newStreak,
+        cycleId: newCycleId,
+        reward: reward.title || reward.displayName,
+        transactionId: ledgerTx.transactionId,
+        balanceAfter
+      },
+      ipAddress
     );
 
     // 10. Return fresh status
@@ -424,6 +459,8 @@ class StreakService {
         totalAmazonGCAmount: updatedWallet.totalAmazonGCAmount,
         vouchers: updatedWallet.amazonVouchers
       },
+      transactionId: ledgerTx.transactionId,
+      referenceId: ledgerTx.referenceId,
       ledgerTransactionId: ledgerTx._id,
       streakStatus: newStatus
     };

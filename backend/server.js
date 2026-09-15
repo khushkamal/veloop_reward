@@ -36,6 +36,7 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/streak', streakRoutes);
+app.use('/api/daily-streak', streakRoutes); // Recommended REST alias
 app.use('/api/wallet', walletRoutes);
 app.use('/api/dev/simulator', devRoutes);
 

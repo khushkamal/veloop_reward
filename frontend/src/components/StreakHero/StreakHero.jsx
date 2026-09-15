@@ -124,25 +124,29 @@ export default function StreakHero({ streakStatus, actionLoading, onTriggerClaim
                 )}
               </div>
 
-              {/* Stats Footer */}
+              {/* Backend-Driven Stats Footer */}
               <div className={styles.statsGrid}>
                 <div className={styles.statItem}>
                   <div className={styles.statIcon}>
                     <Trophy size={18} />
                   </div>
                   <div>
-                    <div className={styles.statValue}>{streakStatus?.longestStreak || 0} Days</div>
-                    <div className={styles.statLabel}>Best Streak</div>
+                    <div className={styles.statValue}>
+                      {streakStatus?.stats?.checkedIn ?? currentStreak} / {streakStatus?.stats?.totalRewards ?? 7}
+                    </div>
+                    <div className={styles.statLabel}>Checked In</div>
                   </div>
                 </div>
 
                 <div className={styles.statItem}>
                   <div className={styles.statIcon}>
-                    <RotateCcw size={18} />
+                    <Sparkles size={18} />
                   </div>
                   <div>
-                    <div className={styles.statValue}>{streakStatus?.cycleCount || 0}</div>
-                    <div className={styles.statLabel}>Cycles Done</div>
+                    <div className={styles.statValue}>
+                      {streakStatus?.stats?.nextReward?.title || nextReward?.displayName || '+5 VEs'}
+                    </div>
+                    <div className={styles.statLabel}>Next Reward</div>
                   </div>
                 </div>
 
@@ -151,16 +155,16 @@ export default function StreakHero({ streakStatus, actionLoading, onTriggerClaim
                     <Flame size={18} />
                   </div>
                   <div>
-                    <div className={styles.statValue}>{streakStatus?.totalClaimsCount || 0}</div>
-                    <div className={styles.statLabel}>Total Claims</div>
+                    <div className={styles.statValue}>{streakStatus?.longestStreak || 0} Days</div>
+                    <div className={styles.statLabel}>Best Streak</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Countdown Box & Next Reward Snapshot */}
-            <div className="col-lg-5 text-lg-end">
-              <div className={styles.countdownBox}>
+            {/* Right Column: Countdown Box & Ultimate Reward Snapshot */}
+            <div className="col-lg-5">
+              <div className={styles.countdownBox} style={{ width: '100%' }}>
                 <div className={styles.countdownLabel}>
                   <Clock size={16} />
                   <span>
@@ -178,6 +182,26 @@ export default function StreakHero({ streakStatus, actionLoading, onTriggerClaim
                     : `Next in line: ${nextReward?.displayName || '+5 VEs'}`}
                 </div>
               </div>
+
+              {/* Large Backend-Driven Ultimate Reward Section */}
+              {streakStatus?.ultimateReward && (
+                <div className={styles.ultimateRewardCard}>
+                  <div className="d-flex align-items-center gap-3">
+                    <div className={styles.ultimateIcon}>
+                      <Crown size={24} />
+                    </div>
+                    <div>
+                      <div className="badge bg-warning text-dark fw-bold mb-1" style={{ fontSize: '0.65rem' }}>
+                        DAY {streakStatus.ultimateReward.unlockDay || 7} ULTIMATE REWARD
+                      </div>
+                      <div className={styles.ultimateTitle}>{streakStatus.ultimateReward.title}</div>
+                      <div className={styles.ultimateSubtitle}>
+                        {streakStatus.ultimateReward.description || 'Grand Streak Completion Prize'}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
