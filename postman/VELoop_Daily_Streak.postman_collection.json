@@ -1,0 +1,193 @@
+{
+  "info": {
+    "name": "VELoop Daily Streak & Rewards API",
+    "description": "Postman Collection for testing VELoop Rewards daily streak engine, authentication, wallet ledger, and evaluator simulator endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "2. Demo Login (Evaluator)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "var jsonData = pm.response.json();",
+              "if (jsonData.token) {",
+              "    pm.environment.set('authToken', jsonData.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/auth/demo-login",
+          "host": ["{{baseUrl}}"],
+          "path": ["auth", "demo-login"]
+        }
+      }
+    },
+    {
+      "name": "3. Get Streak Status",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/streak/status",
+          "host": ["{{baseUrl}}"],
+          "path": ["streak", "status"]
+        }
+      }
+    },
+    {
+      "name": "4. Claim Daily Reward",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/streak/claim",
+          "host": ["{{baseUrl}}"],
+          "path": ["streak", "claim"]
+        }
+      }
+    },
+    {
+      "name": "5. Get Wallet Summary",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/wallet/summary",
+          "host": ["{{baseUrl}}"],
+          "path": ["wallet", "summary"]
+        }
+      }
+    },
+    {
+      "name": "6. Get Double-Entry Ledger",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/wallet/ledger?page=1&limit=20",
+          "host": ["{{baseUrl}}"],
+          "path": ["wallet", "ledger"],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "20" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "7. Simulator: Advance Virtual Day (+24h)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"days\": 1\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/dev/simulator/advance-day",
+          "host": ["{{baseUrl}}"],
+          "path": ["dev", "simulator", "advance-day"]
+        }
+      }
+    },
+    {
+      "name": "8. Simulator: Simulate Missed Day (+48h)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/dev/simulator/simulate-missed-day",
+          "host": ["{{baseUrl}}"],
+          "path": ["dev", "simulator", "simulate-missed-day"]
+        }
+      }
+    },
+    {
+      "name": "9. Simulator: Reset Streak (Day 0)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/dev/simulator/reset-streak",
+          "host": ["{{baseUrl}}"],
+          "path": ["dev", "simulator", "reset-streak"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "authToken",
+      "value": ""
+    }
+  ]
+}
