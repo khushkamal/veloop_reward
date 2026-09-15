@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles } from 'lucide-react';
+import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Zap } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import StreakStats from './StreakStats';
 import UltimateReward from './UltimateReward';
@@ -62,16 +62,33 @@ export default function HeroBanner({ streakStatus, actionLoading, onTriggerClaim
       <div className="container">
         <div className={styles.heroCard}>
           <div className="row align-items-center g-4">
-            {/* Left Column: Flame Badge, Title, CTA, Stats */}
+            {/* Left Column: Header Tag, Flame Badge, Title, CTA, Stats */}
             <div className="col-lg-7">
-              {/* Flame Badge */}
-              <div className={styles.streakFlameBadge}>
-                <Flame size={18} strokeWidth={2.4} className={styles.flameIcon} />
-                <span>
-                  {currentStreak > 0
-                    ? `${currentStreak}-Day Active Streak 🔥`
-                    : 'Start Your Daily Streak'}
+              {/* Daily Check-In Subheader Badge */}
+              <div className="d-flex align-items-center gap-2 mb-2">
+                <span className={styles.dailyCheckInBadge}>
+                  <Zap size={14} className="text-warning" />
+                  <span>Daily Check-In</span>
                 </span>
+
+                {/* Flame Badge */}
+                <div className={styles.streakFlameBadge}>
+                  <Flame size={16} strokeWidth={2.4} className={styles.flameIcon} />
+                  <span>
+                    {currentStreak > 0
+                      ? `${currentStreak} Day Streak 🔥`
+                      : '0 Day Streak'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Motivation Tagline */}
+              <div className={styles.keepGoingText}>
+                {alreadyClaimed
+                  ? "You're all checked in for today! Keep it going tomorrow!"
+                  : currentStreak > 0
+                  ? 'Keep it going! Claim today to protect your streak!'
+                  : 'Start your winning streak today for bonus VEs & Amazon Gift Cards!'}
               </div>
 
               {/* Broken Streak Warning */}
@@ -86,7 +103,7 @@ export default function HeroBanner({ streakStatus, actionLoading, onTriggerClaim
 
               {/* Main Heading */}
               <h1 className={styles.title}>
-                Claim Daily <span className="text-gradient-cyan">Rewards</span> &{' '}
+                Claim Daily <span className="text-gradient-purple">Rewards</span> &{' '}
                 <span className="text-gradient-gold">Amazon Vouchers</span>
               </h1>
 

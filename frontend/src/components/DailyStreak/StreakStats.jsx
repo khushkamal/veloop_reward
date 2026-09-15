@@ -1,20 +1,32 @@
 import React from 'react';
-import { Trophy, Sparkles, Flame } from 'lucide-react';
+import { Trophy, Sparkles, Flame, Award } from 'lucide-react';
 import styles from './DailyStreak.module.css';
 
 export default function StreakStats({ streakStatus }) {
   const currentStreak = streakStatus?.currentStreak || 0;
   const nextReward = streakStatus?.nextReward;
+  const checkedIn = streakStatus?.stats?.checkedIn ?? currentStreak;
+  const totalRewards = streakStatus?.stats?.totalRewards ?? 7;
 
   return (
     <div className={styles.statsGrid}>
+      <div className={styles.statItem}>
+        <div className={styles.statIcon}>
+          <Award size={18} strokeWidth={2.4} />
+        </div>
+        <div>
+          <div className={styles.statValue}>{totalRewards}</div>
+          <div className={styles.statLabel}>Total Rewards</div>
+        </div>
+      </div>
+
       <div className={styles.statItem}>
         <div className={styles.statIcon}>
           <Trophy size={18} strokeWidth={2.4} />
         </div>
         <div>
           <div className={styles.statValue}>
-            {streakStatus?.stats?.checkedIn ?? currentStreak} / {streakStatus?.stats?.totalRewards ?? 7}
+            {checkedIn} / {totalRewards}
           </div>
           <div className={styles.statLabel}>Checked In</div>
         </div>
