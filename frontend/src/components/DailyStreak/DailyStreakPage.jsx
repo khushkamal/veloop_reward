@@ -81,6 +81,28 @@ export default function DailyStreakPage() {
         {user ? (
           streakStatus ? (
             <>
+              {/* Dedicated Mobile Reward Balances Bar */}
+              <div className="container d-lg-none mt-2">
+                <div
+                  className="d-flex align-items-center justify-content-between p-2 px-3 rounded-4"
+                  style={{
+                    background: 'rgba(18, 26, 47, 0.8)',
+                    border: '1px solid rgba(139, 92, 246, 0.2)'
+                  }}
+                >
+                  <div className="d-flex align-items-center gap-2">
+                    <span className="text-info fw-bold" style={{ fontSize: '0.85rem' }}>
+                      🪙 {wallet?.veBalance ?? 0} VEs
+                    </span>
+                  </div>
+                  <div className="d-flex align-items-center gap-2">
+                    <span className="text-warning fw-bold" style={{ fontSize: '0.85rem' }}>
+                      🎁 ₹{wallet?.totalAmazonGCAmount ?? 0} Amazon GC
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* Streak Hero Banner with Live Countdown & Status */}
               <HeroBanner
                 streakStatus={streakStatus}

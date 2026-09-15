@@ -52,7 +52,13 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
 
       <div
         className={`${styles.iconWrapper} ${getIconClass()} ${
-          item.day === 7 ? 'animate-soft-shine animate-float' : item.rewardType === 'AMAZON_GC' ? 'animate-gentle-tilt' : ''
+          item.day === 7
+            ? 'animate-soft-shine animate-float'
+            : item.day === 4
+            ? 'animate-gentle-tilt animate-soft-shine'
+            : item.rewardType === 'AMAZON_GC'
+            ? 'animate-gentle-tilt'
+            : ''
         }`}
       >
         {getIcon()}
