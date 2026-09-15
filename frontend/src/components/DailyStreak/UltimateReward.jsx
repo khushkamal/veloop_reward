@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
+import { CrownArtwork, AmazonBrandLogo } from './ArtworkIcons';
 import styles from './DailyStreak.module.css';
 
 export default function UltimateReward({ ultimateReward, alreadyClaimed, countdownText }) {
@@ -9,17 +10,10 @@ export default function UltimateReward({ ultimateReward, alreadyClaimed, countdo
   return (
     <div className={styles.ultimateRewardBanner}>
       <div className="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
-        {/* Left: 3D Crown Icon */}
+        {/* Left: 3D Crown Artwork */}
         <div className="d-flex align-items-center gap-3">
-          <div className={`${styles.crownIconContainer} animate-soft-shine animate-float`}>
-            <div className={styles.crown3D}>
-              <div className={styles.crownBase}>
-                <div className={styles.crownJewelCenter}></div>
-                <div className={styles.crownJewelLeft}></div>
-                <div className={styles.crownJewelRight}></div>
-              </div>
-            </div>
-            <div className={styles.crownStars}>✦</div>
+          <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center">
+            <CrownArtwork size={74} />
           </div>
 
           {/* Center Info */}
@@ -27,10 +21,7 @@ export default function UltimateReward({ ultimateReward, alreadyClaimed, countdo
             <div className={styles.ultimateTag}>Ultimate Reward</div>
             <div className={styles.ultimateValRow}>
               <span className={styles.ultimateRupeeVal}>₹{amount}</span>
-              <div className={styles.amazonCardBrand}>
-                <span className={styles.amazonA}>a</span>
-                <span className={styles.amazonText}>Amazon Gift Card</span>
-              </div>
+              <AmazonBrandLogo className="ms-2" />
             </div>
           </div>
         </div>

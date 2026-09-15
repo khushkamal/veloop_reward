@@ -1,6 +1,7 @@
 import React from 'react';
 import { Lock, Check, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
+import { CoinsStackArtwork, GiftBoxArtwork, AmazonCardArtwork, CrownArtwork } from './ArtworkIcons';
 import styles from './DailyStreak.module.css';
 
 export default function RewardCard({ item, onTriggerClaimFlow }) {
@@ -39,40 +40,29 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
   const renderArtwork = () => {
     if (isDay7) {
       return (
-        <div className={`${styles.crownArtwork} animate-soft-shine animate-float`}>
-          <div className={styles.crownMini}>
-            <div className={styles.crownMiniBase}></div>
-            <div className={styles.crownMiniJewel}></div>
-          </div>
+        <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center">
+          <CrownArtwork size={62} />
         </div>
       );
     }
     if (item.day === 4) {
       return (
-        <div className={`${styles.giftArtwork} animate-gentle-tilt animate-soft-shine`}>
-          <div className={styles.giftMiniBox}>
-            <div className={styles.giftMiniLid}></div>
-            <div className={styles.giftMiniRibbon}></div>
-          </div>
+        <div className="animate-gentle-tilt animate-soft-shine d-flex align-items-center justify-content-center">
+          <GiftBoxArtwork size={56} />
         </div>
       );
     }
     if (item.day === 5) {
       return (
-        <div className={`${styles.amazonArtwork} animate-gentle-tilt`}>
-          <div className={styles.amazonCardMini}>
-            <span className={styles.amazonCardA}>a</span>
-            <div className={styles.amazonSmile}></div>
-          </div>
+        <div className="animate-gentle-tilt d-flex align-items-center justify-content-center">
+          <AmazonCardArtwork size={58} />
         </div>
       );
     }
     // Coins stack artwork for Days 1, 2, 3, 6
     return (
-      <div className={styles.coinsStackArtwork}>
-        <div className={styles.coin1}></div>
-        <div className={styles.coin2}></div>
-        <div className={styles.coin3}></div>
+      <div className="animate-float d-flex align-items-center justify-content-center">
+        <CoinsStackArtwork size={56} />
       </div>
     );
   };

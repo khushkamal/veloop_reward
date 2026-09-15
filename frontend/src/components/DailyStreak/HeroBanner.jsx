@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Calendar, ChevronRight } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
+import { CalendarArtwork, GiftBoxArtwork } from './ArtworkIcons';
 import StreakStats from './StreakStats';
 import UltimateReward from './UltimateReward';
 import styles from './DailyStreak.module.css';
@@ -71,18 +72,8 @@ export default function HeroBanner({
           <div className="row align-items-center justify-content-between g-3">
             {/* Left 3D Calendar Artwork */}
             <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
-              <div className={`${styles.artworkContainer} animate-float`}>
-                <div className={styles.calendar3D}>
-                  <div className={styles.calendarBinder}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <div className={styles.calendarPage}>
-                    <div className={styles.calendarCheck}>✓</div>
-                  </div>
-                  <div className={styles.calendarCoin}>🪙</div>
-                </div>
+              <div className="animate-float">
+                <CalendarArtwork size={76} />
               </div>
             </div>
 
@@ -119,15 +110,8 @@ export default function HeroBanner({
 
             {/* Right 3D Gift Box Artwork */}
             <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
-              <div className={`${styles.artworkContainer} animate-float`} style={{ animationDelay: '1.5s' }}>
-                <div className={styles.giftBox3D}>
-                  <div className={styles.giftBoxLid}></div>
-                  <div className={styles.giftBoxBody}>
-                    <div className={styles.giftRibbonH}></div>
-                    <div className={styles.giftRibbonV}></div>
-                  </div>
-                  <div className={styles.sparkleParticle}>✦</div>
-                </div>
+              <div className="animate-float" style={{ animationDelay: '1.5s' }}>
+                <GiftBoxArtwork size={76} />
               </div>
             </div>
           </div>
