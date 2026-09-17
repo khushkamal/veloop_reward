@@ -321,152 +321,24 @@ export function AmazonCardArtwork({ size = 58, className = '' }) {
   );
 }
 
-// 4. Majestic 3D Golden Crown with Star & 5 Round Bead Tips (Day 7 & Ultimate Reward)
+// 4. Golden Crown Icon (Day 7 & Ultimate Reward)
 export function CrownArtwork({ size = 68, className = '' }) {
   return (
-    <svg
+    <img
+      src="https://cdn-icons-png.flaticon.com/128/9028/9028075.png"
+      alt="Crown Reward"
       width={size}
       height={size}
-      viewBox="0 0 100 85"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       className={className}
-      style={{ filter: 'drop-shadow(0 8px 18px rgba(234, 179, 8, 0.45))' }}
-    >
-      <defs>
-        {/* Main Gold Gradients */}
-        <linearGradient id="crownGoldBody" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#FFF2A3" />
-          <stop offset="20%" stopColor="#FFD23F" />
-          <stop offset="60%" stopColor="#F59E0B" />
-          <stop offset="90%" stopColor="#B45309" />
-          <stop offset="100%" stopColor="#78350F" />
-        </linearGradient>
-
-        <linearGradient id="crownGoldBack" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#D97706" />
-          <stop offset="50%" stopColor="#92400E" />
-          <stop offset="100%" stopColor="#451A03" />
-        </linearGradient>
-
-        <linearGradient id="crownBaseRim" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#B45309" />
-          <stop offset="25%" stopColor="#FDE68A" />
-          <stop offset="50%" stopColor="#F59E0B" />
-          <stop offset="75%" stopColor="#FEF3C7" />
-          <stop offset="100%" stopColor="#92400E" />
-        </linearGradient>
-
-        <radialGradient id="sphereGoldLight" cx="35%" cy="35%" r="65%">
-          <stop offset="0%" stopColor="#FFFFFF" />
-          <stop offset="35%" stopColor="#FFE066" />
-          <stop offset="75%" stopColor="#F59E0B" />
-          <stop offset="100%" stopColor="#92400E" />
-        </radialGradient>
-
-        <linearGradient id="starGoldFace" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#FFFBEB" />
-          <stop offset="40%" stopColor="#FCD34D" />
-          <stop offset="100%" stopColor="#D97706" />
-        </linearGradient>
-
-        <linearGradient id="starGoldShade" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#F59E0B" />
-          <stop offset="100%" stopColor="#78350F" />
-        </linearGradient>
-
-        <radialGradient id="crownInnerGlow" cx="50%" cy="60%" r="50%">
-          <stop offset="0%" stopColor="#FFF3B0" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#F59E0B" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-
-      {/* Inside / Back Wall of Crown for 3D depth */}
-      <path
-        d="M16 46 C24 38, 76 38, 84 46 L82 58 C72 52, 28 52, 18 58 Z"
-        fill="url(#crownGoldBack)"
-      />
-
-      {/* Main 5-Peak Crown Front Body */}
-      <path
-        d="M14 34 L23 44 L32 22 L41 38 L50 14 L59 38 L68 22 L77 44 L86 34 L83 62 C62 67, 38 67, 17 62 Z"
-        fill="url(#crownGoldBody)"
-        stroke="#92400E"
-        strokeWidth="0.75"
-        strokeLinejoin="round"
-      />
-
-      {/* Specular Highlight along Left Center Ridge */}
-      <path
-        d="M50 16 L49 37 L41 38 L33 24 L24 43"
-        stroke="#FFFDEB"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.85"
-      />
-
-      {/* Soft Center Surface Sheen */}
-      <ellipse cx="50" cy="48" rx="16" ry="10" fill="url(#crownInnerGlow)" opacity="0.6" />
-
-      {/* 5 Golden Spherical Balls on Peak Tips */}
-      {/* Far Left Tip */}
-      <circle cx="14" cy="34" r="4.2" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
-      {/* Mid Left Tip */}
-      <circle cx="32" cy="22" r="5" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
-      {/* Center Peak Tip (Largest) */}
-      <circle cx="50" cy="13" r="6" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.6" />
-      {/* Mid Right Tip */}
-      <circle cx="68" cy="22" r="5" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
-      {/* Far Right Tip */}
-      <circle cx="86" cy="34" r="4.2" fill="url(#sphereGoldLight)" stroke="#92400E" strokeWidth="0.5" />
-
-      {/* 3D Embossed Golden 5-Pointed Star in Front Center */}
-      <g transform="translate(50, 48)">
-        {/* Star Drop Shadow */}
-        <polygon
-          points="0,-12 3.5,-3.5 12,-3.5 5,2 8,11 0,6 -8,11 -5,2 -12,-3.5 -3.5,-3.5"
-          fill="#451A03"
-          opacity="0.4"
-          transform="translate(0, 1.5)"
-        />
-        {/* Left-lit facets */}
-        <polygon points="0,0 0,-12 3.5,-3.5" fill="url(#starGoldFace)" />
-        <polygon points="0,0 3.5,-3.5 12,-3.5" fill="url(#starGoldShade)" />
-        <polygon points="0,0 12,-3.5 5,2" fill="url(#starGoldFace)" />
-        <polygon points="0,0 5,2 8,11" fill="url(#starGoldShade)" />
-        <polygon points="0,0 8,11 0,6" fill="url(#starGoldFace)" />
-        <polygon points="0,0 0,6 -8,11" fill="url(#starGoldShade)" />
-        <polygon points="0,0 -8,11 -5,2" fill="url(#starGoldFace)" />
-        <polygon points="0,0 -5,2 -12,-3.5" fill="url(#starGoldShade)" />
-        <polygon points="0,0 -12,-3.5 -3.5,-3.5" fill="url(#starGoldFace)" />
-        <polygon points="0,0 -3.5,-3.5 0,-12" fill="url(#starGoldShade)" />
-        {/* Center Star Specular Glint */}
-        <circle cx="0" cy="-1" r="1.5" fill="#FFFFFF" opacity="0.9" />
-      </g>
-
-      {/* Lower Curved Crown Base Ring / Headband */}
-      <path
-        d="M15 61 C38 67, 62 67, 85 61 L85 69 C62 75, 38 75, 15 69 Z"
-        fill="url(#crownBaseRim)"
-        stroke="#78350F"
-        strokeWidth="0.8"
-      />
-
-      {/* Bottom Ring Lower Edge Trim */}
-      <path
-        d="M15 69 C38 75, 62 75, 85 69 L84 72 C62 77.5, 38 77.5, 16 72 Z"
-        fill="#78350F"
-      />
-
-      {/* Base Ring Specular Reflection */}
-      <path
-        d="M20 64.5 C38 69.5, 62 69.5, 80 64.5"
-        stroke="#FFFBEB"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.8"
-      />
-    </svg>
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        objectFit: 'contain',
+        filter: 'drop-shadow(0 6px 16px rgba(234, 179, 8, 0.45))',
+        display: 'inline-block'
+      }}
+      loading="lazy"
+    />
   );
 }
 
