@@ -110,25 +110,29 @@ veloop-daily-streak/
 │   │   ├── api/
 │   │   │   └── axiosClient.js    # Axios instance with JWT interceptors
 │   │   ├── components/
+│   │   │   ├── AuthModal/        # Modal authentication dialog
 │   │   │   ├── DailyStreak/      # Modular streak components
-│   │   │   │   ├── ClaimModal.jsx
-│   │   │   │   ├── CpaDemo.jsx
+│   │   │   │   ├── ArtworkIcons.jsx  # Vector coin, gift & badge graphics
+│   │   │   │   ├── ClaimModal.jsx    # Celebration claim modal
+│   │   │   │   ├── CpaDemo.jsx       # CPA ad engagement modal
 │   │   │   │   ├── DailyStreak.module.css
-│   │   │   │   ├── DailyStreakPage.jsx
-│   │   │   │   ├── HeroBanner.jsx
-│   │   │   │   ├── RewardCard.jsx
-│   │   │   │   ├── RewardGrid.jsx
+│   │   │   │   ├── DailyStreakPage.jsx # Root streak lifecycle coordinator
+│   │   │   │   ├── HeroBanner.jsx    # Streak hero countdown banner
+│   │   │   │   ├── MinimalAuthPage.jsx # Premium two-column landing & login
+│   │   │   │   ├── MinimalAuthPage.module.css
+│   │   │   │   ├── GuestLandingCard.jsx # Centered guest entry card
+│   │   │   │   ├── RewardGrid.jsx    # 7-Day rewards ladder grid
+│   │   │   │   ├── StreakCalendarModal.jsx # 30-day streak calendar history
 │   │   │   │   ├── StreakHeader.jsx
 │   │   │   │   ├── StreakLoader.jsx
 │   │   │   │   ├── StreakSkeleton.jsx
-│   │   │   │   ├── StreakStats.jsx
-│   │   │   │   ├── TrustFooter.jsx
+│   │   │   │   ├── StreakStats.jsx   # Streak analytics cards
+│   │   │   │   ├── TrustFooter.jsx   # Clean consumer rewards footer
 │   │   │   │   ├── UltimateReward.jsx
-│   │   │   │   └── WhyStreak.jsx
+│   │   │   │   └── WhyStreak.jsx     # Supporting user benefits
 │   │   │   ├── EvaluatorPanel/   # Floating simulator drawer
 │   │   │   ├── Navbar/           # Top navigation with live balance indicators
-│   │   │   ├── TrustStrip/       # Supporting benefits & trust cards
-│   │   │   ├── UI/               # Branded loader & skeleton components
+│   │   │   ├── UI/               # FireLogo & reusable UI elements
 │   │   │   └── WalletLedger/     # Real-time ledger audit table & vouchers
 │   │   ├── context/
 │   │   │   └── AuthContext.jsx   # Auth & streak state coordinator
@@ -150,6 +154,7 @@ veloop-daily-streak/
 │   └── TESTING.md                # QA testing guide & evaluator walkthrough
 ├── postman/
 │   └── VELoop_Daily_Streak.postman_collection.json
+├── dev.js                        # Parallel backend & frontend launcher
 ├── .env.example
 ├── .gitignore
 └── README.md
@@ -194,16 +199,27 @@ All 11 security and anti-cheat requirements are validated with automated tests p
 - **Node.js**: v18.0.0 or higher
 - **npm**: v9.0.0 or higher
 
-### 2. Backend Setup
+### 2. Run Both Backend & Frontend Together (1-Command)
+```bash
+# In the repository root directory:
+node dev.js
+```
+*Starts the Express backend on `http://localhost:5000` and the Vite React frontend on `http://localhost:5173` simultaneously.*
+
+---
+
+### Alternative: Individual Service Setup
+
+#### Backend Setup
 ```bash
 cd backend
 npm install
-npm start
+npm run dev
 # Server listening on http://localhost:5000
 ```
-> **Note**: If `MONGO_URI` is omitted in `.env`, the backend automatically launches an embedded in-memory MongoDB instance for zero-configuration testing.
+> **Note**: If `MONGODB_URI` is omitted in `.env`, the backend automatically launches an embedded in-memory MongoDB instance for zero-configuration testing.
 
-### 3. Frontend Setup
+#### Frontend Setup
 ```bash
 cd frontend
 npm install
@@ -211,7 +227,9 @@ npm run dev
 # Vite dev server listening on http://localhost:5173
 ```
 
-### 4. Run Automated Tests
+---
+
+### 3. Run Automated Tests
 ```bash
 cd backend
 npm test
@@ -225,16 +243,14 @@ npm test
 ```ini
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/veloop_rewards?retryWrites=true&w=majority
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/veloop_rewards?retryWrites=true&w=majority
-JWT_SECRET=your_super_secret_jwt_key_here_min_32_characters
+MONGODB_URI=
+JWT_SECRET=veloop_super_secret_jwt_key_2026
 TIMEZONE=Asia/Kolkata
 ```
 
 ### Frontend (`frontend/.env`)
 ```ini
-VITE_API_BASE_URL=http://localhost:5000/api
-VITE_API_URL=http://localhost:5000/api
+VITE_API_BASE_URL=
 ```
 
 ---
@@ -243,13 +259,13 @@ VITE_API_URL=http://localhost:5000/api
 
 To evaluate the full 7-day progression without waiting 7 physical days:
 1. Open the web app at `http://localhost:5173`.
-2. Click **1-Click Evaluator Demo Login**.
+2. Click **1-Click Demo Login** (or register/sign in).
 3. Click **Claim Day 1 (+5 VEs)**.
-4. Click **Evaluator Mode** in the top navigation bar to open the side drawer.
+4. Click **Evaluator Mode** in the top navigation bar to open the virtual time drawer.
 5. Click **Advance Virtual Time (+24h)** $\rightarrow$ Day 2 unlocks immediately.
 6. Progress through Day 4 (₹1 Amazon GC), Day 5 (₹2 Amazon GC), and Day 7 (₹5 Grand Amazon GC).
-7. Test **Simulate Missed Day (+48h)** to verify automatic reset to Day 1.
-8. Scroll to the **Immutable Double-Entry Ledger** table to inspect generated `transactionId`, `referenceId`, and balances.
+7. Test **Simulate Missed Day (+48h)** to verify automatic streak break & reset to Day 1.
+8. Scroll to the **Immutable Double-Entry Ledger** table to inspect generated `transactionId`, `referenceId`, and audit balances.
 
 ---
 
