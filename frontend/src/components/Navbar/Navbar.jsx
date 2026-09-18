@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Flame,
-  Zap,
   Coins,
   Gift,
   Volume2,
@@ -33,9 +32,7 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
         <div className="d-flex align-items-center gap-2 gap-sm-3">
           {/* Brand Logo & Daily Streak Header Title */}
           <a href="#home" className={styles.brand} onClick={playClickSound}>
-            <div className={styles.logoIcon}>
-              <Zap size={20} strokeWidth={2.8} />
-            </div>
+            <Flame size={24} strokeWidth={2.4} className={styles.flameLogoIcon} />
             <div className="d-flex flex-column">
               <span className={styles.brandText}>
                 VELoop <span className={styles.brandHighlight}>Rewards</span>
@@ -124,18 +121,13 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             </div>
           ) : (
             <button
-              className="btn btn-primary d-flex align-items-center gap-2 fw-semibold px-3 py-2 rounded-pill"
+              className={styles.loginBtn}
               onClick={() => {
                 playClickSound();
                 onOpenAuth();
               }}
-              style={{
-                background: 'linear-gradient(135deg, #00e5ff 0%, #2979ff 100%)',
-                border: 'none',
-                color: '#000'
-              }}
             >
-              <UserIcon size={16} strokeWidth={2.4} />
+              <UserIcon size={18} strokeWidth={2.4} />
               <span>Login / Demo</span>
             </button>
           )}

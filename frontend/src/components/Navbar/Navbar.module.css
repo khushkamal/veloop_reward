@@ -1,90 +1,105 @@
+/* ==========================================================================
+   VELoop Rewards - Premium SaaS Navbar Header (2026 Edition)
+   ========================================================================== */
+
 .navbar {
-  background: rgba(11, 16, 30, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.18);
-  padding: 0.75rem 0;
+  background: rgba(9, 11, 24, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 0 rgba(168, 85, 247, 0.08) inset;
+  padding: 0.85rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: all 0.3s ease;
 }
 
-.backBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #cbd5e1;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 0.42rem 0.75rem;
-  border-radius: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+/* Bottom ambient purple glow */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0) 0%,
+    rgba(168, 85, 247, 0.45) 50%,
+    rgba(0, 229, 255, 0) 100%
+  );
+  pointer-events: none;
 }
 
-.backBtn:hover {
-  background: rgba(139, 92, 246, 0.2);
-  border-color: rgba(139, 92, 246, 0.4);
-  color: #ffffff;
-  transform: translateX(-2px);
-}
-
+/* --------------------------------------------------------------------------
+   Left Branding: Logo & Titles
+   -------------------------------------------------------------------------- */
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.65rem;
   text-decoration: none;
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: -0.02em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  user-select: none;
+  transition: opacity 0.2s ease;
 }
 
-.logoIcon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #00e5ff 0%, #7928ca 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.35);
+.brand:hover {
+  opacity: 0.9;
+}
+
+.flameLogoIcon {
+  color: #ff3d00;
+  filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.75)) drop-shadow(0 0 2px rgba(255, 153, 0, 0.9));
   flex-shrink: 0;
 }
 
 .brandText {
-  font-weight: 800;
-  font-size: 1.15rem;
-  color: #ffffff;
-  line-height: 1.1;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #f8fafc;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .brandHighlight {
-  color: #00e5ff;
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
 }
 
 .navSubTitle {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   color: #a78bfa;
   line-height: 1;
+  margin-top: 3px;
 }
 
+/* --------------------------------------------------------------------------
+   Streak Badge
+   -------------------------------------------------------------------------- */
 .navStreakBadge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   background: rgba(255, 107, 0, 0.12);
   border: 1px solid rgba(255, 107, 0, 0.35);
-  padding: 0.35rem 0.75rem;
-  border-radius: 50px;
+  padding: 0.4rem 0.85rem;
+  border-radius: 9999px;
   color: #ff9900;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   letter-spacing: 0.02em;
+  height: 44px;
+  box-sizing: border-box;
 }
 
 .flameIcon {
@@ -92,28 +107,34 @@
   filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.6));
 }
 
+/* --------------------------------------------------------------------------
+   Wallet Balance Group (Logged-in state)
+   -------------------------------------------------------------------------- */
 .walletGroup {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .balancePill {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  background: rgba(18, 26, 47, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.35rem 0.75rem;
-  border-radius: 50px;
+  gap: 0.5rem;
+  background: rgba(18, 22, 40, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0 0.95rem;
+  border-radius: 9999px;
   font-size: 0.85rem;
   font-weight: 600;
+  height: 44px;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
 .balancePill:hover {
   border-color: rgba(139, 92, 246, 0.4);
-  background: rgba(26, 37, 66, 0.9);
+  background: rgba(26, 32, 58, 0.95);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
 }
 
 .veIcon {
@@ -132,82 +153,148 @@
   color: #ffb300;
 }
 
+/* --------------------------------------------------------------------------
+   Right Controls: Evaluator Mode, Sound, Primary CTA
+   -------------------------------------------------------------------------- */
+
+/* Evaluator Simulator Drawer Toggle */
+.evaluatorToggleBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(121, 40, 202, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.28);
+  box-shadow: inset 0 0 14px rgba(168, 85, 247, 0.1);
+  color: #d8b4fe;
+  font-size: 0.82rem;
+  font-weight: 600;
+  height: 44px;
+  padding: 0 1.1rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.evaluatorToggleBtn:hover, 
+.evaluatorToggleBtnActive {
+  background: rgba(121, 40, 202, 0.25);
+  border-color: rgba(168, 85, 247, 0.6);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), inset 0 0 14px rgba(168, 85, 247, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Sound Button: 44px rounded square, glassmorphic */
 .navActionBtn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: #94a3b8;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
 }
 
 .navActionBtn:hover {
   color: #ffffff;
-  background: rgba(139, 92, 246, 0.2);
-  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.16);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
+  transform: translateY(-1px);
 }
 
-.evaluatorToggleBtn {
-  display: flex;
+/* Login / Demo Primary CTA Button */
+.loginBtn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background: rgba(121, 40, 202, 0.15);
-  border: 1px solid rgba(121, 40, 202, 0.35);
-  color: #d8b4fe;
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 0.38rem 0.75rem;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.evaluatorToggleBtn:hover, .evaluatorToggleBtnActive {
-  background: rgba(121, 40, 202, 0.35);
-  border-color: #a855f7;
+  justify-content: center;
+  gap: 0.55rem;
+  height: 44px;
+  padding: 0 1.35rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 163, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+  font-family: inherit;
+  box-sizing: border-box;
 }
 
+.loginBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 26px rgba(0, 163, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  filter: brightness(1.06);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
+}
+
+/* User logged-in avatar & menu */
 .userMenu {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.65rem;
 }
 
 .avatar {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid rgba(139, 92, 246, 0.5);
   background: #1e293b;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
 }
 
 .userName {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #e2e8f0;
 }
 
+/* --------------------------------------------------------------------------
+   Responsive Adjustments
+   -------------------------------------------------------------------------- */
 @media (max-width: 575.98px) {
   .navbar {
-    padding: 0.55rem 0;
+    padding: 0.65rem 0;
   }
   .brandText {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
-  .navStreakBadge {
-    padding: 0.28rem 0.55rem;
-    font-size: 0.72rem;
+  .logoIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
   }
-  .backBtn {
-    padding: 0.35rem 0.5rem;
+  .evaluatorToggleBtn {
+    height: 38px;
+    padding: 0 0.85rem;
+  }
+  .navActionBtn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+  .loginBtn {
+    height: 38px;
+    padding: 0 1rem;
+    font-size: 0.82rem;
   }
 }

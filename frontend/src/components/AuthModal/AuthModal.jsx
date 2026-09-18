@@ -126,9 +126,10 @@ export default function AuthModal({ isOpen, onClose }) {
             type="submit"
             className="btn btn-primary w-100 py-2 fw-bold rounded-3"
             style={{
-              background: 'linear-gradient(135deg, #00e5ff 0%, #2979ff 100%)',
+              background: 'linear-gradient(135deg, #00d2ff 0%, #0066ff 100%)',
               border: 'none',
-              color: '#000'
+              color: '#ffffff',
+              boxShadow: '0 4px 18px rgba(0, 163, 255, 0.35)'
             }}
             disabled={actionLoading}
           >

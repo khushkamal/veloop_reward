@@ -13,7 +13,8 @@ import WalletLedger from '../WalletLedger/WalletLedger';
 import EvaluatorPanel from '../EvaluatorPanel/EvaluatorPanel';
 import AuthModal from '../AuthModal/AuthModal';
 import StreakCalendarModal from './StreakCalendarModal';
-import { Sparkles, Shield, Flame, AlertCircle } from 'lucide-react';
+import MinimalAuthPage from './MinimalAuthPage';
+import { AlertCircle } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 
 export default function DailyStreakPage() {
@@ -59,12 +60,14 @@ export default function DailyStreakPage() {
 
   return (
     <div className="min-vh-100 d-flex flex-column">
-      {/* Top Header Navigation */}
-      <StreakHeader
-        onOpenAuth={() => setIsAuthOpen(true)}
-        onToggleEvaluator={() => setIsEvaluatorOpen((prev) => !prev)}
-        isEvaluatorOpen={isEvaluatorOpen}
-      />
+      {/* Top Header Navigation (Logged In) */}
+      {user && (
+        <StreakHeader
+          onOpenAuth={() => setIsAuthOpen(true)}
+          onToggleEvaluator={() => setIsEvaluatorOpen((prev) => !prev)}
+          isEvaluatorOpen={isEvaluatorOpen}
+        />
+      )}
 
       {/* Global Error Banner if any */}
       {error && (
@@ -130,67 +133,13 @@ export default function DailyStreakPage() {
             <StreakSkeleton />
           )
         ) : (
-          /* Guest / First Time Welcome Screen */
-          <div className="container py-5 text-center">
-            <div
-              className="glass-panel mx-auto p-5"
-              style={{ maxWidth: '640px', marginTop: '2rem' }}
-            >
-              <div className="d-inline-flex p-3 rounded-4 bg-info bg-opacity-10 text-info mb-3">
-                <Flame size={42} className="animate-float" />
-              </div>
-              <h1 className="h2 fw-bold text-white mb-3">
-                VELoop Rewards <span className="text-gradient-cyan">Daily Streak System</span>
-              </h1>
-              <p className="text-secondary mb-4">
-                Experience the full-stack MERN daily streak rewards engine. Claim consecutive daily
-                points (VEs) and milestone Amazon Gift Cards backed by strict server-side validation.
-              </p>
-
-              <div className="d-flex flex-column flex-sm-row justify-content-center gap-3">
-                <button
-                  className="btn btn-primary px-4 py-3 fw-bold rounded-4 d-flex align-items-center justify-content-center gap-2"
-                  style={{
-                    background: 'linear-gradient(135deg, #00e5ff 0%, #2979ff 100%)',
-                    border: 'none',
-                    color: '#000'
-                  }}
-                  onClick={() => {
-                    playClickSound();
-                    demoLogin();
-                  }}
-                >
-                  <Sparkles size={18} />
-                  <span>1-Click Evaluator Demo Login</span>
-                </button>
-
-                <button
-                  className="btn btn-outline-light px-4 py-3 fw-semibold rounded-4"
-                  onClick={() => {
-                    playClickSound();
-                    setIsAuthOpen(true);
-                  }}
-                >
-                  Sign In / Register
-                </button>
-              </div>
-
-              <div className="mt-4 pt-3 border-top border-secondary border-opacity-25 d-flex align-items-center justify-content-center gap-2 text-muted small">
-                <Shield size={14} className="text-info" />
-                <span>Strict MERN Backend • Atomic DB Transactions • Anti-Tamper Time Math</span>
-              </div>
-            </div>
-
-            {/* Benefits Strip for Guest */}
-            <div className="mt-4">
-              <WhyStreak />
-            </div>
-          </div>
+          /* Minimal & Elegant Two-Column Authentication Page */
+          <MinimalAuthPage />
         )}
       </main>
 
-      {/* Footer */}
-      <TrustFooter />
+      {/* Footer (Logged In View) */}
+      {user && <TrustFooter />}
 
       {/* CPA Advertisement Demo State Modal */}
       <CpaDemo
