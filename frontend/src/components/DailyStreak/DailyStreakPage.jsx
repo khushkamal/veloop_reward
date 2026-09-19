@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import StreakHeader from './StreakHeader';
+import Navbar from '../Navbar/Navbar';
 import HeroBanner from './HeroBanner';
 import RewardGrid from './RewardGrid';
 import WhyStreak from './WhyStreak';
 import TrustFooter from './TrustFooter';
-import ClaimModal from './ClaimModal';
-import CpaDemo from './CpaDemo';
-import StreakLoader from './StreakLoader';
-import StreakSkeleton from './StreakSkeleton';
+import ClaimSuccessModal from '../ClaimSuccessModal/ClaimSuccessModal';
+import CPADemoModal from '../CPADemoModal/CPADemoModal';
+import VELoopLoader from '../UI/VELoopLoader';
+import VELoopSkeleton from '../UI/VELoopSkeleton';
 import WalletLedger from '../WalletLedger/WalletLedger';
 import EvaluatorPanel from '../EvaluatorPanel/EvaluatorPanel';
 import AuthModal from '../AuthModal/AuthModal';
@@ -55,14 +55,14 @@ export default function DailyStreakPage() {
   };
 
   if (loading) {
-    return <StreakLoader />;
+    return <VELoopLoader />;
   }
 
   return (
     <div className="min-vh-100 d-flex flex-column">
       {/* Top Header Navigation (Logged In) */}
       {user && (
-        <StreakHeader
+        <Navbar
           onOpenAuth={() => setIsAuthOpen(true)}
           onToggleEvaluator={() => setIsEvaluatorOpen((prev) => !prev)}
           isEvaluatorOpen={isEvaluatorOpen}
@@ -130,7 +130,7 @@ export default function DailyStreakPage() {
               <WalletLedger wallet={wallet} />
             </>
           ) : (
-            <StreakSkeleton />
+            <VELoopSkeleton />
           )
         ) : (
           /* Minimal & Elegant Two-Column Authentication Page */
@@ -142,7 +142,7 @@ export default function DailyStreakPage() {
       {user && <TrustFooter />}
 
       {/* CPA Advertisement Demo State Modal */}
-      <CpaDemo
+      <CPADemoModal
         isOpen={isCPAOpen}
         onClose={() => setIsCPAOpen(false)}
         onCompleteAdDemo={handleCompleteAdDemo}
@@ -151,7 +151,7 @@ export default function DailyStreakPage() {
       />
 
       {/* Claim Celebration Modal */}
-      <ClaimModal
+      <ClaimSuccessModal
         claimData={claimSuccessData}
         onClose={() => setClaimSuccessData(null)}
       />

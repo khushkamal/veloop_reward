@@ -1,21 +1,21 @@
 /* ==========================================================================
-   VELoop Rewards - Premium SaaS Navbar Header (2026 Edition)
+   VELoop Rewards - Header Navbar (Daily Streak & Rewards)
    ========================================================================== */
 
 .navbar {
-  background: rgba(9, 11, 24, 0.92);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 0 rgba(168, 85, 247, 0.08) inset;
-  padding: 0.85rem 0;
+  background: rgba(10, 14, 30, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 0 0 rgba(168, 85, 247, 0.08) inset;
+  padding: 0.65rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
   transition: all 0.3s ease;
 }
 
-/* Bottom ambient purple glow */
+/* Subtle ambient bottom line glow */
 .navbar::after {
   content: '';
   position: absolute;
@@ -26,275 +26,348 @@
   background: linear-gradient(
     90deg,
     rgba(139, 92, 246, 0) 0%,
-    rgba(168, 85, 247, 0.45) 50%,
-    rgba(0, 229, 255, 0) 100%
+    rgba(168, 85, 247, 0.35) 40%,
+    rgba(0, 229, 255, 0.35) 60%,
+    rgba(139, 92, 246, 0) 100%
   );
   pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
-   Left Branding: Logo & Titles
+   Back Navigation Button
    -------------------------------------------------------------------------- */
-.brand {
-  display: flex;
+.backBtn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  text-decoration: none;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  user-select: none;
-  transition: opacity 0.2s ease;
-}
-
-.brand:hover {
-  opacity: 0.9;
-}
-
-.flameLogoIcon {
-  color: #ff3d00;
-  filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.75)) drop-shadow(0 0 2px rgba(255, 153, 0, 0.9));
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  padding: 0;
 }
 
-.brandText {
-  font-weight: 700;
-  font-size: 1.25rem;
+.backBtn:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #ffffff;
+  transform: translateX(-2px);
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.backBtn:active {
+  transform: translateX(0) scale(0.96);
+}
+
+/* --------------------------------------------------------------------------
+   Daily Streak Title & Branding
+   -------------------------------------------------------------------------- */
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+.pageTitle {
+  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
   color: #f8fafc;
   line-height: 1.15;
-  letter-spacing: -0.025em;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  letter-spacing: -0.02em;
 }
 
-.brandHighlight {
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.brandTag {
+  font-size: 0.65rem;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, rgba(0, 242, 254, 0.18) 0%, rgba(79, 172, 254, 0.18) 100%);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  color: #38bdf8;
+  line-height: 1.2;
 }
 
 .navSubTitle {
   font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: #a78bfa;
+  font-weight: 600;
+  color: #94a3b8;
   line-height: 1;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 /* --------------------------------------------------------------------------
-   Streak Badge
+   Streak Indicator Badge (Backend Driven)
    -------------------------------------------------------------------------- */
-.navStreakBadge {
+.streakIndicator {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  background: rgba(255, 107, 0, 0.12);
+  gap: 0.35rem;
+  background: linear-gradient(135deg, rgba(255, 107, 0, 0.14) 0%, rgba(234, 88, 12, 0.08) 100%);
   border: 1px solid rgba(255, 107, 0, 0.35);
-  padding: 0.4rem 0.85rem;
+  padding: 0.3rem 0.65rem;
   border-radius: 9999px;
   color: #ff9900;
-  font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  height: 44px;
+  height: 36px;
   box-sizing: border-box;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.12);
+  flex-shrink: 0;
 }
 
 .flameIcon {
   color: #ff3d00;
-  filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.6));
+  filter: drop-shadow(0 0 4px rgba(255, 61, 0, 0.6));
+}
+
+.streakCount {
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #ffedd5;
+  line-height: 1;
+}
+
+.streakLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fb923c;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 /* --------------------------------------------------------------------------
-   Wallet Balance Group (Logged-in state)
+   Gem & Reward Balance Pills
    -------------------------------------------------------------------------- */
-.walletGroup {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.balancePill {
+.balanceGroup {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(18, 22, 40, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  padding: 0 0.95rem;
+}
+
+.balancePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(18, 24, 48, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  height: 44px;
+  height: 36px;
   box-sizing: border-box;
   transition: all 0.2s ease;
 }
 
-.balancePill:hover {
-  border-color: rgba(139, 92, 246, 0.4);
-  background: rgba(26, 32, 58, 0.95);
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
+.gemPill {
+  border-color: rgba(56, 189, 248, 0.28);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(15, 23, 42, 0.6) 100%);
 }
 
-.veIcon {
-  color: #00e5ff;
+.gemPill:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.18);
 }
 
-.amazonIcon {
-  color: #ff9900;
+.rewardPill {
+  border-color: rgba(245, 158, 11, 0.28);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(15, 23, 42, 0.6) 100%);
 }
 
-.veText {
-  color: #00e5ff;
+.rewardPill:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.18);
 }
 
-.amazonText {
-  color: #ffb300;
+.gemIcon {
+  color: #38bdf8;
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.4));
+}
+
+.rewardIcon {
+  color: #f59e0b;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.4));
+}
+
+.balanceText {
+  font-size: 0.82rem;
+  color: #f8fafc;
+  line-height: 1;
+}
+
+.balanceText strong {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.balanceUnit {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-left: 1px;
 }
 
 /* --------------------------------------------------------------------------
-   Right Controls: Evaluator Mode, Sound, Primary CTA
+   Action Buttons: Evaluator Toggle, Sound, Profile, Login
    -------------------------------------------------------------------------- */
-
-/* Evaluator Simulator Drawer Toggle */
 .evaluatorToggleBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(121, 40, 202, 0.12);
-  border: 1px solid rgba(168, 85, 247, 0.28);
-  box-shadow: inset 0 0 14px rgba(168, 85, 247, 0.1);
+  gap: 0.4rem;
+  background: rgba(121, 40, 202, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.35);
   color: #d8b4fe;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  height: 44px;
-  padding: 0 1.1rem;
+  height: 36px;
+  padding: 0 0.85rem;
   border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
   flex-shrink: 0;
   font-family: inherit;
-  box-sizing: border-box;
 }
 
-.evaluatorToggleBtn:hover, 
+.evaluatorToggleBtn:hover,
 .evaluatorToggleBtnActive {
   background: rgba(121, 40, 202, 0.25);
-  border-color: rgba(168, 85, 247, 0.6);
+  border-color: rgba(168, 85, 247, 0.5);
   color: #ffffff;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3), inset 0 0 14px rgba(168, 85, 247, 0.2);
-  transform: translateY(-1px);
 }
 
-/* Sound Button: 44px rounded square, glassmorphic */
 .navActionBtn {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
   flex-shrink: 0;
-  box-sizing: border-box;
-  backdrop-filter: blur(12px);
+  padding: 0;
 }
 
 .navActionBtn:hover {
   color: #ffffff;
-  background: rgba(139, 92, 246, 0.16);
-  border-color: rgba(139, 92, 246, 0.45);
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.25);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Login / Demo Primary CTA Button */
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: #1e293b;
+  object-fit: cover;
+}
+
+.logoutBtn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.logoutBtn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
 .loginBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  height: 44px;
-  padding: 0 1.35rem;
+  gap: 0.4rem;
+  height: 36px;
+  padding: 0 1rem;
   border-radius: 9999px;
-  background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #2563eb;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
-  font-weight: 600;
-  font-size: 0.88rem;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: 0.82rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 163, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
   flex-shrink: 0;
-  font-family: inherit;
-  box-sizing: border-box;
 }
 
 .loginBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 26px rgba(0, 163, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  filter: brightness(1.06);
-}
-
-.loginBtn:active {
-  transform: translateY(0);
-}
-
-/* User logged-in avatar & menu */
-.userMenu {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid rgba(139, 92, 246, 0.5);
-  background: #1e293b;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
-}
-
-.userName {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #e2e8f0;
+  background: #1d4ed8;
 }
 
 /* --------------------------------------------------------------------------
-   Responsive Adjustments
+   Responsive Layout & Mobile Behavior
    -------------------------------------------------------------------------- */
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
   .navbar {
-    padding: 0.65rem 0;
+    padding: 0.5rem 0;
   }
-  .brandText {
-    font-size: 1.05rem;
+  .pageTitle {
+    font-size: 1rem;
   }
-  .logoIcon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+  .navSubTitle {
+    display: none;
   }
-  .evaluatorToggleBtn {
-    height: 38px;
-    padding: 0 0.85rem;
+  .brandTag {
+    display: none;
   }
-  .navActionBtn {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
+  .streakIndicator {
+    height: 32px;
+    padding: 0.2rem 0.5rem;
   }
-  .loginBtn {
-    height: 38px;
-    padding: 0 1rem;
+  .streakCount {
     font-size: 0.82rem;
   }
+  .streakLabel {
+    font-size: 0.68rem;
+  }
+  .balancePill {
+    height: 32px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.78rem;
+  }
+  .backBtn,
+  .navActionBtn,
+  .logoutBtn {
+    width: 32px;
+    height: 32px;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+  }
 }
+
+@media (max-width: 479.98px) {
+  .evaluatorToggleBtn {
+    padding: 0 0.5rem;
+  }
+  .balanceUnit {
+    display: none;
+  }
+}
+

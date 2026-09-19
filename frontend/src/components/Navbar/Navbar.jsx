@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {
+  ChevronLeft,
   Flame,
+  Gem,
   Coins,
   Gift,
   Volume2,
@@ -9,13 +11,15 @@ import {
   LogOut,
   User as UserIcon
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { toggleSound, isSoundEnabled, playClickSound } from '../../utils/audioEffects';
 import styles from './Navbar.module.css';
 
-export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen }) {
+export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen, onBack }) {
   const { user, wallet, streakStatus, logout } = useAuth();
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
+  const navigate = useNavigate();
 
   const handleSoundToggle = () => {
     const next = toggleSound();
@@ -23,51 +27,80 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
     if (next) playClickSound();
   };
 
+  const handleBackNavigation = () => {
+    playClickSound();
+    if (onBack) {
+      onBack();
+    } else {
+      // Default navigation back or to home
+      if (window.history.length > 1) {
+        navigate(-1);
+      } else {
+        navigate('/');
+      }
+    }
+  };
+
   const currentStreak = streakStatus?.currentStreak || 0;
+  const veBalance = wallet?.veBalance ?? 0;
+  const amazonGCAmount = wallet?.totalAmazonGCAmount ?? 0;
 
   return (
     <header className={styles.navbar}>
       <div className="container d-flex align-items-center justify-content-between">
-        {/* Left Section: Brand / Daily Streak Title */}
+        {/* Left Section: Back Action + Daily Streak Title & Streak Indicator */}
         <div className="d-flex align-items-center gap-2 gap-sm-3">
-          {/* Brand Logo & Daily Streak Header Title */}
-          <a href="#home" className={styles.brand} onClick={playClickSound}>
-            <Flame size={24} strokeWidth={2.4} className={styles.flameLogoIcon} />
-            <div className="d-flex flex-column">
-              <span className={styles.brandText}>
-                VELoop <span className={styles.brandHighlight}>Rewards</span>
-              </span>
-              <span className={styles.navSubTitle}>Daily Streak</span>
-            </div>
-          </a>
+          {/* Back / Navigation Action */}
+          <button
+            type="button"
+            className={styles.backBtn}
+            onClick={handleBackNavigation}
+            title="Go Back / Return Home"
+            aria-label="Back navigation"
+          >
+            <ChevronLeft size={20} strokeWidth={2.5} />
+          </button>
 
-          {/* Header Streak Indicator Badge (Backend Driven) */}
+          {/* Daily Streak Title & Brand Header */}
+          <div className={styles.titleContainer}>
+            <div className="d-flex align-items-center gap-1.5">
+              <span className={styles.pageTitle}>Daily Streak</span>
+              <span className={styles.brandTag}>VELoop</span>
+            </div>
+            <span className={styles.navSubTitle}>Earn rewards every 24h</span>
+          </div>
+
+          {/* Streak Indicator (Backend Driven) */}
           {user && (
             <div
-              className={styles.navStreakBadge}
+              className={styles.streakIndicator}
               title={`Current active streak: ${currentStreak} consecutive days`}
             >
               <Flame size={16} strokeWidth={2.4} className={styles.flameIcon} />
-              <span>{currentStreak} {currentStreak === 1 ? 'Day' : 'Days'}</span>
+              <span className={styles.streakCount}>{currentStreak}</span>
+              <span className={styles.streakLabel}>{currentStreak === 1 ? 'Day' : 'Days'}</span>
             </div>
           )}
         </div>
 
-        {/* Right Section: Balances, Evaluator, Audio, User Profile */}
-        <div className="d-flex align-items-center gap-2 gap-sm-3">
-          {/* Real-time Backend Wallet Balances */}
+        {/* Right Section: Gem/Reward Balances, Evaluator Toggle, Audio, User Profile */}
+        <div className="d-flex align-items-center gap-2 gap-sm-2.5">
+          {/* Backend Gem / Points & Reward Balances */}
           {user && (
-            <div className={`${styles.walletGroup} d-none d-lg-flex`}>
-              <div className={styles.balancePill} title="VELoop Points Balance (VEs)">
-                <Coins size={16} strokeWidth={2.4} className={styles.veIcon} />
-                <span>
-                  <strong className={styles.veText}>{wallet?.veBalance ?? 0}</strong> VEs
+            <div className={styles.balanceGroup}>
+              {/* Gem / VEs Balance Pill */}
+              <div className={`${styles.balancePill} ${styles.gemPill}`} title="VELoop Gems / Points Balance">
+                <Gem size={15} strokeWidth={2.4} className={styles.gemIcon} />
+                <span className={styles.balanceText}>
+                  <strong>{veBalance.toLocaleString()}</strong> <span className={styles.balanceUnit}>VEs</span>
                 </span>
               </div>
-              <div className={styles.balancePill} title="Amazon Gift Cards Total Won">
-                <Gift size={16} strokeWidth={2.4} className={styles.amazonIcon} />
-                <span>
-                  <strong className={styles.amazonText}>₹{wallet?.totalAmazonGCAmount ?? 0}</strong> Amazon GC
+
+              {/* Amazon Gift Card Reward Balance Pill */}
+              <div className={`${styles.balancePill} ${styles.rewardPill} d-none d-md-flex`} title="Total Amazon Gift Cards Earned">
+                <Gift size={15} strokeWidth={2.4} className={styles.rewardIcon} />
+                <span className={styles.balanceText}>
+                  <strong>₹{amazonGCAmount}</strong> <span className={styles.balanceUnit}>GC</span>
                 </span>
               </div>
             </div>
@@ -75,19 +108,21 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
 
           {/* Evaluator Simulator Drawer Toggle */}
           <button
+            type="button"
             className={`${styles.evaluatorToggleBtn} ${isEvaluatorOpen ? styles.evaluatorToggleBtnActive : ''}`}
             onClick={() => {
               playClickSound();
-              onToggleEvaluator();
+              onToggleEvaluator?.();
             }}
             title="Open Evaluator Testing & Time Simulator Panel"
           >
             <Terminal size={15} strokeWidth={2.4} />
-            <span className="d-none d-sm-inline">Evaluator Mode</span>
+            <span className="d-none d-lg-inline">Evaluator Mode</span>
           </button>
 
           {/* Sound Toggle */}
           <button
+            type="button"
             className={styles.navActionBtn}
             onClick={handleSoundToggle}
             title={soundOn ? 'Mute Sounds' : 'Unmute Sounds'}
@@ -100,15 +135,17 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             )}
           </button>
 
-          {/* User Auth Info / Login button */}
+          {/* User Auth Info / Login CTA */}
           {user ? (
             <div className={styles.userMenu}>
-              <img src={user.avatar} alt={user.name} className={styles.avatar} />
-              <div className="d-none d-xl-block text-start">
-                <div className={styles.userName}>{user.name}</div>
-              </div>
+              <img
+                src={user.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=LuckyStreak'}
+                alt={user.name || 'User'}
+                className={styles.avatar}
+              />
               <button
-                className={styles.navActionBtn}
+                type="button"
+                className={styles.logoutBtn}
                 onClick={() => {
                   playClickSound();
                   logout();
@@ -121,14 +158,15 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen 
             </div>
           ) : (
             <button
+              type="button"
               className={styles.loginBtn}
               onClick={() => {
                 playClickSound();
-                onOpenAuth();
+                onOpenAuth?.();
               }}
             >
-              <UserIcon size={18} strokeWidth={2.4} />
-              <span>Login / Demo</span>
+              <UserIcon size={16} strokeWidth={2.4} />
+              <span>Login</span>
             </button>
           )}
         </div>

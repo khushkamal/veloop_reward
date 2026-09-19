@@ -6,13 +6,13 @@
 
 /* 1. Hero Main Banner */
 .heroMainBanner {
-  background: linear-gradient(135deg, rgba(22, 18, 48, 0.95) 0%, rgba(35, 24, 68, 0.95) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.28);
+  background: linear-gradient(135deg, rgba(20, 16, 42, 0.95) 0%, rgba(30, 22, 58, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 24px;
   padding: 2rem 2.25rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   margin-bottom: 1rem;
 }
 
@@ -23,7 +23,7 @@
   left: 30%;
   width: 40%;
   height: 180%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.16) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -61,13 +61,13 @@
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.35);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.35);
   transition: all 0.2s ease;
 }
 
 .mainClaimBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 25px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 26px rgba(255, 215, 0, 0.5);
 }
 
 /* 3D Illustrations in Hero */
@@ -311,12 +311,12 @@
 
 /* 4. Ultimate Reward Banner */
 .ultimateRewardBanner {
-  background: linear-gradient(135deg, rgba(28, 20, 56, 0.9) 0%, rgba(45, 25, 80, 0.9) 100%);
-  border: 1px solid rgba(255, 215, 0, 0.35);
+  background: linear-gradient(135deg, rgba(26, 18, 52, 0.9) 0%, rgba(40, 22, 72, 0.9) 100%);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: 18px;
   padding: 1.15rem 1.4rem;
   margin-bottom: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35), 0 0 20px rgba(255, 215, 0, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 14px rgba(255, 215, 0, 0.06);
 }
 
 .crownIconContainer {
@@ -335,7 +335,7 @@
   clip-path: polygon(0% 100%, 100% 100%, 85% 30%, 50% 70%, 15% 30%);
   border-radius: 4px;
   position: relative;
-  filter: drop-shadow(0 4px 10px rgba(255, 215, 0, 0.5));
+  filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.25));
 }
 
 .crownBase {
@@ -494,8 +494,8 @@
 .rewardCardAvailable {
   background: rgba(28, 18, 58, 0.95);
   border-color: #ffd700;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
-  transform: translateY(-3px);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+  transform: translateY(-2px);
   cursor: pointer;
 }
 
@@ -506,8 +506,8 @@
 
 .rewardCardDay7 {
   border: 1.6px solid #fbbf24 !important;
-  box-shadow: 0 0 22px rgba(251, 191, 36, 0.4), inset 0 0 14px rgba(251, 191, 36, 0.12) !important;
-  background: linear-gradient(180deg, rgba(28, 18, 52, 0.95) 0%, rgba(18, 13, 36, 0.95) 100%) !important;
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.3), inset 0 0 10px rgba(251, 191, 36, 0.1) !important;
+  background: #191430 !important;
 }
 
 /* Dual Header Pills: [Day X] [Tag] */

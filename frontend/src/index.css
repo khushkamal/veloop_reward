@@ -22,9 +22,9 @@
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
 
-  --glow-cyan: 0 0 25px rgba(0, 229, 255, 0.35);
-  --glow-gold: 0 0 30px rgba(255, 215, 0, 0.35);
-  --glow-purple: 0 0 25px rgba(139, 92, 246, 0.35);
+  --glow-cyan: 0 0 20px rgba(0, 229, 255, 0.32);
+  --glow-gold: 0 0 22px rgba(255, 215, 0, 0.35);
+  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.32);
 }
 
 * {
@@ -37,9 +37,9 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-main);
   background-image: 
-    radial-gradient(circle at 20% 15%, rgba(139, 92, 246, 0.09) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(121, 40, 202, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 60%);
+    radial-gradient(circle at 20% 15%, rgba(139, 92, 246, 0.14) 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(121, 40, 202, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.06) 0%, transparent 60%);
   background-attachment: fixed;
   color: var(--text-primary);
   min-height: 100vh;
@@ -58,17 +58,17 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 .glass-panel-interactive {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-panel-interactive:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   border-color: var(--border-active);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), var(--glow-purple);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35), var(--glow-purple);
 }
 
 /* Glowing text and gradients */
@@ -124,18 +124,18 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   border: 1px solid rgba(139, 92, 246, 0.08);
 }
 
-/* Pulse animation */
+/* Visible Option A Pulse Animation */
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 12px rgba(139, 92, 246, 0.35), 0 0 20px rgba(0, 229, 255, 0.2);
   }
   50% {
-    box-shadow: 0 0 30px rgba(139, 92, 246, 0.75), 0 0 45px rgba(0, 229, 255, 0.35);
+    box-shadow: 0 0 24px rgba(139, 92, 246, 0.6), 0 0 35px rgba(0, 229, 255, 0.35);
   }
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2.2s infinite;
+  animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
 /* Subtle Floating Animation */
