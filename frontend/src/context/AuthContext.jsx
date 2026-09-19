@@ -166,67 +166,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Evaluator Simulator Actions (Dev grading tools)
-  const advanceVirtualDay = async (days = 1) => {
-    setActionLoading(true);
-    try {
-      const res = await streakApi.advanceVirtualDay(days);
-      if (res.success) {
-        setStreakStatus(res.streakStatus);
-        return { success: true, message: res.message };
-      }
-    } catch (err) {
-      console.error('Simulator error:', err);
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const simulateMissedDay = async () => {
-    setActionLoading(true);
-    try {
-      const res = await streakApi.simulateMissedDay();
-      if (res.success) {
-        setStreakStatus(res.streakStatus);
-        return { success: true, message: res.message };
-      }
-    } catch (err) {
-      console.error('Simulator error:', err);
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const resetUserStreak = async () => {
-    setActionLoading(true);
-    try {
-      const res = await streakApi.resetUserStreak();
-      if (res.success) {
-        setStreakStatus(res.streakStatus);
-        return { success: true, message: res.message };
-      }
-    } catch (err) {
-      console.error('Simulator error:', err);
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const resetVirtualClock = async () => {
-    setActionLoading(true);
-    try {
-      const res = await streakApi.resetVirtualClock();
-      if (res.success) {
-        setStreakStatus(res.streakStatus);
-        return { success: true, message: res.message };
-      }
-    } catch (err) {
-      console.error('Simulator error:', err);
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -243,11 +182,7 @@ export function AuthProvider({ children }) {
         fetchStreakStatus,
         fetchWalletSummary,
         refreshAllData,
-        claimDailyReward,
-        advanceVirtualDay,
-        simulateMissedDay,
-        resetUserStreak,
-        resetVirtualClock
+        claimDailyReward
       }}
     >
       {children}

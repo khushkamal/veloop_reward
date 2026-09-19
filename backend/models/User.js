@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: 'https://api.dicebear.com/7.x/bottts/svg?seed=veloop_user'
+      default: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Felix'
     },
     role: {
       type: String,

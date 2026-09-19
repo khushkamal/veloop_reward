@@ -64,7 +64,7 @@ export default function AuthModal({ isOpen, onClose }) {
         {/* 1-Click Demo Login */}
         <button className={styles.demoBtn} onClick={handleDemoLogin} disabled={actionLoading}>
           <Sparkles size={18} />
-          <span>{actionLoading ? 'Connecting...' : '1-Click Evaluator Demo Login'}</span>
+          <span>{actionLoading ? 'Connecting...' : '1-Click Demo Login'}</span>
         </button>
 
         <div className="text-center text-muted small mb-3">— or sign in with credentials —</div>

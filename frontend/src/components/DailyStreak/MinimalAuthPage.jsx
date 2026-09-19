@@ -227,7 +227,7 @@ export default function MinimalAuthPage() {
               )}
             </div>
 
-            {/* Evaluator CTA Button */}
+            {/* Demo Login CTA Button */}
             <div className={styles.demoSection}>
               <button
                 type="button"

@@ -10,7 +10,6 @@ import CPADemoModal from '../CPADemoModal/CPADemoModal';
 import VELoopLoader from '../UI/VELoopLoader';
 import VELoopSkeleton from '../UI/VELoopSkeleton';
 import WalletLedger from '../WalletLedger/WalletLedger';
-import EvaluatorPanel from '../EvaluatorPanel/EvaluatorPanel';
 import AuthModal from '../AuthModal/AuthModal';
 import StreakCalendarModal from './StreakCalendarModal';
 import MinimalAuthPage from './MinimalAuthPage';
@@ -32,7 +31,6 @@ export default function DailyStreakPage() {
 
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isCPAOpen, setIsCPAOpen] = useState(false);
-  const [isEvaluatorOpen, setIsEvaluatorOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [claimSuccessData, setClaimSuccessData] = useState(null);
 
@@ -64,8 +62,6 @@ export default function DailyStreakPage() {
       {user && (
         <Navbar
           onOpenAuth={() => setIsAuthOpen(true)}
-          onToggleEvaluator={() => setIsEvaluatorOpen((prev) => !prev)}
-          isEvaluatorOpen={isEvaluatorOpen}
         />
       )}
 
@@ -164,12 +160,6 @@ export default function DailyStreakPage() {
         isOpen={isCalendarOpen}
         onClose={() => setIsCalendarOpen(false)}
         streakStatus={streakStatus}
-      />
-
-      {/* Floating Evaluator Testing Simulator Panel */}
-      <EvaluatorPanel
-        isOpen={isEvaluatorOpen}
-        onClose={() => setIsEvaluatorOpen(false)}
       />
     </div>
   );

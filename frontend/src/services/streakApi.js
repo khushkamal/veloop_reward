@@ -55,27 +55,6 @@ export const getMe = async () => {
   return res.data;
 };
 
-// Evaluator Simulator Endpoints (Dev Grading & Simulation)
-export const advanceVirtualDay = async (days = 1) => {
-  const res = await api.post('/dev/simulator/advance-day', { days });
-  return res.data;
-};
-
-export const simulateMissedDay = async () => {
-  const res = await api.post('/dev/simulator/simulate-missed-day');
-  return res.data;
-};
-
-export const resetUserStreak = async () => {
-  const res = await api.post('/dev/simulator/reset-streak');
-  return res.data;
-};
-
-export const resetVirtualClock = async () => {
-  const res = await api.post('/dev/simulator/reset-clock');
-  return res.data;
-};
-
 const streakApi = {
   getStreak,
   getStreakStatus,
@@ -86,11 +65,7 @@ const streakApi = {
   login,
   register,
   demoLogin,
-  getMe,
-  advanceVirtualDay,
-  simulateMissedDay,
-  resetUserStreak,
-  resetVirtualClock
+  getMe
 };
 
 export default streakApi;

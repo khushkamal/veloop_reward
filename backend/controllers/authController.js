@@ -39,7 +39,8 @@ exports.register = async (req, res, next) => {
     const user = await User.create({
       name: name.trim(),
       email: email.toLowerCase().trim(),
-      passwordHash
+      passwordHash,
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(name.trim())}`
     });
 
     // Initialize Streak and Wallet
@@ -112,7 +113,7 @@ exports.login = async (req, res, next) => {
 };
 
 /**
- * 1-Click Evaluator / Demo Login
+ * 1-Click Demo Login
  * Ensures testers and reviewers can instantly test the full MERN flow without manual form filling.
  */
 exports.demoLogin = async (req, res, next) => {
@@ -125,16 +126,22 @@ exports.demoLogin = async (req, res, next) => {
       const passwordHash = await bcrypt.hash('veloop_demo_pass_2026', salt);
 
       user = await User.create({
-        name: 'VELoop Evaluator',
+        name: 'Alex Morgan',
         email: demoEmail,
         passwordHash,
-        avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=veloop_evaluator',
-        role: 'evaluator'
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex',
+        role: 'user'
       });
 
       await Streak.create({ userId: user._id });
       await Wallet.create({ userId: user._id });
     } else {
+      if (user.avatar && (user.avatar.includes('bottts') || user.name === 'VELoop Evaluator')) {
+        user.name = 'Alex Morgan';
+        user.avatar = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Alex';
+        await user.save();
+      }
+
       // Ensure Streak and Wallet exist in case of initial setup skew
       const [existingStreak, existingWallet] = await Promise.all([
         Streak.findOne({ userId: user._id }),

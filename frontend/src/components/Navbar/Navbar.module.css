@@ -212,33 +212,8 @@
 }
 
 /* --------------------------------------------------------------------------
-   Action Buttons: Evaluator Toggle, Sound, Profile, Login
+   Action Buttons: Sound, Profile, Login
    -------------------------------------------------------------------------- */
-.evaluatorToggleBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(121, 40, 202, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.35);
-  color: #d8b4fe;
-  font-size: 0.78rem;
-  font-weight: 600;
-  height: 36px;
-  padding: 0 0.85rem;
-  border-radius: 9999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  font-family: inherit;
-}
-
-.evaluatorToggleBtn:hover,
-.evaluatorToggleBtnActive {
-  background: rgba(121, 40, 202, 0.25);
-  border-color: rgba(168, 85, 247, 0.5);
-  color: #ffffff;
-}
-
 .navActionBtn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -363,9 +338,6 @@
 }
 
 @media (max-width: 479.98px) {
-  .evaluatorToggleBtn {
-    padding: 0 0.5rem;
-  }
   .balanceUnit {
     display: none;
   }

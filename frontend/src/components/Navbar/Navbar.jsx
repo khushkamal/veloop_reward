@@ -7,7 +7,6 @@ import {
   Gift,
   Volume2,
   VolumeX,
-  Terminal,
   LogOut,
   User as UserIcon
 } from 'lucide-react';
@@ -16,7 +15,7 @@ import { useAuth } from '../../context/AuthContext';
 import { toggleSound, isSoundEnabled, playClickSound } from '../../utils/audioEffects';
 import styles from './Navbar.module.css';
 
-export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen, onBack }) {
+export default function Navbar({ onOpenAuth, onBack }) {
   const { user, wallet, streakStatus, logout } = useAuth();
   const [soundOn, setSoundOn] = useState(isSoundEnabled());
   const navigate = useNavigate();
@@ -83,7 +82,7 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen,
           )}
         </div>
 
-        {/* Right Section: Gem/Reward Balances, Evaluator Toggle, Audio, User Profile */}
+        {/* Right Section: Gem/Reward Balances, Audio, User Profile */}
         <div className="d-flex align-items-center gap-2 gap-sm-2.5">
           {/* Backend Gem / Points & Reward Balances */}
           {user && (
@@ -106,20 +105,6 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen,
             </div>
           )}
 
-          {/* Evaluator Simulator Drawer Toggle */}
-          <button
-            type="button"
-            className={`${styles.evaluatorToggleBtn} ${isEvaluatorOpen ? styles.evaluatorToggleBtnActive : ''}`}
-            onClick={() => {
-              playClickSound();
-              onToggleEvaluator?.();
-            }}
-            title="Open Evaluator Testing & Time Simulator Panel"
-          >
-            <Terminal size={15} strokeWidth={2.4} />
-            <span className="d-none d-lg-inline">Evaluator Mode</span>
-          </button>
-
           {/* Sound Toggle */}
           <button
             type="button"
@@ -139,7 +124,11 @@ export default function Navbar({ onOpenAuth, onToggleEvaluator, isEvaluatorOpen,
           {user ? (
             <div className={styles.userMenu}>
               <img
-                src={user.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=LuckyStreak'}
+                src={
+                  user.avatar && !user.avatar.includes('bottts')
+                    ? user.avatar
+                    : `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user.name || 'Alex')}`
+                }
                 alt={user.name || 'User'}
                 className={styles.avatar}
               />

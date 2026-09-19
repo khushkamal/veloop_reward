@@ -44,10 +44,11 @@ app.use('/api/dev/simulator', devRoutes);
 app.use(errorHandler);
 
 // Start Server
+let server;
 async function startServer() {
   try {
     await connectDB();
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       console.log(`=================================================`);
       console.log(`🚀 VELoop Rewards Backend running on port ${PORT}`);
       console.log(`📡 Health Check: http://localhost:${PORT}/api/health`);
@@ -58,6 +59,19 @@ async function startServer() {
     process.exit(1);
   }
 }
+
+const gracefulShutdown = () => {
+  if (server) {
+    server.close(() => {
+      process.exit(0);
+    });
+  } else {
+    process.exit(0);
+  }
+};
+
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
 
 if (require.main === module) {
   startServer();
