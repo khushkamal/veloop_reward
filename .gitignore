@@ -2,25 +2,41 @@
 node_modules/
 */node_modules/
 
-# Environment variables
+# Environment Variables
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 */.env
-*/.env.local
-*/.env.*.local
+*/.env.*
+!*/.env.example
 
-# Build outputs
+# Production & Build Outputs
 dist/
 */dist/
 build/
 */build/
 
-# Logs & temporary files
+# Logs & Temporary Files
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+.system_generated/
 */.system_generated/
+
+# OS & IDE Files
 .DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Agent & AI tool cache
 .agents/
+.gemini/
+scratch/

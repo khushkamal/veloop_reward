@@ -19,7 +19,7 @@ A production-grade, secure, backend-authoritative **Daily Streak & Rewards Syste
 4. [Security & Anti-Cheat Suite](#-security--anti-cheat-suite-section-26)
 5. [Quick Start & Setup Guide](#-quick-start--setup-guide)
 6. [Environment Variables](#-environment-variables)
-7. [Evaluator Simulator Guide](#-evaluator-simulator-guide)
+7. [End-to-End Testing & Verification](#-end-to-end-testing--verification)
 8. [Documentation Index](#-documentation-index)
 
 ---
@@ -130,7 +130,6 @@ veloop-daily-streak/
 │   │   │   │   ├── TrustFooter.jsx   # Clean consumer rewards footer
 │   │   │   │   ├── UltimateReward.jsx
 │   │   │   │   └── WhyStreak.jsx     # Supporting user benefits
-│   │   │   ├── EvaluatorPanel/   # Floating simulator drawer
 │   │   │   ├── Navbar/           # Top navigation with live balance indicators
 │   │   │   ├── UI/               # FireLogo & reusable UI elements
 │   │   │   └── WalletLedger/     # Real-time ledger audit table & vouchers
@@ -255,17 +254,21 @@ VITE_API_BASE_URL=
 
 ---
 
-## 🧪 Evaluator Simulator Guide
+## 🧪 End-to-End Testing & Verification
 
-To evaluate the full 7-day progression without waiting 7 physical days:
+### Interactive User Flow
 1. Open the web app at `http://localhost:5173`.
-2. Click **1-Click Demo Login** (or register/sign in).
-3. Click **Claim Day 1 (+5 VEs)**.
-4. Click **Evaluator Mode** in the top navigation bar to open the virtual time drawer.
-5. Click **Advance Virtual Time (+24h)** $\rightarrow$ Day 2 unlocks immediately.
-6. Progress through Day 4 (₹1 Amazon GC), Day 5 (₹2 Amazon GC), and Day 7 (₹5 Grand Amazon GC).
-7. Test **Simulate Missed Day (+48h)** to verify automatic streak break & reset to Day 1.
-8. Scroll to the **Immutable Double-Entry Ledger** table to inspect generated `transactionId`, `referenceId`, and audit balances.
+2. Click **1-Click Demo Login** (or register a new user account).
+3. Click **Claim Day 1 (+5 VEs)** $\rightarrow$ Complete the CPA ad engagement verification.
+4. Observe the celebration modal, instant wallet & streak update, and live countdown timer activating.
+5. Inspect the **Wallet & Immutable Audit Ledger** table at the bottom of the page to verify cryptographic transaction IDs and ledger hashes.
+
+### Automated Full-Cycle Progression Script
+To simulate the entire 7-day progression, milestone claims, Amazon vouchers, and missed-day detection in seconds:
+```bash
+cd backend
+node tests/e2e_api_flow.js
+```
 
 ---
 

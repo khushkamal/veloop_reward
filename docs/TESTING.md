@@ -49,14 +49,17 @@ node tests/e2e_api_flow.js
 
 ---
 
-## 3. Manual Evaluator Simulator Workflow
+## 3. End-to-End User Journey Workflow
 
-When running the web frontend at `http://localhost:5173`:
-1. Click **1-Click Evaluator Demo Login**.
+When running the web application at `http://localhost:5173`:
+1. Click **1-Click Demo Login** (or register/sign in with your own credentials).
 2. Click **Claim Day 1 Reward (+5 VEs)**.
-3. Observe button transition to **Today's Reward Claimed** and countdown timer activating.
-4. Click **Evaluator Mode** in the top navigation bar to open the Dev Drawer.
-5. Click **Advance Virtual Time (+24h)** $\rightarrow$ Day 2 unlocks immediately.
-6. Claim Day 2 (+10 VEs). Repeat to claim Day 4 (₹1 Amazon GC voucher).
-7. In the Evaluator Drawer, click **Simulate Missed Day (+48h)** $\rightarrow$ Streak is reset to Day 1 with warning banner.
-8. View the **Wallet & Immutable Audit Ledger** table at the bottom of the page to inspect all cryptographically generated transaction IDs and balances before/after.
+3. Observe the CPA engagement flow modal, complete the demo verification, and receive your reward.
+4. Button automatically transitions to **Reward Claimed** and the live countdown timer activates.
+5. View the **Wallet & Immutable Audit Ledger** table at the bottom of the page to inspect all cryptographically generated transaction IDs, reference hashes, and updated balances.
+
+To programmatically simulate multi-day streak progression and missed days:
+```bash
+cd backend
+node tests/e2e_api_flow.js
+```
