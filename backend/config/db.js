@@ -1,35 +1,59 @@
 const mongoose = require('mongoose');
+const os = require('os');
+
+// Ensure writable temp directory for serverless environments (e.g. Vercel, AWS Lambda)
+const tmpDir = os.tmpdir() || '/tmp';
+process.env.HOME = tmpDir;
+process.env.MONGOMS_DOWNLOAD_DIR = tmpDir;
+process.env.MONGOMS_CACHE_DIR = tmpDir;
 
 let mongod = null;
+let connectionPromise = null;
 
 async function connectDB() {
   if (mongoose.connection.readyState === 1) {
-    return;
+    return mongoose.connection;
   }
 
-  const uri = process.env.MONGODB_URI;
+  if (connectionPromise) {
+    return connectionPromise;
+  }
 
-  if (uri) {
-    try {
-      await mongoose.connect(uri);
-      console.log(`[MongoDB] Connected to external MongoDB: ${mongoose.connection.host}`);
-      return;
-    } catch (err) {
-      console.warn(`[MongoDB] Could not connect to external MONGODB_URI (${err.message}). Falling back to in-memory instance...`);
+  connectionPromise = (async () => {
+    const uri = process.env.MONGODB_URI;
+
+    if (uri) {
+      try {
+        await mongoose.connect(uri, {
+          serverSelectionTimeoutMS: 5000
+        });
+        console.log(`[MongoDB] Connected to external MongoDB: ${mongoose.connection.host}`);
+        return mongoose.connection;
+      } catch (err) {
+        console.warn(`[MongoDB] Could not connect to external MONGODB_URI (${err.message}). Falling back to in-memory instance...`);
+      }
     }
-  }
 
-  // In-memory fallback
-  try {
-    const { MongoMemoryServer } = require('mongodb-memory-server');
-    mongod = await MongoMemoryServer.create();
-    const memUri = mongod.getUri();
-    await mongoose.connect(memUri);
-    console.log(`[MongoDB] Connected to in-memory MongoDB instance: ${memUri}`);
-  } catch (memErr) {
-    console.error(`[MongoDB] Failed to start in-memory MongoDB:`, memErr);
-    throw memErr;
-  }
+    // In-memory fallback with serverless temp directory support
+    try {
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      mongod = await MongoMemoryServer.create({
+        instance: {
+          dbName: 'veloop_rewards'
+        }
+      });
+      const memUri = mongod.getUri();
+      await mongoose.connect(memUri);
+      console.log(`[MongoDB] Connected to in-memory MongoDB instance: ${memUri}`);
+      return mongoose.connection;
+    } catch (memErr) {
+      console.error(`[MongoDB] Failed to start in-memory MongoDB:`, memErr);
+      connectionPromise = null;
+      throw memErr;
+    }
+  })();
+
+  return connectionPromise;
 }
 
 async function closeDB() {
