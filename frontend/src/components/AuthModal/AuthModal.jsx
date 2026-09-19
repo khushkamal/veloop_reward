@@ -43,9 +43,12 @@ export default function AuthModal({ isOpen, onClose }) {
 
   const handleDemoLogin = async () => {
     playClickSound();
+    setFormError('');
     const res = await demoLogin();
-    if (res.success) {
+    if (res?.success) {
       onClose();
+    } else if (res?.error) {
+      setFormError(res.error);
     }
   };
 

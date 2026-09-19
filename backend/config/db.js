@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 let mongod = null;
 
 async function connectDB() {
+  if (mongoose.connection.readyState === 1) {
+    return;
+  }
+
   const uri = process.env.MONGODB_URI;
 
   if (uri) {

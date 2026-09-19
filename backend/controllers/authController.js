@@ -134,6 +134,14 @@ exports.demoLogin = async (req, res, next) => {
 
       await Streak.create({ userId: user._id });
       await Wallet.create({ userId: user._id });
+    } else {
+      // Ensure Streak and Wallet exist in case of initial setup skew
+      const [existingStreak, existingWallet] = await Promise.all([
+        Streak.findOne({ userId: user._id }),
+        Wallet.findOne({ userId: user._id })
+      ]);
+      if (!existingStreak) await Streak.create({ userId: user._id });
+      if (!existingWallet) await Wallet.create({ userId: user._id });
     }
 
     const token = generateToken(user);

@@ -39,7 +39,10 @@ export default function MinimalAuthPage() {
   const handleDemoLogin = async () => {
     playClickSound();
     setFormError('');
-    await demoLogin();
+    const res = await demoLogin();
+    if (res && !res.success) {
+      setFormError(res.error || 'Demo login failed. Please try again.');
+    }
   };
 
   return (

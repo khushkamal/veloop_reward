@@ -6,5 +6,15 @@
     "dev": "node dev.js",
     "build": "npm --prefix frontend install && npm --prefix frontend run build",
     "start": "npm --prefix backend start"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.7.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.1.4",
+    "mongoose": "^8.9.5"
   }
 }
