@@ -1,15 +1,31 @@
 import axios from 'axios';
 
-let rawBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api';
+let rawBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
 
-// Dynamically handle mobile / LAN testing (e.g. opening via 192.168.x.x on mobile browser)
-if (typeof window !== 'undefined' && window.location?.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-  if (rawBaseUrl.includes('localhost') || rawBaseUrl.includes('127.0.0.1')) {
-    rawBaseUrl = rawBaseUrl.replace(/localhost|127\.0\.0\.1/, window.location.hostname);
+function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    // If running in browser over HTTPS or on Vercel / production domain, always use relative /api
+    if (window.location.protocol === 'https:' || window.location.hostname.endsWith('vercel.app') || !rawBaseUrl) {
+      return '/api';
+    }
+
+    // If on mobile/LAN IP (e.g. 192.168.x.x or 10.x.x.x)
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      if (/^\d+\.\d+\.\d+\.\d+$/.test(window.location.hostname)) {
+        return `http://${window.location.hostname}:5000/api`;
+      }
+      return '/api';
+    }
   }
+
+  if (rawBaseUrl && (rawBaseUrl.startsWith('http://') || rawBaseUrl.startsWith('https://'))) {
+    return rawBaseUrl.endsWith('/api') ? rawBaseUrl : `${rawBaseUrl.replace(/\/+$/, '')}/api`;
+  }
+
+  return '/api';
 }
 
-const baseURL = rawBaseUrl.endsWith('/api') || rawBaseUrl === '/api' ? rawBaseUrl : `${rawBaseUrl.replace(/\/+$/, '')}/api`;
+const baseURL = getBaseUrl();
 
 const api = axios.create({
   baseURL,
