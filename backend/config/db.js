@@ -20,7 +20,8 @@ async function connectDB() {
   }
 
   connectionPromise = (async () => {
-    const uri = process.env.MONGODB_URI;
+    const rawUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    const uri = rawUri ? rawUri.trim().replace(/^["']|["']$/g, '') : null;
 
     if (uri) {
       try {
@@ -30,7 +31,7 @@ async function connectDB() {
         console.log(`[MongoDB] Connected to external MongoDB: ${mongoose.connection.host}`);
         return mongoose.connection;
       } catch (err) {
-        console.warn(`[MongoDB] Could not connect to external MONGODB_URI (${err.message}). Falling back to in-memory instance...`);
+        console.warn(`[MongoDB] Could not connect to external MongoDB URI (${err.message}). Falling back to in-memory instance...`);
       }
     }
 

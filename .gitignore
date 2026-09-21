@@ -2,30 +2,40 @@
 node_modules/
 */node_modules/
 
-# Environment Variables
+# Environment Variables & Secrets
 .env
 .env.*
 !.env.example
 */.env
 */.env.*
 !*/.env.example
+*.env
+*.env.local
 
 # Production & Build Outputs
 dist/
 */dist/
 build/
 */build/
+.next/
+out/
 
-# Logs & Temporary Files
+# Logs & Runtime
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# System & Agent Artifacts
 .system_generated/
 */.system_generated/
+scratch/
+*/scratch/
+.agents/
+.gemini/
 
-# OS & IDE Files
+# OS & Editor Files
 .DS_Store
 Thumbs.db
 .vscode/
@@ -35,8 +45,3 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
-
-# Agent & AI tool cache
-.agents/
-.gemini/
-scratch/
