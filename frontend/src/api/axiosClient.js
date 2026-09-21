@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-const rawBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api';
+let rawBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '/api';
+
+// Dynamically handle mobile / LAN testing (e.g. opening via 192.168.x.x on mobile browser)
+if (typeof window !== 'undefined' && window.location?.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+  if (rawBaseUrl.includes('localhost') || rawBaseUrl.includes('127.0.0.1')) {
+    rawBaseUrl = rawBaseUrl.replace(/localhost|127\.0\.0\.1/, window.location.hostname);
+  }
+}
+
 const baseURL = rawBaseUrl.endsWith('/api') || rawBaseUrl === '/api' ? rawBaseUrl : `${rawBaseUrl.replace(/\/+$/, '')}/api`;
 
 const api = axios.create({
