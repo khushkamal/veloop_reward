@@ -24,6 +24,17 @@ app.use(
 
 app.use(express.json());
 
+// Ensure Database connection for serverless / express container
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('DB Connection error:', err);
+    next(err);
+  }
+});
+
 // API Health Check
 app.get('/api/health', (req, res) => {
   res.status(200).json({
