@@ -16,14 +16,14 @@ export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextRe
       return;
     }
 
-    // Step 1: Preparing your reward (500ms)
+    // Step 1: Preparing your reward (200ms)
     setStage('PREPARING');
     const prepTimer = setTimeout(() => {
       setStage('VERIFYING');
 
-      // Step 2: Advertisement / Reward Verification (3s progress)
-      const duration = 2800;
-      const intervalTime = 50;
+      // Step 2: Advertisement / Reward Verification (1.2s progress for fast snappy UX)
+      const duration = 1200;
+      const intervalTime = 30;
       const increment = (intervalTime / duration) * 100;
 
       const progressTimer = setInterval(() => {

@@ -114,7 +114,10 @@ export function AuthProvider({ children }) {
       if (res.success) {
         localStorage.setItem('veloop_auth_token', res.token);
         setUser(res.user);
-        await refreshAllData();
+        if (res.streakStatus) setStreakStatus(res.streakStatus);
+        if (res.wallet) setWallet(res.wallet);
+        // Refresh silently in background just in case
+        refreshAllData().catch(console.error);
         return { success: true };
       }
     } catch (err) {

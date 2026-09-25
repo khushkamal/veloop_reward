@@ -153,6 +153,12 @@ exports.demoLogin = async (req, res, next) => {
 
     const token = generateToken(user);
 
+    // Fetch streak and wallet in parallel to return everything in 1 instant roundtrip
+    const [streakStatus, walletData] = await Promise.all([
+      StreakService.getStreakStatus(user._id),
+      Wallet.findOne({ userId: user._id }).lean()
+    ]);
+
     res.status(200).json({
       success: true,
       message: 'Demo session started successfully',
@@ -163,7 +169,13 @@ exports.demoLogin = async (req, res, next) => {
         email: user.email,
         avatar: user.avatar,
         role: user.role
-      }
+      },
+      streakStatus,
+      wallet: walletData ? {
+        veBalance: walletData.veBalance || 0,
+        totalAmazonGCAmount: walletData.totalAmazonGCAmount || 0,
+        amazonVouchers: walletData.amazonVouchers || []
+      } : { veBalance: 0, totalAmazonGCAmount: 0, amazonVouchers: [] }
     });
   } catch (err) {
     next(err);
