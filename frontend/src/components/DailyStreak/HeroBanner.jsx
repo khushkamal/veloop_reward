@@ -66,19 +66,20 @@ export default function HeroBanner({
 
   return (
     <section className={styles.heroSection}>
-      <div className="container">
+      <div className={styles.streakContainer}>
         {/* Top Hero Banner with 3D Artwork Illustration */}
         <div className={styles.heroMainBanner}>
-          <div className="row align-items-center justify-content-between g-3">
+          <div className="d-flex align-items-center justify-content-between g-2 g-md-3">
             {/* Left 3D Calendar Artwork */}
-            <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
+            <div className={`${styles.heroArtCol} d-flex align-items-center justify-content-center`}>
               <div className="animate-float">
-                <CalendarArtwork size={76} />
+                <CalendarArtwork size={74} className={styles.heroArtDesktop} />
+                <CalendarArtwork size={52} className={styles.heroArtMobile} />
               </div>
             </div>
 
             {/* Middle Content: Title, Subtitle, CTA */}
-            <div className="col text-center px-lg-4">
+            <div className={`${styles.heroTextCol} text-center px-2 px-md-3`}>
               <h1 className={styles.heroHeading}>
                 Login Daily & Earn <span className={styles.heroGoldText}>Bigger Rewards!</span>
               </h1>
@@ -86,7 +87,7 @@ export default function HeroBanner({
                 Maintain your streak and unlock exciting rewards every day.
               </p>
 
-              {/* Action Claim Button */}
+              {/* Action Claim Button (if today's claim is available) */}
               {canClaim && (
                 <div className="mt-3">
                   <button
@@ -109,9 +110,10 @@ export default function HeroBanner({
             </div>
 
             {/* Right 3D Gift Box Artwork */}
-            <div className="col-auto d-none d-md-flex align-items-center justify-content-center">
-              <div className="animate-float" style={{ animationDelay: '1.5s' }}>
-                <GiftBoxArtwork size={76} />
+            <div className={`${styles.heroArtCol} d-flex align-items-center justify-content-center`}>
+              <div className="animate-float" style={{ animationDelay: '1.2s' }}>
+                <GiftBoxArtwork size={74} className={styles.heroArtDesktop} />
+                <GiftBoxArtwork size={52} className={styles.heroArtMobile} />
               </div>
             </div>
           </div>
@@ -131,11 +133,14 @@ export default function HeroBanner({
         <div className={styles.streakActionBar}>
           <div className={styles.streakIndicatorPill}>
             <Flame size={18} strokeWidth={2.4} className={styles.flameIcon} />
-            <span>
+            <span className="fw-bold">
               {currentStreak > 0
                 ? `${currentStreak} Day Streak`
                 : '1 Day Streak'}
             </span>
+            {currentStreak >= 3 && (
+              <span className={styles.keepGoingText}>Keep it going!</span>
+            )}
           </div>
 
           <button

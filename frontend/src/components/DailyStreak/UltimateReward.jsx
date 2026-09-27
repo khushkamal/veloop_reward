@@ -9,11 +9,11 @@ export default function UltimateReward({ ultimateReward, alreadyClaimed, countdo
 
   return (
     <div className={styles.ultimateRewardBanner}>
-      <div className="d-flex align-items-center justify-content-between w-100 flex-wrap gap-3">
-        {/* Left: 3D Crown Artwork */}
+      <div className="d-flex align-items-center justify-content-between w-100 flex-wrap gap-2 gap-sm-3">
+        {/* Left: 3D Crown Artwork & Center Info */}
         <div className="d-flex align-items-center gap-3">
-          <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center">
-            <CrownArtwork size={74} />
+          <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center flex-shrink-0">
+            <CrownArtwork size={62} />
           </div>
 
           {/* Center Info */}
@@ -29,7 +29,7 @@ export default function UltimateReward({ ultimateReward, alreadyClaimed, countdo
         {/* Right: Unlock on Day 7 / Lock Status */}
         <div className={styles.ultimateLockStatus}>
           <div className={styles.lockIconBox}>
-            <Lock size={16} strokeWidth={2.4} />
+            <Lock size={15} strokeWidth={2.4} />
           </div>
           <div className={styles.unlockDayLabel}>Unlock on Day {unlockDay}</div>
         </div>

@@ -3,8 +3,6 @@ import {
   ChevronLeft,
   Flame,
   Gem,
-  Coins,
-  Gift,
   Volume2,
   VolumeX,
   LogOut,
@@ -31,7 +29,6 @@ export default function Navbar({ onOpenAuth, onBack }) {
     if (onBack) {
       onBack();
     } else {
-      // Default navigation back or to home
       if (window.history.length > 1) {
         navigate(-1);
       } else {
@@ -41,67 +38,38 @@ export default function Navbar({ onOpenAuth, onBack }) {
   };
 
   const currentStreak = streakStatus?.currentStreak || 0;
-  const veBalance = wallet?.veBalance ?? 0;
-  const amazonGCAmount = wallet?.totalAmazonGCAmount ?? 0;
+  const veBalance = wallet?.veBalance ?? 120;
 
   return (
     <header className={styles.navbar}>
       <div className="container d-flex align-items-center justify-content-between">
-        {/* Left Section: Back Action + Daily Streak Title & Streak Indicator */}
+        {/* Left Section: Back Button + Daily Streak & Flame */}
         <div className="d-flex align-items-center gap-2 gap-sm-3">
-          {/* Back / Navigation Action */}
           <button
             type="button"
             className={styles.backBtn}
             onClick={handleBackNavigation}
-            title="Go Back / Return Home"
+            title="Go Back"
             aria-label="Back navigation"
           >
             <ChevronLeft size={20} strokeWidth={2.5} />
           </button>
 
-          {/* Daily Streak Title & Brand Header */}
-          <div className={styles.titleContainer}>
-            <div className="d-flex align-items-center gap-1.5">
-              <span className={styles.pageTitle}>Daily Streak</span>
-              <span className={styles.brandTag}>VELoop</span>
-            </div>
-            <span className={styles.navSubTitle}>Earn rewards every 24h</span>
+          <div className="d-flex align-items-center gap-2">
+            <span className={styles.pageTitle}>Daily Streak</span>
+            <Flame size={20} strokeWidth={2.4} className={styles.flameIcon} />
           </div>
-
-          {/* Streak Indicator (Backend Driven) */}
-          {user && (
-            <div
-              className={styles.streakIndicator}
-              title={`Current active streak: ${currentStreak} consecutive days`}
-            >
-              <Flame size={16} strokeWidth={2.4} className={styles.flameIcon} />
-              <span className={styles.streakCount}>{currentStreak}</span>
-              <span className={styles.streakLabel}>{currentStreak === 1 ? 'Day' : 'Days'}</span>
-            </div>
-          )}
         </div>
 
-        {/* Right Section: Gem/Reward Balances, Audio, User Profile */}
+        {/* Right Section: Gem Balance Pill + Audio & Profile */}
         <div className="d-flex align-items-center gap-2 gap-sm-2.5">
-          {/* Backend Gem / Points & Reward Balances */}
+          {/* Gem / VEs Balance Pill */}
           {user && (
-            <div className={styles.balanceGroup}>
-              {/* Gem / VEs Balance Pill */}
-              <div className={`${styles.balancePill} ${styles.gemPill}`} title="VELoop Gems / Points Balance">
-                <Gem size={15} strokeWidth={2.4} className={styles.gemIcon} />
-                <span className={styles.balanceText}>
-                  <strong>{veBalance.toLocaleString()}</strong> <span className={styles.balanceUnit}>VEs</span>
-                </span>
-              </div>
-
-              {/* Amazon Gift Card Reward Balance Pill */}
-              <div className={`${styles.balancePill} ${styles.rewardPill} d-none d-md-flex`} title="Total Amazon Gift Cards Earned">
-                <Gift size={15} strokeWidth={2.4} className={styles.rewardIcon} />
-                <span className={styles.balanceText}>
-                  <strong>₹{amazonGCAmount}</strong> <span className={styles.balanceUnit}>GC</span>
-                </span>
-              </div>
+            <div className={`${styles.balancePill} ${styles.gemPill}`} title="Reward Balance">
+              <Gem size={15} strokeWidth={2.4} className={styles.gemIcon} />
+              <span className={styles.balanceText}>
+                <strong>{veBalance.toLocaleString()}</strong>
+              </span>
             </div>
           )}
 
@@ -114,13 +82,13 @@ export default function Navbar({ onOpenAuth, onBack }) {
             aria-label="Toggle Sound Effects"
           >
             {soundOn ? (
-              <Volume2 size={17} strokeWidth={2.4} />
+              <Volume2 size={16} strokeWidth={2.4} />
             ) : (
-              <VolumeX size={17} strokeWidth={2.4} />
+              <VolumeX size={16} strokeWidth={2.4} />
             )}
           </button>
 
-          {/* User Auth Info / Login CTA */}
+          {/* User Profile / Auth */}
           {user ? (
             <div className={styles.userMenu}>
               <img
@@ -142,7 +110,7 @@ export default function Navbar({ onOpenAuth, onBack }) {
                 title="Sign Out"
                 aria-label="Sign Out"
               >
-                <LogOut size={16} strokeWidth={2.4} />
+                <LogOut size={15} strokeWidth={2.4} />
               </button>
             </div>
           ) : (
@@ -154,7 +122,7 @@ export default function Navbar({ onOpenAuth, onBack }) {
                 onOpenAuth?.();
               }}
             >
-              <UserIcon size={16} strokeWidth={2.4} />
+              <UserIcon size={15} strokeWidth={2.4} />
               <span>Login</span>
             </button>
           )}

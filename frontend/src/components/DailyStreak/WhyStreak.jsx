@@ -1,26 +1,26 @@
 import React from 'react';
-import { Calendar, TrendingUp, Gift, ShieldCheck, ChevronRight, Shield } from 'lucide-react';
+import { Activity, TrendingUp, Gift, ShieldCheck, ChevronRight } from 'lucide-react';
 import styles from './DailyStreak.module.css';
 
 export default function WhyStreak() {
   const benefits = [
     {
-      icon: <Calendar size={22} className="text-info" />,
+      icon: <Activity size={22} className={styles.benefitIconCyan} />,
       title: 'Stay Active',
       description: 'Keep your streak alive & earn more!'
     },
     {
-      icon: <TrendingUp size={22} className="text-warning" />,
+      icon: <TrendingUp size={22} className={styles.benefitIconGold} />,
       title: 'Bigger Streak',
       description: 'More consecutive logins, bigger rewards!'
     },
     {
-      icon: <Gift size={22} className="text-primary" />,
+      icon: <Gift size={22} className={styles.benefitIconPurple} />,
       title: 'Exclusive Rewards',
       description: 'Get coins, gift cards & special bonuses!'
     },
     {
-      icon: <ShieldCheck size={22} className="text-success" />,
+      icon: <ShieldCheck size={22} className={styles.benefitIconGreen} />,
       title: "Don't Miss Out",
       description: 'Come back every day & unlock all rewards!'
     }
@@ -28,7 +28,7 @@ export default function WhyStreak() {
 
   return (
     <section className={styles.whyStreakSection}>
-      <div className="container">
+      <div className={styles.streakContainer}>
         {/* Header Title with Sparkles */}
         <div className={styles.whyHeader}>
           <span className={styles.sparkleIcon}>✦</span>

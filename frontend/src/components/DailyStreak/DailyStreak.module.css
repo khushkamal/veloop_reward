@@ -1,61 +1,88 @@
-/* DailyStreak.module.css - Complete High-Fidelity Styling matching official design */
+/* DailyStreak.module.css - Complete High-Fidelity Styling matching official VELoop design */
 
 .heroSection {
-  padding: 1.5rem 0 1rem;
+  padding: 1.25rem 0 0.75rem;
+}
+
+/* Centralized Max-Width Container matching design specifications */
+.streakContainer {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 /* 1. Hero Main Banner */
 .heroMainBanner {
-  background: linear-gradient(135deg, rgba(20, 16, 42, 0.95) 0%, rgba(30, 22, 58, 0.95) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 24px;
-  padding: 2rem 2.25rem;
+  background: linear-gradient(135deg, rgba(22, 16, 48, 0.95) 0%, rgba(34, 20, 72, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 22px;
+  padding: 1.75rem 2rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   margin-bottom: 1rem;
 }
 
 .heroMainBanner::before {
   content: '';
   position: absolute;
-  top: -40%;
-  left: 30%;
-  width: 40%;
-  height: 180%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.16) 0%, transparent 70%);
+  top: -50%;
+  left: 25%;
+  width: 50%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, transparent 70%);
   pointer-events: none;
 }
 
+.heroArtCol {
+  flex-shrink: 0;
+}
+
+.heroArtDesktop {
+  display: block;
+}
+
+.heroArtMobile {
+  display: none;
+}
+
+.heroTextCol {
+  flex: 1;
+}
+
 .heroHeading {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.1rem;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 2rem;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .heroGoldText {
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
+  background: linear-gradient(135deg, #ffd700 0%, #ff9800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  font-weight: 900;
 }
 
 .heroSubText {
-  color: #94a3b8;
-  font-size: 0.95rem;
+  color: #a19fc2;
+  font-size: 0.92rem;
   margin-bottom: 0;
+  line-height: 1.4;
 }
 
 .mainClaimBtn {
   background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
   color: #0b0f19;
   border: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
-  padding: 0.75rem 1.8rem;
+  padding: 0.7rem 1.75rem;
   border-radius: 14px;
   display: inline-flex;
   align-items: center;
@@ -70,122 +97,8 @@
   box-shadow: 0 8px 26px rgba(255, 215, 0, 0.5);
 }
 
-/* 3D Illustrations in Hero */
-.artworkContainer {
-  width: 76px;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.calendar3D {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 100%);
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
-}
-
-.calendarBinder {
-  position: absolute;
-  top: -6px;
-  display: flex;
-  gap: 10px;
-}
-
-.calendarBinder span {
-  width: 6px;
-  height: 10px;
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-
-.calendarPage {
-  width: 44px;
-  height: 38px;
-  background: #ffffff;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.calendarCheck {
-  color: #ffd700;
-  font-weight: 900;
-  font-size: 1.4rem;
-}
-
-.calendarCoin {
-  position: absolute;
-  bottom: -6px;
-  left: -6px;
-  font-size: 1.4rem;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
-}
-
-.giftBox3D {
-  width: 60px;
-  height: 60px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.giftBoxLid {
-  position: absolute;
-  top: 6px;
-  width: 52px;
-  height: 12px;
-  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-  border-radius: 4px;
-  border: 1px solid rgba(255, 215, 0, 0.6);
-  z-index: 2;
-}
-
-.giftBoxBody {
-  position: absolute;
-  bottom: 6px;
-  width: 46px;
-  height: 38px;
-  background: linear-gradient(135deg, #7c3aed 0%, #581c87 100%);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
-}
-
-.giftRibbonH {
-  position: absolute;
-  top: 15px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: #ffd700;
-}
-
-.giftRibbonV {
-  position: absolute;
-  top: 0;
-  left: 19px;
-  width: 8px;
-  height: 100%;
-  background: #ffd700;
-}
-
-.sparkleParticle {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  color: #ffd700;
-  font-size: 1.1rem;
+.mainClaimBtn:active {
+  transform: translateY(0);
 }
 
 /* 2. Streak Indicator & Calendar Action Bar */
@@ -193,16 +106,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .streakIndicatorPill {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 107, 0, 0.15);
-  border: 1px solid rgba(255, 107, 0, 0.4);
-  padding: 0.45rem 1rem;
+  gap: 0.45rem;
+  background: rgba(255, 107, 0, 0.12);
+  border: 1px solid rgba(255, 107, 0, 0.35);
+  padding: 0.4rem 0.95rem;
   border-radius: 50px;
   color: #ff9900;
   font-weight: 700;
@@ -214,13 +127,20 @@
   filter: drop-shadow(0 0 6px rgba(255, 61, 0, 0.6));
 }
 
+.keepGoingText {
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.78rem;
+  margin-left: 2px;
+}
+
 .calendarActionBtn {
-  background: rgba(30, 27, 60, 0.8);
+  background: rgba(28, 20, 56, 0.85);
   border: 1px solid rgba(139, 92, 246, 0.3);
   color: #c084fc;
   font-size: 0.82rem;
   font-weight: 700;
-  padding: 0.45rem 0.95rem;
+  padding: 0.4rem 0.95rem;
   border-radius: 50px;
   display: inline-flex;
   align-items: center;
@@ -232,6 +152,7 @@
 .calendarActionBtn:hover {
   background: rgba(139, 92, 246, 0.25);
   color: #ffffff;
+  border-color: rgba(168, 85, 247, 0.5);
 }
 
 /* 3. Statistics 3-Card Row */
@@ -239,13 +160,13 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.85rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
 }
 
 .statBox {
-  background: rgba(18, 16, 38, 0.8);
+  background: rgba(20, 15, 45, 0.85);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 16px;
   padding: 0.85rem 1rem;
   display: flex;
@@ -254,9 +175,9 @@
 }
 
 .statIconBadge {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,7 +216,7 @@
 
 .statNumberText {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.2;
@@ -311,58 +232,12 @@
 
 /* 4. Ultimate Reward Banner */
 .ultimateRewardBanner {
-  background: linear-gradient(135deg, rgba(26, 18, 52, 0.9) 0%, rgba(40, 22, 72, 0.9) 100%);
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: linear-gradient(135deg, rgba(25, 18, 54, 0.95) 0%, rgba(42, 22, 80, 0.95) 100%);
+  border: 1.5px solid rgba(251, 191, 36, 0.45);
   border-radius: 18px;
   padding: 1.15rem 1.4rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 14px rgba(255, 215, 0, 0.06);
-}
-
-.crownIconContainer {
-  position: relative;
-  width: 52px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.crown3D {
-  width: 46px;
-  height: 40px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  clip-path: polygon(0% 100%, 100% 100%, 85% 30%, 50% 70%, 15% 30%);
-  border-radius: 4px;
-  position: relative;
-  filter: drop-shadow(0 2px 6px rgba(255, 215, 0, 0.25));
-}
-
-.crownBase {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background: #eab308;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.crownJewelCenter, .crownJewelLeft, .crownJewelRight {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #ef4444;
-}
-
-.crownStars {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  color: #ffd700;
-  font-size: 0.9rem;
+  margin-bottom: 0.85rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), 0 0 16px rgba(251, 191, 36, 0.12);
 }
 
 .ultimateInfoText {
@@ -375,7 +250,7 @@
   font-weight: 700;
   color: #c084fc;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 
 .ultimateValRow {
@@ -386,53 +261,30 @@
 
 .ultimateRupeeVal {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.6rem;
+  font-size: 1.65rem;
   font-weight: 800;
   color: #ffd700;
-}
-
-.amazonCardBrand {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-}
-
-.amazonA {
-  font-family: sans-serif;
-  font-weight: 900;
-  font-size: 1rem;
-  color: #ffffff;
-  background: #ff9900;
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.amazonText {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #f1f5f9;
+  line-height: 1.1;
 }
 
 .ultimateLockStatus {
   display: flex;
   align-items: center;
   gap: 0.45rem;
-  background: rgba(14, 11, 28, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(12, 9, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.4rem 0.85rem;
   border-radius: 50px;
 }
 
 .lockIconBox {
   color: #94a3b8;
+  display: flex;
+  align-items: center;
 }
 
 .unlockDayLabel {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: #cbd5e1;
   font-weight: 600;
 }
@@ -444,19 +296,19 @@
   justify-content: center;
   gap: 0.65rem;
   color: #a78bfa;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  margin: 1rem 0 1.25rem;
+  margin: 0.85rem 0 1.15rem;
 }
 
 .sparkleIcon {
   color: #c084fc;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 /* 6. 7-Day Reward Cards Grid */
 .rewardGridSection {
-  padding: 0 0 1.5rem;
+  padding: 0 0 1.25rem;
 }
 
 .rewardGridTop {
@@ -473,269 +325,158 @@
 }
 
 .rewardCardItem {
-  background: rgba(18, 14, 38, 0.85);
+  background: rgba(20, 14, 44, 0.9);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(139, 92, 246, 0.18);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: 20px;
-  padding: 1.15rem 0.85rem;
+  padding: 1.15rem 0.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   position: relative;
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   min-width: 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.rewardCardItem:hover {
+  transform: translateY(-3px);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .rewardCardLocked {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .rewardCardAvailable {
-  background: rgba(28, 18, 58, 0.95);
-  border-color: #ffd700;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+  background: linear-gradient(135deg, rgba(32, 20, 68, 0.98) 0%, rgba(44, 25, 92, 0.98) 100%);
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 22px rgba(255, 215, 0, 0.3), inset 0 0 12px rgba(255, 215, 0, 0.08) !important;
   transform: translateY(-2px);
   cursor: pointer;
 }
 
 .rewardCardClaimed {
-  border-color: rgba(16, 185, 129, 0.35);
-  background: rgba(12, 22, 32, 0.85);
+  border-color: rgba(16, 185, 129, 0.45) !important;
+  background: linear-gradient(135deg, rgba(12, 28, 38, 0.9) 0%, rgba(15, 36, 48, 0.9) 100%);
 }
 
 .rewardCardDay7 {
   border: 1.6px solid #fbbf24 !important;
-  box-shadow: 0 0 22px rgba(251, 191, 36, 0.3), inset 0 0 10px rgba(251, 191, 36, 0.1) !important;
-  background: #191430 !important;
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.32), inset 0 0 10px rgba(251, 191, 36, 0.12) !important;
+  background: linear-gradient(135deg, #1d1538 0%, #2b184f 100%) !important;
 }
 
-/* Dual Header Pills: [Day X] [Tag] */
+/* Dual Header Badges: [Day X] and [Tag] */
 .cardHeaderRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   width: 100%;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.65rem;
 }
 
 .headerPillDay {
-  background: rgba(88, 28, 135, 0.5);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(88, 28, 135, 0.55);
+  border: 1px solid rgba(168, 85, 247, 0.35);
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.22rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 50px;
   white-space: nowrap;
 }
 
 .headerPillDay7 {
-  background: rgba(120, 53, 15, 0.6);
-  border: 1px solid rgba(245, 158, 11, 0.5);
+  background: rgba(120, 53, 15, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.6);
   color: #fef08a;
   font-size: 0.72rem;
   font-weight: 800;
-  padding: 0.22rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 50px;
   white-space: nowrap;
 }
 
 .headerPillTag {
-  background: rgba(88, 28, 135, 0.5);
-  border: 1px solid rgba(168, 85, 247, 0.3);
+  background: rgba(88, 28, 135, 0.55);
+  border: 1px solid rgba(168, 85, 247, 0.35);
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.22rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 50px;
   white-space: nowrap;
 }
 
 .headerPillVip {
-  background: rgba(120, 53, 15, 0.6);
-  border: 1px solid rgba(245, 158, 11, 0.5);
+  background: rgba(120, 53, 15, 0.65);
+  border: 1px solid rgba(245, 158, 11, 0.6);
   color: #fef08a;
   font-size: 0.72rem;
   font-weight: 800;
-  padding: 0.22rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 50px;
   white-space: nowrap;
 }
 
 .todayFloatingBadge {
   position: absolute;
-  top: -9px;
+  top: -10px;
   background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
   color: #000;
   font-size: 0.65rem;
   font-weight: 900;
-  padding: 0.15rem 0.75rem;
+  padding: 0.18rem 0.75rem;
   border-radius: 50px;
   text-transform: uppercase;
-  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.45);
   letter-spacing: 0.05em;
   z-index: 2;
 }
 
-/* Top Badges on Cards */
 .claimedCheckBadge {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #10b981;
   color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
 }
 
 .cardArtworkContainer {
-  height: 72px;
+  height: 66px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.4rem;
-}
-
-/* Coins Stack Artwork */
-.coinsStackArtwork {
-  position: relative;
-  width: 44px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.coin1, .coin2, .coin3 {
-  position: absolute;
-  width: 32px;
-  height: 12px;
-  background: linear-gradient(135deg, #ffd700 0%, #d97706 100%);
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-}
-
-.coin1 { top: 6px; }
-.coin2 { top: 14px; }
-.coin3 { top: 22px; }
-
-/* Mini Gift Box Artwork */
-.giftArtwork {
-  width: 38px;
-  height: 38px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.giftMiniBox {
-  width: 32px;
-  height: 28px;
-  background: linear-gradient(135deg, #9333ea 0%, #581c87 100%);
-  border-radius: 5px;
-  position: relative;
-  border: 1px solid rgba(255, 215, 0, 0.5);
-}
-
-.giftMiniLid {
-  position: absolute;
-  top: -4px;
-  left: -2px;
-  width: 36px;
-  height: 8px;
-  background: #c084fc;
-  border-radius: 3px;
-}
-
-.giftMiniRibbon {
-  position: absolute;
-  top: 0;
-  left: 13px;
-  width: 6px;
-  height: 100%;
-  background: #ffd700;
-}
-
-/* Mini Amazon Card Artwork */
-.amazonArtwork {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.amazonCardMini {
-  width: 34px;
-  height: 26px;
-  background: #ffffff;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.amazonCardA {
-  font-family: sans-serif;
-  font-weight: 900;
-  font-size: 0.9rem;
-  color: #000;
-  line-height: 1;
-}
-
-.amazonSmile {
-  width: 14px;
-  height: 3px;
-  background: #ff9900;
-  border-radius: 2px;
-  margin-top: 1px;
-}
-
-/* Mini Crown Artwork */
-.crownArtwork {
-  width: 40px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.crownMini {
-  width: 34px;
-  height: 26px;
-  background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
-  clip-path: polygon(0% 100%, 100% 100%, 85% 20%, 50% 65%, 15% 20%);
-  border-radius: 3px;
-  filter: drop-shadow(0 3px 6px rgba(255, 215, 0, 0.5));
+  margin-bottom: 0.35rem;
 }
 
 .cardSubHeader {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #ffffff;
-  margin-top: 0.35rem;
-  margin-bottom: 0.2rem;
+  color: #e2e8f0;
+  margin-top: 0.25rem;
+  margin-bottom: 0.15rem;
   letter-spacing: 0.01em;
 }
 
 .cardAmountValue {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   font-weight: 800;
   margin-bottom: 0.1rem;
 }
 
 .amountGreen { color: #34d399; }
 .amountGold { color: #ffd700; }
-.amountPurple { color: #818cf8; }
-.amountViolet { color: #c084fc; }
+.amountPurple { color: #a78bfa; }
 
 .cardCurrencyLabel {
   font-size: 0.68rem;
@@ -750,62 +491,68 @@
 
 .claimedPill {
   background: rgba(16, 185, 129, 0.2);
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  border: 1px solid rgba(16, 185, 129, 0.45);
   color: #34d399;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.28rem 0.6rem;
+  padding: 0.32rem 0.65rem;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 .claimNowBtn {
   background: linear-gradient(135deg, #ffd700 0%, #ff9900 100%);
   color: #0b0f19;
   border: none;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 0.32rem 0.65rem;
+  padding: 0.35rem 0.7rem;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.2rem;
+  gap: 0.25rem;
   width: 100%;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.35);
+  transition: all 0.2s ease;
+}
+
+.claimNowBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.5);
 }
 
 .lockedPill {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: #64748b;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.28rem 0.6rem;
+  padding: 0.32rem 0.65rem;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 .missedPill {
   background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   color: #f87171;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.28rem 0.6rem;
+  padding: 0.32rem 0.65rem;
   border-radius: 50px;
 }
 
 /* 7. Why Maintain Your Streak Section */
 .whyStreakSection {
-  padding: 1rem 0 2rem;
+  padding: 0.5rem 0 2rem;
 }
 
 .whyHeader {
@@ -813,7 +560,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.15rem;
 }
 
 .whyTitle {
@@ -828,23 +575,34 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.85rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.15rem;
 }
 
 .whyCard {
-  background: rgba(18, 14, 38, 0.8);
-  border: 1px solid rgba(139, 92, 246, 0.15);
+  background: rgba(20, 15, 45, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.18);
   border-radius: 16px;
   padding: 1.15rem 0.85rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: all 0.2s ease;
+}
+
+.whyCard:hover {
+  border-color: rgba(168, 85, 247, 0.35);
+  transform: translateY(-2px);
 }
 
 .whyIconContainer {
   margin-bottom: 0.5rem;
 }
+
+.benefitIconCyan { color: #38bdf8; }
+.benefitIconGold { color: #fbbf24; }
+.benefitIconPurple { color: #c084fc; }
+.benefitIconGreen { color: #34d399; }
 
 .whyCardTitle {
   font-family: 'Outfit', sans-serif;
@@ -861,8 +619,8 @@
 }
 
 .officialTrustStrip {
-  background: linear-gradient(135deg, rgba(20, 16, 42, 0.9) 0%, rgba(32, 22, 60, 0.9) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, rgba(22, 16, 48, 0.95) 0%, rgba(35, 21, 72, 0.95) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.22);
   border-radius: 16px;
   padding: 0.85rem 1.25rem;
   display: flex;
@@ -895,11 +653,11 @@
 }
 
 .brokenNotice {
-  background: rgba(255, 23, 68, 0.12);
-  border: 1px solid rgba(255, 23, 68, 0.35);
+  background: rgba(255, 23, 68, 0.14);
+  border: 1px solid rgba(255, 23, 68, 0.4);
   color: #ff80ab;
   padding: 0.75rem 1.25rem;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 0.88rem;
   margin-bottom: 1rem;
   display: flex;
@@ -907,10 +665,13 @@
   gap: 0.6rem;
 }
 
-/* Responsive Rules */
+/* ==========================================================================
+   Responsive Breakpoints: Desktop (1440, 1280), Tablet (1024, 834, 768), Mobile (480, 375, 320)
+   ========================================================================== */
+
 @media (max-width: 991.98px) {
   .heroHeading {
-    font-size: 1.65rem;
+    font-size: 1.7rem;
   }
   .statsCardRow {
     grid-template-columns: repeat(3, 1fr);
@@ -925,6 +686,12 @@
     padding: 1.25rem 1rem;
     border-radius: 18px;
   }
+  .heroArtDesktop {
+    display: none;
+  }
+  .heroArtMobile {
+    display: block;
+  }
   .heroHeading {
     font-size: 1.35rem;
   }
@@ -932,12 +699,18 @@
     font-size: 0.82rem;
   }
   .rewardGridTop {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.65rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
   }
   .rewardGridBottom {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.65rem;
+    gap: 0.5rem;
+  }
+  .rewardCardItem {
+    padding: 0.9rem 0.4rem;
+  }
+  .cardArtworkContainer {
+    height: 54px;
   }
   .statsCardRow {
     grid-template-columns: repeat(3, 1fr);
@@ -948,21 +721,21 @@
     gap: 0.4rem;
   }
   .statIconBadge {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
   .statNumberText {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
   .statHighlightText {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 540px) {
   .rewardGridTop {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    gap: 0.55rem;
   }
   .rewardGridBottom {
     grid-template-columns: repeat(3, 1fr);
@@ -974,7 +747,7 @@
   }
   .cardHeaderRow {
     gap: 0.25rem;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.4rem;
   }
   .headerPillDay,
   .headerPillDay7,
@@ -985,20 +758,20 @@
   }
   .todayFloatingBadge {
     font-size: 0.58rem;
-    padding: 0.1rem 0.55rem;
+    padding: 0.12rem 0.55rem;
     top: -8px;
   }
   .cardArtworkContainer {
-    height: 52px;
-    margin-bottom: 0.25rem;
+    height: 50px;
+    margin-bottom: 0.2rem;
   }
   .cardSubHeader {
     font-size: 0.72rem;
-    margin-top: 0.2rem;
+    margin-top: 0.15rem;
     margin-bottom: 0.1rem;
   }
   .cardAmountValue {
-    font-size: 0.98rem;
+    font-size: 1rem;
   }
   .cardCurrencyLabel {
     font-size: 0.6rem;
@@ -1009,7 +782,7 @@
   .lockedPill,
   .missedPill {
     font-size: 0.62rem;
-    padding: 0.24rem 0.4rem;
+    padding: 0.26rem 0.45rem;
   }
   .whyGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -1019,7 +792,7 @@
     padding: 0.85rem 0.5rem;
   }
   .whyCardTitle {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
   }
   .whyCardDesc {
     font-size: 0.68rem;
@@ -1028,7 +801,7 @@
     padding: 0.95rem 1rem;
   }
   .ultimateRupeeVal {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
   }
   .heroHeading {
     font-size: 1.25rem;
@@ -1054,7 +827,6 @@
     font-size: 0.58rem;
   }
   .cardAmountValue {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
   }
 }
-

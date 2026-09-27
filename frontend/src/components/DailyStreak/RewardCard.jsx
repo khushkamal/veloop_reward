@@ -6,15 +6,15 @@ import styles from './DailyStreak.module.css';
 
 export default function RewardCard({ item, onTriggerClaimFlow }) {
   const cardState = item.state || item.status;
-  const isToday = cardState === 'TODAY';
+  const isToday = cardState === 'TODAY' || cardState === 'AVAILABLE_TODAY';
   const isClaimed = cardState === 'CLAIMED';
   const isAvailable = cardState === 'AVAILABLE' || cardState === 'AVAILABLE_TODAY';
   const isMissed = cardState === 'MISSED';
   const isDay7 = item.day === 7;
 
-  // Determine tag pill badge (VIP, Gift Card, Coin, etc.)
+  // Determine tag pill badge (VIP, Gift Card, Coin, or Checkmark)
   const renderTagPill = () => {
-    if (isClaimed && item.day === 1) {
+    if (isClaimed) {
       return (
         <div className={styles.claimedCheckBadge}>
           <Check size={11} strokeWidth={3.5} />
@@ -27,10 +27,10 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
     if (item.day === 5) {
       return <div className={styles.headerPillTag}>Gift Card</div>;
     }
-    if (item.day === 4) {
-      return <div className={styles.headerPillTag}>Gift Box</div>;
+    if (item.day === 6) {
+      return <div className={styles.headerPillTag}>Coin</div>;
     }
-    return <div className={styles.headerPillTag}>Coin</div>;
+    return null;
   };
 
   // Render 3D artwork icon matching the reference
@@ -38,28 +38,28 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
     if (isDay7) {
       return (
         <div className="animate-float animate-soft-shine d-flex align-items-center justify-content-center">
-          <CrownArtwork size={68} />
+          <CrownArtwork size={56} />
         </div>
       );
     }
     if (item.day === 4) {
       return (
         <div className="animate-gentle-tilt animate-soft-shine d-flex align-items-center justify-content-center">
-          <GiftBoxArtwork size={56} />
+          <GiftBoxArtwork size={52} />
         </div>
       );
     }
     if (item.day === 5) {
       return (
         <div className="animate-gentle-tilt d-flex align-items-center justify-content-center">
-          <AmazonCardArtwork size={60} />
+          <AmazonCardArtwork size={54} />
         </div>
       );
     }
     // Coins stack artwork for Days 1, 2, 3, 6
     return (
       <div className="animate-float d-flex align-items-center justify-content-center">
-        <CoinsStackArtwork size={58} />
+        <CoinsStackArtwork size={52} />
       </div>
     );
   };
@@ -82,12 +82,12 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
       role={isAvailable ? 'button' : undefined}
       tabIndex={isAvailable ? 0 : undefined}
     >
-      {/* Today floating badge if currently available/active today */}
+      {/* Today floating badge if currently actionable/available today */}
       {isToday || isAvailable ? (
         <div className={styles.todayFloatingBadge}>Today</div>
       ) : null}
 
-      {/* Top Header Row with Dual Pill Badges: [Day X] [Type] */}
+      {/* Top Header Row with Dual Badges: [Day X] and optional [Tag / Check] */}
       <div className={styles.cardHeaderRow}>
         <div className={isDay7 ? styles.headerPillDay7 : styles.headerPillDay}>
           Day {item.day}
@@ -110,13 +110,9 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
         className={`${styles.cardAmountValue} ${
           isClaimed
             ? styles.amountGreen
-            : isToday || isAvailable
+            : isToday || isAvailable || isDay7
             ? styles.amountGold
-            : item.day === 3
-            ? styles.amountPurple
-            : item.day === 4
-            ? styles.amountViolet
-            : styles.amountGold
+            : styles.amountPurple
         }`}
       >
         {item.rewardType === 'AMAZON_GC' ? `₹${item.amount}` : `+${item.amount}`}
@@ -143,7 +139,7 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
               onTriggerClaimFlow();
             }}
           >
-            <span>Claim Now</span>
+            <span>Claim Reward</span>
             <ChevronRight size={13} strokeWidth={3} />
           </button>
         ) : isMissed ? (

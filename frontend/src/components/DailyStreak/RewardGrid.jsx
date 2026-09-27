@@ -5,7 +5,7 @@ import styles from './DailyStreak.module.css';
 export default function RewardGrid({ streakLadder, onTriggerClaimFlow }) {
   if (!streakLadder || !streakLadder.length) {
     return (
-      <div className="container py-3">
+      <div className={styles.streakContainer}>
         <div className={styles.rewardCardsGrid}>
           {[1, 2, 3, 4, 5, 6, 7].map((i) => (
             <div key={i} className="skeleton-box" style={{ height: '210px' }}></div>
@@ -20,7 +20,7 @@ export default function RewardGrid({ streakLadder, onTriggerClaimFlow }) {
 
   return (
     <section className={styles.rewardGridSection}>
-      <div className="container">
+      <div className={styles.streakContainer}>
         {/* Top Row: Days 1 to 4 */}
         <div className={styles.rewardGridTop}>
           {topRow.map((item) => (
