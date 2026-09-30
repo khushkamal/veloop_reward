@@ -38,7 +38,7 @@ export default function Navbar({ onOpenAuth, onBack }) {
   };
 
   const currentStreak = streakStatus?.currentStreak || 0;
-  const veBalance = wallet?.veBalance ?? 120;
+  const veBalance = wallet?.veBalance ?? 0;
 
   return (
     <header className={styles.navbar}>

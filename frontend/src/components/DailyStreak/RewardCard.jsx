@@ -120,7 +120,7 @@ export default function RewardCard({ item, onTriggerClaimFlow }) {
 
       {/* Currency / Reward Unit */}
       <div className={styles.cardCurrencyLabel}>
-        {item.rewardType === 'AMAZON_GC' ? 'Amazon Gift Card' : `${item.amount} VEs`}
+        {item.rewardType === 'AMAZON_GC' ? 'Amazon Gift Card' : 'VEs Coins'}
       </div>
 
       {/* Status Action Pill */}

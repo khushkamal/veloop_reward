@@ -126,7 +126,7 @@ export default function CPADemoModal({ isOpen, onClose, onCompleteAdDemo, nextRe
             </>
           ) : stage === 'PREPARING' ? (
             <>
-              <Loader2 size={18} className="spinner-border spinner-border-sm" />
+              <Loader2 size={18} className="animate-spin" />
               <span>Preparing your reward...</span>
             </>
           ) : (

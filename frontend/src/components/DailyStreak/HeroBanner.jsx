@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Calendar, ChevronRight } from 'lucide-react';
+import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Calendar, ChevronRight, Check } from 'lucide-react';
 import { playClickSound } from '../../utils/audioEffects';
 import { CalendarArtwork, GiftBoxArtwork } from './ArtworkIcons';
 import StreakStats from './StreakStats';
@@ -64,6 +64,56 @@ export default function HeroBanner({
   const isStreakBroken = streakStatus?.isStreakBroken;
   const nextReward = streakStatus?.nextReward;
 
+  // Streak Progression & Milestones
+  const claimedCount = alreadyClaimed ? currentStreak : Math.max(0, currentStreak);
+  const progressPercent = Math.min(100, Math.round((claimedCount / 7) * 100));
+  const daysToJackpot = Math.max(0, 7 - claimedCount);
+
+  // Dynamic milestone data from ladder configuration
+  const ladder = streakStatus?.streakLadder || [];
+  const day3Obj = ladder.find((r) => r.day === 3);
+  const day5Obj = ladder.find((r) => r.day === 5);
+  const day7Obj = streakStatus?.ultimateReward || ladder.find((r) => r.day === 7);
+
+  const formatMilestoneReward = (item, fallback) => {
+    if (!item) return fallback;
+    if (item.rewardType === 'AMAZON_GC') {
+      return `₹${item.amount} Amazon GC`;
+    }
+    return `+${item.amount} VEs`;
+  };
+
+  const day3RewardLabel = formatMilestoneReward(day3Obj, '+15 VEs');
+  const day5RewardLabel = formatMilestoneReward(day5Obj, '₹2 Amazon GC');
+  const day7RewardLabel = formatMilestoneReward(day7Obj, '₹5 Amazon GC');
+
+  const milestoneList = [
+    {
+      day: 3,
+      title: 'Day 3 Boost',
+      reward: day3RewardLabel,
+      icon: '⚡',
+      isAchieved: claimedCount >= 3,
+      isCurrent: claimedCount === 2 && canClaim
+    },
+    {
+      day: 5,
+      title: 'Day 5 Milestone',
+      reward: day5RewardLabel,
+      icon: '🎁',
+      isAchieved: claimedCount >= 5,
+      isCurrent: claimedCount === 4 && canClaim
+    },
+    {
+      day: 7,
+      title: 'Day 7 Grand Crown',
+      reward: day7RewardLabel,
+      icon: '👑',
+      isAchieved: claimedCount >= 7,
+      isCurrent: claimedCount === 6 && canClaim
+    }
+  ];
+
   return (
     <section className={styles.heroSection}>
       <div className={styles.streakContainer}>
@@ -107,6 +157,17 @@ export default function HeroBanner({
                   </button>
                 </div>
               )}
+
+              {/* Live Countdown Timer (if already claimed today) */}
+              {alreadyClaimed && (
+                <div className="mt-3">
+                  <div className={styles.countdownBadge}>
+                    <Clock size={15} className={styles.clockIcon} />
+                    <span>Next Claim In:</span>
+                    <span className={styles.countdownTimer}>{formatTime(secondsLeft)}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Right 3D Gift Box Artwork */}
@@ -132,14 +193,16 @@ export default function HeroBanner({
         {/* Streak Indicator & Calendar Action Bar */}
         <div className={styles.streakActionBar}>
           <div className={styles.streakIndicatorPill}>
-            <Flame size={18} strokeWidth={2.4} className={styles.flameIcon} />
+            <div className={styles.flameWrapper}>
+              <Flame size={19} strokeWidth={2.6} className={styles.flameIcon} />
+            </div>
             <span className="fw-bold">
               {currentStreak > 0
                 ? `${currentStreak} Day Streak`
                 : '1 Day Streak'}
             </span>
             {currentStreak >= 3 && (
-              <span className={styles.keepGoingText}>Keep it going!</span>
+              <span className={styles.keepGoingText}>• On Fire! 🔥</span>
             )}
           </div>
 
@@ -154,6 +217,54 @@ export default function HeroBanner({
             <span>Streak Calendar</span>
             <ChevronRight size={14} />
           </button>
+        </div>
+
+        {/* Streak Milestone Progress Bar */}
+        <div className={styles.streakProgressContainer}>
+          <div className={styles.progressHeader}>
+            <div className="d-flex align-items-center gap-2">
+              <span className={styles.progressTitle}>Streak Milestone Progress</span>
+              <span className={styles.progressPercentPill}>{progressPercent}% Complete</span>
+            </div>
+            <div className={styles.progressNextMilestone}>
+              <Sparkles size={13} className="text-warning" />
+              <span>{daysToJackpot > 0 ? `${daysToJackpot} days to ${day7RewardLabel} Grand Crown` : '🏆 Grand Crown Unlocked!'}</span>
+            </div>
+          </div>
+
+          {/* Animated Progress Bar Track */}
+          <div className={styles.progressBarTrack}>
+            <div
+              className={styles.progressBarFill}
+              style={{ width: `${Math.max(6, progressPercent)}%` }}
+            >
+              <div className={styles.progressBarGlowHead}></div>
+            </div>
+          </div>
+
+          {/* 3 Milestone Checkpoints */}
+          <div className={styles.milestonesRow}>
+            {milestoneList.map((m) => (
+              <div
+                key={m.day}
+                className={`${styles.milestoneItem} ${m.isAchieved ? styles.milestoneAchieved : m.isCurrent ? styles.milestoneCurrent : styles.milestoneLocked}`}
+              >
+                <div className={styles.milestoneIconNode}>
+                  {m.isAchieved ? (
+                    <Check size={12} strokeWidth={3.5} />
+                  ) : m.isCurrent ? (
+                    <Flame size={13} strokeWidth={2.8} />
+                  ) : (
+                    <span>{m.icon}</span>
+                  )}
+                </div>
+                <div className={styles.milestoneTextCol}>
+                  <div className={styles.milestoneDayLabel}>{m.title}</div>
+                  <div className={styles.milestoneRewardVal}>{m.reward}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Statistics 3-Card Row */}
