@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, Clock, Lock, CheckCircle2, AlertTriangle, Sparkles, Calendar, ChevronRight, Check } from 'lucide-react';
-import { playClickSound } from '../../utils/audioEffects';
-import { CalendarArtwork, GiftBoxArtwork } from './ArtworkIcons';
+import {
+  Flame,
+  Clock,
+  Lock,
+  CheckCircle2,
+  AlertTriangle,
+  Sparkles,
+  Calendar,
+  ChevronRight,
+  Check,
+  Volume2,
+  VolumeX,
+  Zap,
+  Gift,
+  Trophy
+} from 'lucide-react';
+import { playClickSound, toggleSound, isSoundEnabled } from '../../utils/audioEffects';
+import {
+  CalendarArtwork,
+  GiftBoxArtwork,
+  StreakFlameArtwork
+} from './ArtworkIcons';
 import StreakStats from './StreakStats';
 import UltimateReward from './UltimateReward';
 import styles from './DailyStreak.module.css';
@@ -14,6 +33,7 @@ export default function HeroBanner({
   onToggleCalendar
 }) {
   const [secondsLeft, setSecondsLeft] = useState(streakStatus?.countdownSeconds || 0);
+  const [soundOn, setSoundOn] = useState(isSoundEnabled());
 
   // Synchronize and countdown based strictly on backend serverTime and nextClaimAt
   useEffect(() => {
@@ -49,14 +69,17 @@ export default function HeroBanner({
     }
   }, [streakStatus, onCountdownComplete]);
 
-  // Format seconds into HH:MM:SS
-  const formatTime = (totalSec) => {
-    if (totalSec <= 0) return '00:00:00';
+  // Format seconds into HH, MM, SS
+  const formatTimeParts = (totalSec) => {
+    if (totalSec <= 0) return { hrs: '00', mins: '00', secs: '00' };
     const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
     const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
     const secs = String(totalSec % 60).padStart(2, '0');
-    return `${hrs}:${mins}:${secs}`;
+    return { hrs, mins, secs };
   };
+
+  const timeParts = formatTimeParts(secondsLeft);
+  const formattedTimeStr = `${timeParts.hrs}:${timeParts.mins}:${timeParts.secs}`;
 
   const currentStreak = streakStatus?.currentStreak || 0;
   const canClaim = streakStatus?.canClaim;
@@ -64,77 +87,69 @@ export default function HeroBanner({
   const isStreakBroken = streakStatus?.isStreakBroken;
   const nextReward = streakStatus?.nextReward;
 
-  // Streak Progression & Milestones
+  // Streak Progression
   const claimedCount = alreadyClaimed ? currentStreak : Math.max(0, currentStreak);
   const progressPercent = Math.min(100, Math.round((claimedCount / 7) * 100));
   const daysToJackpot = Math.max(0, 7 - claimedCount);
 
   // Dynamic milestone data from ladder configuration
   const ladder = streakStatus?.streakLadder || [];
-  const day3Obj = ladder.find((r) => r.day === 3);
-  const day5Obj = ladder.find((r) => r.day === 5);
-  const day7Obj = streakStatus?.ultimateReward || ladder.find((r) => r.day === 7);
-
-  const formatMilestoneReward = (item, fallback) => {
-    if (!item) return fallback;
-    if (item.rewardType === 'AMAZON_GC') {
-      return `₹${item.amount} Amazon GC`;
-    }
+  const getRewardForDay = (dayNum, fallbackTitle) => {
+    const item = ladder.find((r) => r.day === dayNum);
+    if (!item) return fallbackTitle;
+    if (item.rewardType === 'AMAZON_GC') return `₹${item.amount} Amazon GC`;
     return `+${item.amount} VEs`;
   };
 
-  const day3RewardLabel = formatMilestoneReward(day3Obj, '+15 VEs');
-  const day5RewardLabel = formatMilestoneReward(day5Obj, '₹2 Amazon GC');
-  const day7RewardLabel = formatMilestoneReward(day7Obj, '₹5 Amazon GC');
-
-  const milestoneList = [
-    {
-      day: 3,
-      title: 'Day 3 Boost',
-      reward: day3RewardLabel,
-      icon: '⚡',
-      isAchieved: claimedCount >= 3,
-      isCurrent: claimedCount === 2 && canClaim
-    },
-    {
-      day: 5,
-      title: 'Day 5 Milestone',
-      reward: day5RewardLabel,
-      icon: '🎁',
-      isAchieved: claimedCount >= 5,
-      isCurrent: claimedCount === 4 && canClaim
-    },
-    {
-      day: 7,
-      title: 'Day 7 Grand Crown',
-      reward: day7RewardLabel,
-      icon: '👑',
-      isAchieved: claimedCount >= 7,
-      isCurrent: claimedCount === 6 && canClaim
-    }
+  // 7-Day Road Journey Nodes
+  const journeyNodes = [
+    { day: 1, title: getRewardForDay(1, '+5 VEs'), shortTitle: '+5 VEs', icon: '🪙', isMilestone: false },
+    { day: 2, title: getRewardForDay(2, '+10 VEs'), shortTitle: '+10 VEs', icon: '🪙', isMilestone: false },
+    { day: 3, title: getRewardForDay(3, '+15 VEs'), shortTitle: 'Boost +15', icon: '⚡', isMilestone: true },
+    { day: 4, title: getRewardForDay(4, '₹1 Amazon GC'), shortTitle: '₹1 Voucher', icon: '🎁', isMilestone: true },
+    { day: 5, title: getRewardForDay(5, '₹2 Amazon GC'), shortTitle: '₹2 Voucher', icon: '💳', isMilestone: true },
+    { day: 6, title: getRewardForDay(6, '+30 VEs'), shortTitle: 'Surge +30', icon: '🔥', isMilestone: true },
+    { day: 7, title: getRewardForDay(7, '₹5 Amazon GC'), shortTitle: '₹5 Crown', icon: '👑', isMilestone: true }
   ];
+
+  const handleToggleSound = () => {
+    const newState = toggleSound();
+    setSoundOn(newState);
+    if (newState) playClickSound();
+  };
 
   return (
     <section className={styles.heroSection}>
       <div className={styles.streakContainer}>
         {/* Top Hero Banner with 3D Artwork Illustration */}
         <div className={styles.heroMainBanner}>
-          <div className="d-flex align-items-center justify-content-between g-2 g-md-3">
+          {/* Subtle Ambient Cosmic Orbs */}
+          <div className={styles.heroOrbLeft}></div>
+          <div className={styles.heroOrbRight}></div>
+
+          <div className="d-flex align-items-center justify-content-between g-2 g-md-4 position-relative" style={{ zIndex: 2 }}>
             {/* Left 3D Calendar Artwork */}
             <div className={`${styles.heroArtCol} d-flex align-items-center justify-content-center`}>
               <div className="animate-float">
-                <CalendarArtwork size={74} className={styles.heroArtDesktop} />
-                <CalendarArtwork size={52} className={styles.heroArtMobile} />
+                <CalendarArtwork size={76} className={styles.heroArtDesktop} />
+                <CalendarArtwork size={54} className={styles.heroArtMobile} />
               </div>
             </div>
 
-            {/* Middle Content: Title, Subtitle, CTA */}
-            <div className={`${styles.heroTextCol} text-center px-2 px-md-3`}>
+            {/* Middle Content: Badge, Title, Subtitle, CTA */}
+            <div className={`${styles.heroTextCol} text-center px-1 px-md-3`}>
+              <div className={styles.heroBadgePill}>
+                <Zap size={13} className="text-warning" />
+                <span>VELOOP REWARDS • 7-DAY STREAK ENGINE</span>
+              </div>
+
               <h1 className={styles.heroHeading}>
-                Login Daily & Earn <span className={styles.heroGoldText}>Bigger Rewards!</span>
+                Login Daily & Claim{' '}
+                <span className={styles.heroGoldText}>Exclusive Rewards!</span>
               </h1>
               <p className={styles.heroSubText}>
-                Maintain your streak and unlock exciting rewards every day.
+                Maintain consecutive logins to unlock VEs coins, mystery gift boxes, and the{' '}
+                <strong className="text-warning">₹5 Amazon Grand Crown!</strong>
               </p>
 
               {/* Action Claim Button (if today's claim is available) */}
@@ -148,23 +163,45 @@ export default function HeroBanner({
                     }}
                     disabled={actionLoading}
                   >
-                    <Sparkles size={18} />
+                    <Sparkles size={19} className={styles.btnSparkleIcon} />
                     <span>
                       {actionLoading
                         ? 'Validating Claim...'
                         : `Claim Day ${streakStatus?.nextDayIndex} Reward (${nextReward?.displayName || 'Claim Now'})`}
                     </span>
+                    <ChevronRight size={17} strokeWidth={2.8} />
                   </button>
                 </div>
               )}
 
-              {/* Live Countdown Timer (if already claimed today) */}
+              {/* Live High-Tech Countdown Timer (if already claimed today) */}
               {alreadyClaimed && (
-                <div className="mt-3">
-                  <div className={styles.countdownBadge}>
-                    <Clock size={15} className={styles.clockIcon} />
-                    <span>Next Claim In:</span>
-                    <span className={styles.countdownTimer}>{formatTime(secondsLeft)}</span>
+                <div className="mt-3 d-flex flex-column align-items-center">
+                  <div className={styles.countdownHudContainer}>
+                    <div className={styles.countdownHeaderRow}>
+                      <Clock size={14} className={styles.clockIcon} />
+                      <span className={styles.countdownStatusText}>Next Reward Unlocks In</span>
+                      <span className={styles.livePulseDot}></span>
+                    </div>
+
+                    <div className={styles.countdownDigitBlocks}>
+                      <div className={styles.digitBox}>
+                        <span className={styles.digitNum}>{timeParts.hrs}</span>
+                        <span className={styles.digitLabel}>HRS</span>
+                      </div>
+                      <span className={styles.digitColon}>:</span>
+                      <div className={styles.digitBox}>
+                        <span className={styles.digitNum}>{timeParts.mins}</span>
+                        <span className={styles.digitLabel}>MIN</span>
+                      </div>
+                      <span className={styles.digitColon}>:</span>
+                      <div className={styles.digitBox}>
+                        <span className={styles.digitNum}>{timeParts.secs}</span>
+                        <span className={styles.digitLabel}>SEC</span>
+                      </div>
+                    </div>
+
+                    <span className={styles.countdownSubHint}>Midnight Reset • Asia/Kolkata (IST)</span>
                   </div>
                 </div>
               )}
@@ -173,8 +210,8 @@ export default function HeroBanner({
             {/* Right 3D Gift Box Artwork */}
             <div className={`${styles.heroArtCol} d-flex align-items-center justify-content-center`}>
               <div className="animate-float" style={{ animationDelay: '1.2s' }}>
-                <GiftBoxArtwork size={74} className={styles.heroArtDesktop} />
-                <GiftBoxArtwork size={52} className={styles.heroArtMobile} />
+                <GiftBoxArtwork size={76} className={styles.heroArtDesktop} />
+                <GiftBoxArtwork size={54} className={styles.heroArtMobile} />
               </div>
             </div>
           </div>
@@ -183,98 +220,125 @@ export default function HeroBanner({
         {/* Broken Streak Warning if any */}
         {isStreakBroken && (
           <div className={styles.brokenNotice}>
-            <AlertTriangle size={18} />
-            <span>
-              You missed yesterday! Your streak was reset to Day 1. Claim now to rebuild your rewards!
-            </span>
+            <AlertTriangle size={20} className="flex-shrink-0 text-danger" />
+            <div>
+              <strong className="d-block text-white">Streak Broken Yesterday!</strong>
+              <span>Your streak was reset to Day 1. Claim your reward today to restart your progression toward the Grand Crown!</span>
+            </div>
           </div>
         )}
 
-        {/* Streak Indicator & Calendar Action Bar */}
+        {/* Streak Command & Action Bar */}
         <div className={styles.streakActionBar}>
           <div className={styles.streakIndicatorPill}>
-            <div className={styles.flameWrapper}>
-              <Flame size={19} strokeWidth={2.6} className={styles.flameIcon} />
+            <StreakFlameArtwork size={22} className={styles.flameWrapper} />
+            <div className="d-flex align-items-center gap-1.5">
+              <span className={styles.streakDaysCount}>
+                {currentStreak > 0 ? `${currentStreak} Day Streak` : '1 Day Streak'}
+              </span>
+              {currentStreak >= 3 ? (
+                <span className={styles.streakRankPill}>🔥 On Fire!</span>
+              ) : (
+                <span className={styles.streakRankPill}>⚡ Level 1</span>
+              )}
             </div>
-            <span className="fw-bold">
-              {currentStreak > 0
-                ? `${currentStreak} Day Streak`
-                : '1 Day Streak'}
-            </span>
-            {currentStreak >= 3 && (
-              <span className={styles.keepGoingText}>• On Fire! 🔥</span>
-            )}
           </div>
 
-          <button
-            className={styles.calendarActionBtn}
-            onClick={() => {
-              playClickSound();
-              if (onToggleCalendar) onToggleCalendar();
-            }}
-          >
-            <Calendar size={15} />
-            <span>Streak Calendar</span>
-            <ChevronRight size={14} />
-          </button>
+          <div className="d-flex align-items-center gap-2">
+            {/* Audio Feedback Toggle */}
+            <button
+              className={styles.soundActionBtn}
+              onClick={handleToggleSound}
+              title={soundOn ? 'Sound Effects Enabled' : 'Sound Effects Muted'}
+            >
+              {soundOn ? <Volume2 size={16} className="text-warning" /> : <VolumeX size={16} className="text-secondary" />}
+              <span className="d-none d-sm-inline">{soundOn ? 'Audio FX' : 'Muted'}</span>
+            </button>
+
+            {/* Streak Calendar Modal Action */}
+            <button
+              className={styles.calendarActionBtn}
+              onClick={() => {
+                playClickSound();
+                if (onToggleCalendar) onToggleCalendar();
+              }}
+            >
+              <Calendar size={15} />
+              <span>Streak Calendar</span>
+              <ChevronRight size={14} />
+            </button>
+          </div>
         </div>
 
-        {/* Streak Milestone Progress Bar */}
+        {/* Interactive 7-Day Gamified Progression Road */}
         <div className={styles.streakProgressContainer}>
           <div className={styles.progressHeader}>
             <div className="d-flex align-items-center gap-2">
-              <span className={styles.progressTitle}>Streak Milestone Progress</span>
-              <span className={styles.progressPercentPill}>{progressPercent}% Complete</span>
+              <span className={styles.progressTitle}>7-Day Reward Journey</span>
+              <span className={styles.progressPercentPill}>{progressPercent}% Completed</span>
             </div>
             <div className={styles.progressNextMilestone}>
-              <Sparkles size={13} className="text-warning" />
-              <span>{daysToJackpot > 0 ? `${daysToJackpot} days to ${day7RewardLabel} Grand Crown` : '🏆 Grand Crown Unlocked!'}</span>
+              <Trophy size={13} className="text-warning" />
+              <span>
+                {daysToJackpot > 0
+                  ? `${daysToJackpot} ${daysToJackpot === 1 ? 'day' : 'days'} to ₹5 Amazon Grand Crown`
+                  : '🏆 Grand Crown Achieved!'}
+              </span>
             </div>
           </div>
 
-          {/* Animated Progress Bar Track */}
-          <div className={styles.progressBarTrack}>
-            <div
-              className={styles.progressBarFill}
-              style={{ width: `${Math.max(6, progressPercent)}%` }}
-            >
-              <div className={styles.progressBarGlowHead}></div>
-            </div>
-          </div>
-
-          {/* 3 Milestone Checkpoints */}
-          <div className={styles.milestonesRow}>
-            {milestoneList.map((m) => (
+          {/* Interactive 7-Node Journey Path */}
+          <div className={styles.journeyTrackWrapper}>
+            {/* Continuous Glowing Progress Track Line */}
+            <div className={styles.journeyTrackBackground}>
               <div
-                key={m.day}
-                className={`${styles.milestoneItem} ${m.isAchieved ? styles.milestoneAchieved : m.isCurrent ? styles.milestoneCurrent : styles.milestoneLocked}`}
+                className={styles.journeyTrackFill}
+                style={{ width: `${Math.max(4, Math.min(100, (claimedCount / 6.8) * 100))}%` }}
               >
-                <div className={styles.milestoneIconNode}>
-                  {m.isAchieved ? (
-                    <Check size={12} strokeWidth={3.5} />
-                  ) : m.isCurrent ? (
-                    <Flame size={13} strokeWidth={2.8} />
-                  ) : (
-                    <span>{m.icon}</span>
-                  )}
-                </div>
-                <div className={styles.milestoneTextCol}>
-                  <div className={styles.milestoneDayLabel}>{m.title}</div>
-                  <div className={styles.milestoneRewardVal}>{m.reward}</div>
-                </div>
+                <div className={styles.journeyGlowHead}></div>
               </div>
-            ))}
+            </div>
+
+            {/* 7 Checkpoint Nodes */}
+            <div className={styles.journeyNodesRow}>
+              {journeyNodes.map((node) => {
+                const isClaimedNode = claimedCount >= node.day;
+                const isCurrentNode = !isClaimedNode && claimedCount === node.day - 1 && canClaim;
+                const isUpcomingNode = !isClaimedNode && !isCurrentNode;
+
+                let nodeStateClass = styles.nodeLocked;
+                if (isClaimedNode) nodeStateClass = styles.nodeClaimed;
+                else if (isCurrentNode) nodeStateClass = styles.nodeActive;
+
+                return (
+                  <div key={node.day} className={`${styles.journeyNodeItem} ${nodeStateClass}`}>
+                    <div className={styles.nodeBubble}>
+                      {isClaimedNode ? (
+                        <Check size={13} strokeWidth={3.5} className="text-white" />
+                      ) : isCurrentNode ? (
+                        <Sparkles size={14} className="text-white animate-spin-slow" />
+                      ) : (
+                        <span className={styles.nodeIcon}>{node.icon}</span>
+                      )}
+                    </div>
+                    <div className={styles.nodeLabelDay}>Day {node.day}</div>
+                    <div className={styles.nodeLabelReward}>{node.shortTitle}</div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* Statistics 3-Card Row */}
+        {/* Statistics 3-Card Telemetry Row */}
         <StreakStats streakStatus={streakStatus} />
 
         {/* Ultimate Reward Banner */}
         <UltimateReward
           ultimateReward={streakStatus?.ultimateReward}
-          alreadyClaimed={alreadyClaimed}
-          countdownText={formatTime(secondsLeft)}
+          currentStreak={currentStreak}
+          canClaim={canClaim && currentStreak >= 6}
+          onTriggerClaimFlow={onTriggerClaimFlow}
         />
 
         {/* Decorative Separator */}
@@ -282,8 +346,8 @@ export default function HeroBanner({
           <span className={styles.sparkleIcon}>✦</span>
           <span>
             {alreadyClaimed
-              ? `Next claim unlocks in ${formatTime(secondsLeft)} • Come back tomorrow for more rewards!`
-              : 'Come back tomorrow for more rewards!'}
+              ? `Next reward unlocks in ${formattedTimeStr} • Come back tomorrow to keep your streak alive!`
+              : 'Claim your daily reward to keep your streak on fire!'}
           </span>
           <span className={styles.sparkleIcon}>✦</span>
         </div>
